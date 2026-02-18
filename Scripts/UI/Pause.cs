@@ -8,7 +8,7 @@ public partial class Pause : Button
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		CH = GetNode<Label>("/root/Root/GameUI/Crosshair");
+		CH = GetNode<Label>("%Crosshair");
 		this.Toggled += OnToggle;
 	}
 

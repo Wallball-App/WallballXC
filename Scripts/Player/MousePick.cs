@@ -12,9 +12,9 @@ public partial class MousePick : CollisionShape3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Ball = GetNode<RigidBody3D>("/root/Root/Ball");
-		BallControl = GetNode<Ball>("/root/Root/Ball");
-		ctx = GetNode<GameManager>("/root/Root/GameManager");
+		Ball = GetNode<RigidBody3D>("%Ball");
+		BallControl = GetNode<Ball>("%Ball");
+		ctx = GetNode<GameManager>("%GameManager");
 		cam = GetNode<Camera3D>("../MainCamera");
 		Ball.GlobalTransform = new Transform3D(Basis.Identity, new Vector3(0.0f, 10f, 0.0f));
 		GameManager.possession = GameManager.PossessionEnum.PLAYER;

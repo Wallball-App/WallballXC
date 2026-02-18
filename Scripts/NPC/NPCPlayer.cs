@@ -47,7 +47,7 @@ public partial class NPCPlayer : Node3D
 		if(GroundShape.Shape is BoxShape3D s) {
 			//GD.Print($"Box Size: {s.Size}");
 			min = GroundShape.GlobalPosition - (s.Size / 2.0f) - new Vector3(2.0f, 0.0f, 2.0f);
-			max = GroundShape.GlobalPosition + (s.Size / 2.0f) + new Vector3(2.0f, 0.0f, 2.0f);
+			max = GroundShape.GlobalPosition + (s.Size / 2.0f) + new Vector3(0.5f, 0.0f, 0.5f);
 			
 			min.Y = GroundShape.GlobalPosition.Y;
 			min.Z = Wall.GlobalPosition.Z - margin;
@@ -59,7 +59,7 @@ public partial class NPCPlayer : Node3D
 			WallMax = WallShape.GlobalPosition + (w.Size / 2.0f);
 		}
 		WallGeometry = Wall.GetNode<Node3D>("WallGeometry");
-		BallControl = GetNode<Ball>("/root/Root/Ball");
+		BallControl = Ball as Ball;
 		Triangle = GetNode<Node3D>("Triangle");
 		
 		Red = new StandardMaterial3D();

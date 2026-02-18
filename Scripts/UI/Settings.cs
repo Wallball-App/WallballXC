@@ -8,7 +8,7 @@ public partial class Settings : Button
 	public override void _Ready()
 	{
 		this.Toggled += OnToggle;
-		Menu = GetNode<CenterContainer>("/root/Root/GameUI/MenuCenter");
+		Menu = GetNode<CenterContainer>("%MenuCenter");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

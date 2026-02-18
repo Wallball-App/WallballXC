@@ -1,0 +1,442 @@
+[gd_scene format=3 uid="uid://gcgqh7uk6mnc"]
+
+[ext_resource type="Shader" uid="uid://cvd0x7lon1ur6" path="res://addons/sky_3d/shaders/SkyMaterial.gdshader" id="1_ybkb3"]
+[ext_resource type="Texture2D" uid="uid://cfqk60lpl5ljv" path="res://addons/sky_3d/assets/resources/SNoise.tres" id="2_urdfj"]
+[ext_resource type="Texture2D" uid="uid://bpekfysgrwus7" path="res://addons/sky_3d/assets/textures/noiseClouds.png" id="3_md48u"]
+[ext_resource type="Texture2D" uid="uid://21m27ug518d1" path="res://addons/sky_3d/assets/thirdparty/textures/moon/MoonMap.png" id="4_xpl1q"]
+[ext_resource type="Texture2D" uid="uid://dmhyhnltmn58d" path="res://addons/sky_3d/assets/textures/noise.jpg" id="5_7gq7q"]
+[ext_resource type="Texture2D" uid="uid://d2607axjxcr3x" path="res://addons/sky_3d/assets/thirdparty/textures/milkyway/StarField.jpg" id="6_08olo"]
+[ext_resource type="Texture2D" uid="uid://dmc4dsnecky42" path="res://addons/sky_3d/assets/thirdparty/textures/milkyway/Milkyway.jpg" id="7_mwkmn"]
+[ext_resource type="Script" uid="uid://deo0gxkmk2ahd" path="res://addons/sky_3d/src/Sky3D.gd" id="8_3t5vg"]
+[ext_resource type="Script" uid="uid://b4tkplvh7fq40" path="res://addons/sky_3d/src/SkyDome.gd" id="9_idc1r"]
+[ext_resource type="Script" uid="uid://cjmkcj8hwm7ts" path="res://addons/sky_3d/src/TimeOfDay.gd" id="10_2a0aq"]
+[ext_resource type="Script" uid="uid://bmjkj0so6nltq" path="res://Scripts/Objects/Ball.cs" id="11_8prw7"]
+[ext_resource type="AudioStream" uid="uid://swgxawequqk4" path="res://Audio/Effects/Bounce.wav" id="12_7t5af"]
+[ext_resource type="Script" uid="uid://dc5x2whjafxf0" path="res://Scripts/Audio/BallAudio.cs" id="13_8aa1y"]
+[ext_resource type="Script" uid="uid://cdwl3i5ju5oc4" path="res://Scripts/Player/PlayerInput.cs" id="14_j7tkl"]
+[ext_resource type="Script" uid="uid://cku54ewyfioiy" path="res://Scripts/Player/MousePick.cs" id="15_3ktvn"]
+[ext_resource type="Script" uid="uid://dx50yroqnp1om" path="res://Scripts/Objects/GameManager.cs" id="16_sm46x"]
+[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Brick127.jpg" id="17_1xl64"]
+[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Brick127Normal.png" id="18_anl24"]
+[ext_resource type="Script" uid="uid://bq82rbl85a7mb" path="res://Scripts/Player/PlayerManager.cs" id="19_gxt2r"]
+[ext_resource type="PackedScene" uid="uid://dnfy6hu4i3okb" path="res://Scenes/UI/UI.tscn" id="20_v4h64"]
+[ext_resource type="Script" uid="uid://0hf74hxdb6fx" path="res://Scripts/NPC/NpcController.cs" id="21_u7t2v"]
+[ext_resource type="Script" uid="uid://blpjlsjb4omqi" path="res://Scripts/NPC/NPCPlayer.cs" id="22_6v4id"]
+[ext_resource type="PackedScene" uid="uid://cd6b84qg2sn52" path="res://Models/Running.glb" id="23_1ynae"]
+[ext_resource type="Animation" uid="uid://jn83gnfhrtdx" path="res://Animation/Running.res" id="24_mvsvp"]
+[ext_resource type="PackedScene" uid="uid://6inq08lewq3p" path="res://Models/Throwing.glb" id="25_ghrtw"]
+[ext_resource type="Animation" uid="uid://dhi1xkromacth" path="res://Animation/Throwing.res" id="26_b8drc"]
+[ext_resource type="Script" uid="uid://bmxtn6y3yypik" path="res://Scripts/NPC/AnimationController.cs" id="27_exo3b"]
+[ext_resource type="PackedScene" uid="uid://cyas1f44vhqmx" path="res://Models/Triangle.glb" id="28_umh3s"]
+[ext_resource type="PackedScene" uid="uid://dbp3cvr5qq1p2" path="res://Models/Throwing_O.glb" id="29_y8217"]
+[ext_resource type="PackedScene" uid="uid://vd107ojhf0a5" path="res://Models/Running_O.glb" id="30_6vojv"]
+[ext_resource type="Script" uid="uid://bat2mm6uybvkj" path="res://Scripts/Score/Score.cs" id="31_soolo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wm5c7"]
+shader = ExtResource("1_ybkb3")
+shader_parameter/sky_visible = true
+shader_parameter/color_correction = Vector2(0, 1)
+shader_parameter/ground_color = Color(0.3, 0.3, 0.3, 1)
+shader_parameter/horizon_offset = 0.0
+shader_parameter/atm_darkness = 0.0
+shader_parameter/atm_sun_intensity = 18.0
+shader_parameter/atm_day_tint = Color(0.807843, 0.909804, 1, 1)
+shader_parameter/atm_horizon_light_tint = Color(0.980392, 0.635294, 0.462745, 1)
+shader_parameter/atm_night_tint = Color(0, 0, 0, 0)
+shader_parameter/atm_level_params = Vector3(1, 0, 0)
+shader_parameter/atm_thickness = 0.7
+shader_parameter/atm_beta_ray = Vector3(5.804544e-06, 1.3562913e-05, 3.311258e-05)
+shader_parameter/atm_beta_mie = Vector3(9.1139995e-08, 9.1139995e-08, 9.1139995e-08)
+shader_parameter/sun_disk_color = Color(0.996094, 0.541334, 0.140076, 1)
+shader_parameter/sun_disk_intensity = 30.0
+shader_parameter/sun_disk_size = 0.02
+shader_parameter/atm_sun_mie_tint = Color(1, 1, 1, 1)
+shader_parameter/atm_sun_mie_intensity = 0.3
+shader_parameter/atm_sun_partial_mie_phase = Vector3(0.36, 1.64, 1.6)
+shader_parameter/moon_color = Color(1, 1, 1, 1)
+shader_parameter/moon_texture = ExtResource("4_xpl1q")
+shader_parameter/moon_texture_alignment = Vector3(7, 1.4, 4.8)
+shader_parameter/moon_texture_flip_u = false
+shader_parameter/moon_texture_flip_v = false
+shader_parameter/moon_size = 0.07
+shader_parameter/atm_moon_mie_tint = Color(0.137255, 0.184314, 0.292196, 1)
+shader_parameter/atm_moon_mie_intensity = 0.0
+shader_parameter/atm_moon_partial_mie_phase = Vector3(0.36, 1.64, 1.6)
+shader_parameter/starmap_color = Color(0.709804, 0.709804, 0.709804, 0.854902)
+shader_parameter/starmap_texture = ExtResource("7_mwkmn")
+shader_parameter/starmap_flip_u = false
+shader_parameter/starmap_flip_v = false
+shader_parameter/starmap_alignment = Vector3(2.68288, -0.25891, 0.40101)
+shader_parameter/star_rotation_offset = 9.38899
+shader_parameter/star_rotation = -7.633407692044906
+shader_parameter/star_tilt = -0.7853981633974483
+shader_parameter/star_field_color = Color(1, 1, 1, 1)
+shader_parameter/star_field_texture = ExtResource("6_08olo")
+shader_parameter/star_scintillation = 0.75
+shader_parameter/star_scintillation_speed = 0.01
+shader_parameter/noise_tex = ExtResource("5_7gq7q")
+shader_parameter/cirrus_visible = true
+shader_parameter/cirrus_coverage = 0.5
+shader_parameter/cirrus_thickness = 1.7
+shader_parameter/cirrus_absorption = 2.0
+shader_parameter/cirrus_sky_tint_fade = 0.5
+shader_parameter/cirrus_intensity = 10.0
+shader_parameter/cirrus_size = 1.0
+shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
+shader_parameter/cirrus_position1 = Vector2(0.23856653, 0.23856653)
+shader_parameter/cirrus_position2 = Vector2(0.23856653, 0.23856653)
+shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
+shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
+shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
+shader_parameter/cirrus_texture = ExtResource("2_urdfj")
+shader_parameter/cumulus_visible = true
+shader_parameter/cumulus_coverage = 0.55
+shader_parameter/cumulus_thickness = 0.0243
+shader_parameter/cumulus_absorption = 2.0
+shader_parameter/cumulus_noise_freq = 2.7
+shader_parameter/cumulus_sky_tint_fade = 0.0
+shader_parameter/cumulus_intensity = 0.6
+shader_parameter/cumulus_size = 0.5
+shader_parameter/cumulus_position = Vector2(6.192942, 6.192942)
+shader_parameter/cumulus_texture = ExtResource("3_md48u")
+shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
+shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
+shader_parameter/cumulus_night_color = Color(0.090196, 0.094118, 0.129412, 1)
+shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
+shader_parameter/cumulus_mie_intensity = 1.0
+shader_parameter/show_azimuthal_grid = false
+shader_parameter/azimuthal_grid_color = Color(0.87058824, 0.72156864, 0.5294118, 1)
+shader_parameter/azimuthal_grid_rotation_offset = 0.03
+shader_parameter/show_equatorial_grid = false
+shader_parameter/equatorial_grid_color = Color(0, 0.75, 1, 1)
+shader_parameter/equatorial_grid_rotation_offset = 0.03
+shader_parameter/moon_matrix = Basis(0, -0.6853485, 0.7282153, -0.20616323, -0.7125714, -0.67062557, 0.97851765, -0.15013121, -0.14129367)
+
+[sub_resource type="Sky" id="Sky_hwsgv"]
+sky_material = SubResource("ShaderMaterial_wm5c7")
+
+[sub_resource type="Environment" id="Environment_qfjt1"]
+background_mode = 2
+sky = SubResource("Sky_hwsgv")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+reflected_light_source = 2
+tonemap_mode = 4
+tonemap_white = 6.0
+tonemap_agx_white = 16.5
+tonemap_agx_contrast = 1.0
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 0.0
+glow_bloom = 1.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_26cu0"]
+auto_exposure_enabled = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ybkb3"]
+bounce = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_urdfj"]
+albedo_color = Color(0, 0.6464422, 0.1451917, 0.09019608)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_md48u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xpl1q"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_7gq7q"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_08olo"]
+rough = true
+bounce = 0.1
+absorbent = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mwkmn"]
+size = Vector3(64, 1, 64)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3t5vg"]
+albedo_color = Color(0.4597081, 0.4597081, 0.4597081, 1)
+metallic_specular = 0.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_idc1r"]
+rough = true
+bounce = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2a0aq"]
+albedo_texture = ExtResource("17_1xl64")
+metallic_specular = 0.0
+normal_enabled = true
+normal_texture = ExtResource("18_anl24")
+ao_enabled = true
+uv1_scale = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8prw7"]
+size = Vector3(56, 32, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7t5af"]
+bounce = 1.0
+absorbent = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8aa1y"]
+size = Vector3(2, 256, 64)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j7tkl"]
+size = Vector3(64, 256, 2)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3ktvn"]
+_data = {
+&"Running": ExtResource("24_mvsvp")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sm46x"]
+_data = {
+&"Throwing": ExtResource("26_b8drc")
+}
+
+[node name="Root" type="Node3D" unique_id=1072632489]
+
+[node name="Sky3D" type="WorldEnvironment" parent="." unique_id=1627403568]
+unique_name_in_owner = true
+environment = SubResource("Environment_qfjt1")
+camera_attributes = SubResource("CameraAttributesPractical_26cu0")
+script = ExtResource("8_3t5vg")
+editor_time_enabled = false
+game_time_enabled = false
+current_time = 12.0
+auto_exposure = true
+wind_direction = 2.35619451204804
+metadata/_custom_type_script = "uid://deo0gxkmk2ahd"
+
+[node name="SunLight" type="DirectionalLight3D" parent="Sky3D" unique_id=431652165]
+transform = Transform3D(0, -0.9834684, 0.18108007, 0.36081126, 0.16888231, 0.91722083, -0.9326389, 0.06533573, 0.35484645, 0.18108007, 0.91722083, 0.35484645)
+shadow_enabled = true
+
+[node name="MoonLight" type="DirectionalLight3D" parent="Sky3D" unique_id=1386030429]
+transform = Transform3D(0, -0.20616323, 0.9785176, -0.6853485, -0.7125714, -0.1501312, 0.7282152, -0.67062557, -0.14129366, 0.9785176, -0.1501312, -0.14129366)
+light_color = Color(0.572549, 0.776471, 0.956863, 1)
+light_energy = 0.0
+
+[node name="SkyDome" type="Node" parent="Sky3D" unique_id=830757798]
+script = ExtResource("9_idc1r")
+sun_azimuth = -2.6697347
+sun_altitude = -0.4097491
+moon_azimuth = -1.4273919
+moon_altitude = -1.7214973
+atm_darkness = 0.0
+atm_turbidity = 0.003
+atm_sun_mie_intensity = 0.3
+fog_density = 0.01
+wind_direction = 2.35619451204804
+
+[node name="TimeOfDay" type="Node" parent="Sky3D" unique_id=1711510575]
+script = ExtResource("10_2a0aq")
+editor_time_enabled = false
+game_time_enabled = false
+dome_path = NodePath("../SkyDome")
+current_time = 12.0
+day = 20
+month = 6
+latitude = 0.7853981633974483
+longitude = -1.239183768915974
+utc = -4.0
+
+[node name="Ball" type="RigidBody3D" parent="." unique_id=1418367293 node_paths=PackedStringArray("Wall", "Ground")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+mass = 0.05
+physics_material_override = SubResource("PhysicsMaterial_ybkb3")
+gravity_scale = 2.0
+can_sleep = false
+freeze_mode = 1
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("11_8prw7")
+Wall = NodePath("../Wall")
+Ground = NodePath("../Ground")
+
+[node name="BallGeometry" type="CSGSphere3D" parent="Ball" unique_id=105468821]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_urdfj")
+
+[node name="BallShape" type="CollisionShape3D" parent="Ball" unique_id=157150583]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_md48u")
+
+[node name="BallAudio" type="AudioStreamPlayer3D" parent="Ball" unique_id=754758298]
+stream = ExtResource("12_7t5af")
+script = ExtResource("13_8aa1y")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1103171266]
+unique_name_in_owner = true
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("14_j7tkl")
+
+[node name="PlayerCollision" type="CollisionShape3D" parent="Player" unique_id=1551588353]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 1.8517542, 0)
+shape = SubResource("CapsuleShape3D_xpl1q")
+script = ExtResource("15_3ktvn")
+
+[node name="MainCamera" type="Camera3D" parent="Player" unique_id=1338620527]
+transform = Transform3D(-0.99776316, 0, 0.066848494, 0, 1, 0, -0.066848494, 0, -0.99776316, 0, 2.8698173, 0.42388678)
+attributes = SubResource("CameraAttributesPhysical_7gq7q")
+
+[node name="GameManager" type="Node3D" parent="." unique_id=1430480616 node_paths=PackedStringArray("Wall", "Ground", "Ball")]
+unique_name_in_owner = true
+script = ExtResource("16_sm46x")
+Wall = NodePath("../Wall")
+Ground = NodePath("../Ground")
+Ball = NodePath("../Ball")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1733992744]
+unique_name_in_owner = true
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_08olo")
+
+[node name="GroundCollision" type="CollisionShape3D" parent="Ground" unique_id=678891050]
+rotation_order = 0
+shape = SubResource("BoxShape3D_mwkmn")
+
+[node name="GroundGeometry" type="CSGBox3D" parent="Ground" unique_id=906146168]
+material_override = SubResource("StandardMaterial3D_3t5vg")
+size = Vector3(64, 1, 64)
+
+[node name="Wall" type="StaticBody3D" parent="." unique_id=293261974]
+unique_name_in_owner = true
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_idc1r")
+
+[node name="WallGeometry" type="CSGBox3D" parent="Wall" unique_id=184512836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 35)
+material_override = SubResource("StandardMaterial3D_2a0aq")
+size = Vector3(56, 32, 15)
+
+[node name="WallCollision" type="CollisionShape3D" parent="Wall" unique_id=1994400245]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 28)
+shape = SubResource("BoxShape3D_8prw7")
+
+[node name="Boundaries" type="StaticBody3D" parent="." unique_id=86309956]
+unique_name_in_owner = true
+disable_mode = 2
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_7t5af")
+
+[node name="West" type="CollisionShape3D" parent="Boundaries" unique_id=1352074395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 128, 0)
+shape = SubResource("BoxShape3D_8aa1y")
+
+[node name="East" type="CollisionShape3D" parent="Boundaries" unique_id=1094096895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 128, 0)
+shape = SubResource("BoxShape3D_8aa1y")
+
+[node name="South" type="CollisionShape3D" parent="Boundaries" unique_id=1945992062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 128, 32)
+shape = SubResource("BoxShape3D_j7tkl")
+
+[node name="North" type="CollisionShape3D" parent="Boundaries" unique_id=1847820973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 128, -32)
+shape = SubResource("BoxShape3D_j7tkl")
+
+[node name="PlayerManager" type="Node3D" parent="." unique_id=1779219998 node_paths=PackedStringArray("Wall", "Ground", "Ball", "SafePoint", "Player")]
+unique_name_in_owner = true
+script = ExtResource("19_gxt2r")
+Wall = NodePath("../Wall")
+Ground = NodePath("../Ground")
+Ball = NodePath("../Ball")
+SafePoint = NodePath("../SafePoint")
+Player = NodePath("../Player")
+
+[node name="SafePoint" type="Node3D" parent="." unique_id=1651911964]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+
+[node name="GameUI" parent="." unique_id=1151521881 instance=ExtResource("20_v4h64")]
+unique_name_in_owner = true
+
+[node name="NPCController" type="Node3D" parent="." unique_id=846704874 node_paths=PackedStringArray("CloneT", "CloneO", "TeamController", "OpponentController")]
+unique_name_in_owner = true
+script = ExtResource("21_u7t2v")
+CloneT = NodePath("NPC_T")
+CloneO = NodePath("NPC_O")
+Player_Count = 3
+TeamController = NodePath("TeamController")
+OpponentController = NodePath("OpponentController")
+
+[node name="NPC_T" type="Node3D" parent="NPCController" unique_id=2035428293 node_paths=PackedStringArray("NPC1", "NPC2", "Ball", "Wall", "Ground", "SafePoint")]
+visible = false
+script = ExtResource("22_6v4id")
+NPC1 = NodePath("Running")
+NPC2 = NodePath("Throwing")
+Ball = NodePath("../../Ball")
+Wall = NodePath("../../Wall")
+Ground = NodePath("../../Ground")
+SafePoint = NodePath("../../SafePoint")
+
+[node name="Running" parent="NPCController/NPC_T" unique_id=720217899 instance=ExtResource("23_1ynae")]
+transform = Transform3D(0.05, 0, 0, 0, -2.1855695e-09, -0.05, 0, 0.05, -2.1855695e-09, 0, 0.5, 0)
+
+[node name="RunAnim" type="AnimationPlayer" parent="NPCController/NPC_T/Running" unique_id=1998689286]
+libraries/Running = SubResource("AnimationLibrary_3ktvn")
+
+[node name="Throwing" parent="NPCController/NPC_T" unique_id=257079880 instance=ExtResource("25_ghrtw")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0.5, 0)
+
+[node name="ThrowAnim" type="AnimationPlayer" parent="NPCController/NPC_T/Throwing" unique_id=876311833]
+libraries/Throwing = SubResource("AnimationLibrary_sm46x")
+
+[node name="AnimationController" type="Node3D" parent="NPCController/NPC_T" unique_id=1026307591 node_paths=PackedStringArray("Running", "Throwing", "RunningSprite", "ThrowingSprite")]
+script = ExtResource("27_exo3b")
+Running = NodePath("../Running/RunAnim")
+Throwing = NodePath("../Throwing/ThrowAnim")
+RunningSprite = NodePath("../Running")
+ThrowingSprite = NodePath("../Throwing")
+
+[node name="Triangle" parent="NPCController/NPC_T" unique_id=678963739 instance=ExtResource("28_umh3s")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 4.5, 0.25)
+rotation_order = 0
+
+[node name="NPC_O" type="Node3D" parent="NPCController" unique_id=629705035 node_paths=PackedStringArray("NPC1", "NPC2", "Ball", "Wall", "Ground", "SafePoint")]
+transform = Transform3D(0.05, 0, 0, 0, -2.1855695e-09, -0.05, 0, 0.05, -2.1855695e-09, 0, 0, 0)
+visible = false
+script = ExtResource("22_6v4id")
+NPC1 = NodePath("Running_O")
+NPC2 = NodePath("Throwing_O")
+Ball = NodePath("../../Ball")
+Wall = NodePath("../../Wall")
+Ground = NodePath("../../Ground")
+SafePoint = NodePath("../../SafePoint")
+
+[node name="AnimationController" type="Node3D" parent="NPCController/NPC_O" unique_id=1450135917 node_paths=PackedStringArray("Running", "Throwing", "RunningSprite", "ThrowingSprite")]
+script = ExtResource("27_exo3b")
+Running = NodePath("../Running_O/RunAnim")
+Throwing = NodePath("../Throwing_O/ThrowAnim")
+RunningSprite = NodePath("../Running_O")
+ThrowingSprite = NodePath("../Throwing_O")
+
+[node name="Throwing_O" parent="NPCController/NPC_O" unique_id=2033239272 instance=ExtResource("29_y8217")]
+transform = Transform3D(100, 0, 0, 0, -4.371139e-06, 100, 0, -100, -4.371139e-06, 0, 0, -10)
+
+[node name="ThrowAnim" type="AnimationPlayer" parent="NPCController/NPC_O/Throwing_O" unique_id=527300299]
+libraries/Throwing = SubResource("AnimationLibrary_sm46x")
+
+[node name="Running_O" parent="NPCController/NPC_O" unique_id=565378558 instance=ExtResource("30_6vojv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="RunAnim" type="AnimationPlayer" parent="NPCController/NPC_O/Running_O" unique_id=41907268]
+libraries/Running = SubResource("AnimationLibrary_3ktvn")
+
+[node name="Triangle" parent="NPCController/NPC_O" unique_id=2083473901 instance=ExtResource("28_umh3s")]
+transform = Transform3D(500, 0, 0, 0, -2.1855694e-05, 500, 0, -500, -2.1855694e-05, 0, 10, -90)
+rotation_order = 0
+
+[node name="TeamController" type="Node3D" parent="NPCController" unique_id=2084273535]
+
+[node name="OpponentController" type="Node3D" parent="NPCController" unique_id=1722626024]
+
+[node name="Score" type="Node3D" parent="." unique_id=506243496 node_paths=PackedStringArray("Ball")]
+unique_name_in_owner = true
+script = ExtResource("31_soolo")
+Ball = NodePath("../Ball")

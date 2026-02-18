@@ -21,7 +21,7 @@ public partial class PlayerManager : Node3D
 	{
 		Frames = 0;
 		Ball.BodyEntered += OnBallCollide;
-		BallControl = GetNode<Ball>("/root/Root/Ball");
+		BallControl = GetNode<Ball>("%Ball");
 		
 		wallc = -1;
 		floorc = -1;
