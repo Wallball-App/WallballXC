@@ -1,0 +1,19 @@
+[gd_resource type="Theme" format=3 uid="uid://c4jihbcpya2b1"]
+
+[ext_resource type="FontFile" uid="uid://ch3txojiwfcfc" path="res://UI/Fonts/ZenDots-Regular.ttf" id="1_huj2n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvasn"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7bdak"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7o4a1"]
+bg_color = Color(0.4, 0.4, 0.4, 1)
+
+[resource]
+default_font = ExtResource("1_huj2n")
+default_font_size = 48
+/styles/Hover = SubResource("StyleBoxFlat_pvasn")
+/styles/Normal = SubResource("StyleBoxFlat_7bdak")
+/styles/Pressed = SubResource("StyleBoxFlat_7o4a1")

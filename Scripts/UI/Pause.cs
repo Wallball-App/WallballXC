@@ -1,0 +1,24 @@
+using Godot;
+using System;
+
+public partial class Pause : Button
+{
+	private Label CH;
+	private RigidBody3D Ball;
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		CH = GetNode<Label>("/root/Root/GameUI/Crosshair");
+		this.Toggled += OnToggle;
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		//CH.Text = GameManager.thrower.ToString();
+	}
+	public void OnToggle(bool toggled) {
+		CH.Text = (toggled) ? "Paused" : "+";
+		GetTree().Paused = (toggled); 
+	}
+}

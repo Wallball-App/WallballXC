@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://sfuvni5rx0ur"]
+
+[ext_resource type="Texture2D" uid="uid://cn4uobooiq2kn" path="res://UI/Images/NewStadium1224_2.png" id="1_fnlyl"]
+[ext_resource type="FontFile" uid="uid://ch3txojiwfcfc" path="res://UI/Fonts/ZenDots-Regular.ttf" id="2_pkhjh"]
+[ext_resource type="Theme" uid="uid://c4jihbcpya2b1" path="res://UI/Themes/Button.tres" id="3_1xr1c"]
+[ext_resource type="Script" uid="uid://biu4t2tv6f138" path="res://Scripts/UI/NewGame.cs" id="4_n15yj"]
+
+[sub_resource type="Theme" id="Theme_1xr1c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tu0on"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2k3je"]
+bg_color = Color(0.4, 0.4, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_skwql"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="TitleLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fnlyl")
+expand_mode = 1
+
+[node name="Menu" type="VBoxContainer" parent="TitleLayer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+size_flags_horizontal = 10
+size_flags_vertical = 3
+
+[node name="TitleMargin" type="MarginContainer" parent="TitleLayer/Menu"]
+layout_mode = 2
+theme_override_constants/margin_left = 54
+theme_override_constants/margin_top = 27
+theme_override_constants/margin_bottom = 108
+
+[node name="Title" type="Label" parent="TitleLayer/Menu/TitleMargin"]
+layout_mode = 2
+theme = SubResource("Theme_1xr1c")
+theme_override_fonts/font = ExtResource("2_pkhjh")
+theme_override_font_sizes/font_size = 96
+text = "Wallball v1.0"
+
+[node name="MenuMargin" type="MarginContainer" parent="TitleLayer/Menu"]
+layout_mode = 2
+theme_override_constants/margin_left = 72
+
+[node name="Start" type="Button" parent="TitleLayer/Menu/MenuMargin"]
+custom_minimum_size = Vector2(200, 75)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("3_1xr1c")
+theme_override_styles/normal = SubResource("StyleBoxFlat_tu0on")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2k3je")
+theme_override_styles/hover = SubResource("StyleBoxFlat_skwql")
+text = "Start"
+script = ExtResource("4_n15yj")
