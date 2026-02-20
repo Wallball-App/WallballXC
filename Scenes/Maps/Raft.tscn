@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://dwuyglhv8n6ot"]
+
+[ext_resource type="PackedScene" uid="uid://gcgqh7uk6mnc" path="res://Scenes/Maps/Game.tscn" id="1_j843y"]
+[ext_resource type="Shader" uid="uid://05bjle35agn4" path="res://Shaders/Water.gdshader" id="4_gn067"]
+[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Brick127.jpg" id="5_vl5dx"]
+[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Brick127Normal.png" id="6_8km42"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llpu7"]
+albedo_texture = ExtResource("5_vl5dx")
+metallic_specular = 0.0
+normal_enabled = true
+normal_texture = ExtResource("6_8km42")
+ao_enabled = true
+uv1_scale = Vector3(2, 2, 2)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gn067"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gtu55"]
+noise = SubResource("FastNoiseLite_gn067")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gtu55"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j843y"]
+noise = SubResource("FastNoiseLite_gtu55")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gtu55"]
+render_priority = 0
+shader = ExtResource("4_gn067")
+shader_parameter/primary_color = Color(6.617978e-08, 0.033679515, 0.09993719, 1)
+shader_parameter/roughness = 0.2
+shader_parameter/normalmap_a = SubResource("NoiseTexture2D_gtu55")
+shader_parameter/normalmap_b = SubResource("NoiseTexture2D_j843y")
+shader_parameter/a_strength = 0.3
+shader_parameter/b_strength = 0.4
+shader_parameter/direction = Vector2(0.1, 0.1)
+shader_parameter/movement_strength = 0.1
+shader_parameter/uv_scale = 0.5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_07x2j"]
+material = SubResource("ShaderMaterial_gtu55")
+size = Vector2(128, 128)
+
+[node name="Root" type="Node3D" unique_id=1288671872]
+
+[node name="Root" parent="." unique_id=1072632489 instance=ExtResource("1_j843y")]
+
+[node name="Scenery" type="Node3D" parent="." unique_id=970547148]
+
+[node name="WallGeometry_Custom" type="CSGBox3D" parent="Scenery" unique_id=1206122418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 35)
+visible = false
+material_override = SubResource("StandardMaterial3D_llpu7")
+size = Vector3(56, 32, 15)
+
+[node name="Water" type="MeshInstance3D" parent="Scenery" unique_id=15561701]
+mesh = SubResource("PlaneMesh_07x2j")

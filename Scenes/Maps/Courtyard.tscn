@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://gcgqh7uk6mnc" path="res://Scenes/Maps/Game.tscn" id="1_g6lpc"]
 [ext_resource type="Material" uid="uid://qk5kw4y8ybup" path="res://Materials/Glass.tres" id="2_g6lpc"]
 [ext_resource type="Material" uid="uid://lv6xuko4g25s" path="res://Materials/Siding.tres" id="3_s3ry8"]
+[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Brick127.jpg" id="5_s3ry8"]
+[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Brick127Normal.png" id="6_vjqu4"]
 
 [sub_resource type="Gradient" id="Gradient_isgxd"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -69,6 +71,14 @@ normal_texture = SubResource("NoiseTexture2D_audqb")
 uv1_triplanar_sharpness = 8.574193
 uv1_world_triplanar = true
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llpu7"]
+albedo_texture = ExtResource("5_s3ry8")
+metallic_specular = 0.0
+normal_enabled = true
+normal_texture = ExtResource("6_vjqu4")
+ao_enabled = true
+uv1_scale = Vector3(2, 2, 2)
+
 [node name="Root" type="Node3D" unique_id=1288671872]
 
 [node name="Root" parent="." unique_id=1072632489 instance=ExtResource("1_g6lpc")]
@@ -130,3 +140,8 @@ size = Vector3(36, 1, 20)
 transform = Transform3D(0.9063077, 0.42261824, 0, -0.42261824, 0.9063077, 0, 0, 0, 1, 16, 47, 35)
 material_override = ExtResource("3_s3ry8")
 size = Vector3(36, 1, 20)
+
+[node name="WallGeometry_Custom" type="CSGBox3D" parent="Scenery" unique_id=1206122418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 35)
+material_override = SubResource("StandardMaterial3D_llpu7")
+size = Vector3(56, 32, 15)

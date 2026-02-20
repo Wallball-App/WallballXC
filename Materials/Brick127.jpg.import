@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bw4lkmp380kbv"
-path.s3tc="res://.godot/imported/Brick127.jpg-da0c7b13da9fbbf5a3ed9c8b0f4b6176.s3tc.ctex"
+path="res://.godot/imported/Brick127.jpg-da0c7b13da9fbbf5a3ed9c8b0f4b6176.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Materials/Brick127.jpg"
-dest_files=["res://.godot/imported/Brick127.jpg-da0c7b13da9fbbf5a3ed9c8b0f4b6176.s3tc.ctex"]
+dest_files=["res://.godot/imported/Brick127.jpg-da0c7b13da9fbbf5a3ed9c8b0f4b6176.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

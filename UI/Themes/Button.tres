@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://c4jihbcpya2b1"]
 
-[ext_resource type="FontFile" uid="uid://ch3txojiwfcfc" path="res://UI/Fonts/ZenDots-Regular.ttf" id="1_huj2n"]
+[ext_resource type="FontFile" uid="uid://cop2kisukgtx2" path="res://UI/Fonts/ZenDots-Regular.ttf" id="1_huj2n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvasn"]
 bg_color = Color(0.2, 0.2, 0.2, 1)
