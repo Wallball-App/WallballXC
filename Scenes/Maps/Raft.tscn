@@ -44,7 +44,7 @@ shader_parameter/uv_scale = 0.5
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_07x2j"]
 material = SubResource("ShaderMaterial_gtu55")
-size = Vector2(128, 128)
+size = Vector2(256, 256)
 
 [node name="Root" type="Node3D" unique_id=1288671872]
 

@@ -1,15 +1,46 @@
-[gd_scene load_steps=13 format=3 uid="uid://cs2tsqfcdr8k2"]
+[gd_scene format=3 uid="uid://cs2tsqfcdr8k2"]
 
 [ext_resource type="Theme" uid="uid://b4gl6qyuw7ngx" path="res://UI/Themes/Settings.tres" id="1_boueq"]
-[ext_resource type="Texture2D" uid="uid://dwr2dp4bbqd1b" path="res://UI/Images/Courtyard_1_23_2026.png" id="2_urfio"]
-[ext_resource type="Script" uid="uid://bwqi2vjwcs1gt" path="res://Scripts/UI/Start.cs" id="3_04khp"]
+[ext_resource type="Texture2D" path="res://Icon.tres" id="2_hgpks"]
+[ext_resource type="Script" uid="uid://c7hje2pbixsuj" path="res://Scripts/UI/MapSelector.cs" id="2_nobls"]
+[ext_resource type="Theme" uid="uid://c4jihbcpya2b1" path="res://UI/Themes/Button.tres" id="3_p04md"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="4_04khp"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uduvg"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ju0sh"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_urfio"]
-bg_color = Color(0.2051174, 0.20511746, 0.20511732, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_op2sa"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.13682586, 0.13682568, 0.13682577, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vnqbt"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.24115604, 0.24115604, 0.24115604, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibsel"]
 content_margin_left = 4.0
@@ -83,9 +114,9 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="Root" type="CanvasLayer"]
+[node name="Root" type="CanvasLayer" unique_id=1765579853]
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=355809262]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -93,7 +124,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="GameConfig" type="TabContainer" parent="."]
+[node name="GameConfig" type="TabContainer" parent="." unique_id=1228629782]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -102,11 +133,12 @@ grow_vertical = 2
 theme = ExtResource("1_boueq")
 current_tab = 0
 
-[node name="Map" type="MenuButton" parent="GameConfig"]
+[node name="Map" type="MenuButton" parent="GameConfig" unique_id=972083405]
 layout_mode = 2
+script = ExtResource("2_nobls")
 metadata/_tab_index = 0
 
-[node name="LeftMargin" type="MarginContainer" parent="GameConfig/Map"]
+[node name="LeftMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=123881501]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -117,14 +149,16 @@ offset_bottom = 29.0
 grow_vertical = 2
 theme_override_constants/margin_left = 50
 
-[node name="Left" type="Label" parent="GameConfig/Map/LeftMargin"]
+[node name="Left" type="Button" parent="GameConfig/Map/LeftMargin" unique_id=961204198]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxFlat_uduvg")
-theme_override_styles/focus = SubResource("StyleBoxFlat_urfio")
+theme = ExtResource("3_p04md")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ju0sh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_op2sa")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vnqbt")
 text = " < "
 
-[node name="RightMargin" type="MarginContainer" parent="GameConfig/Map"]
+[node name="RightMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=538457863]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -139,14 +173,17 @@ grow_vertical = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_right = 50
 
-[node name="Right" type="Label" parent="GameConfig/Map/RightMargin"]
+[node name="Right" type="Button" parent="GameConfig/Map/RightMargin" unique_id=766914276]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxFlat_uduvg")
-theme_override_styles/focus = SubResource("StyleBoxFlat_urfio")
+theme = ExtResource("3_p04md")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ju0sh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_op2sa")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vnqbt")
 text = " > "
 
-[node name="Selected" type="TextureRect" parent="GameConfig/Map"]
+[node name="Selected" type="TextureRect" parent="GameConfig/Map" unique_id=1445298434]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(720, 480)
 layout_mode = 1
 anchors_preset = 8
@@ -160,10 +197,10 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_urfio")
+texture = ExtResource("2_hgpks")
 expand_mode = 1
 
-[node name="NameMargin" type="MarginContainer" parent="GameConfig/Map"]
+[node name="NameMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=1311373325]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -177,13 +214,14 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_bottom = 15
 
-[node name="Name" type="Label" parent="GameConfig/Map/NameMargin"]
+[node name="Name" type="Label" parent="GameConfig/Map/NameMargin" unique_id=1426923998]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_boueq")
 theme_override_font_sizes/font_size = 36
 text = "Courtyard"
 
-[node name="Play" type="MarginContainer" parent="."]
+[node name="Play" type="MarginContainer" parent="." unique_id=485483494]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -196,7 +234,8 @@ grow_vertical = 0
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="PlayButton" type="Button" parent="Play"]
+[node name="PlayButton" type="Button" parent="Play" unique_id=1408535795]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 theme = ExtResource("1_boueq")
@@ -205,15 +244,14 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_ibsel")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_uh4rp")
 theme_override_styles/hover = SubResource("StyleBoxFlat_528h5")
 text = "Play"
-script = ExtResource("3_04khp")
 
-[node name="BackContainer" type="MarginContainer" parent="."]
+[node name="BackContainer" type="MarginContainer" parent="." unique_id=386028555]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 50
 
-[node name="Back" type="Button" parent="BackContainer"]
+[node name="Back" type="Button" parent="BackContainer" unique_id=2111098743]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 4
