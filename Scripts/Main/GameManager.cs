@@ -11,7 +11,7 @@ public partial class GameManager : Node3D
 	public static PossessionEnum possession;
 	
 	[Export] public StaticBody3D Wall, Ground;
-	[Export] public RigidBody3D Ball;
+	public static RigidBody3D Ball;
 	public AudioStreamPlayer3D BallAudio;
 	public static bool CWall, CFloor;
 	public static int Pitches;
@@ -19,6 +19,7 @@ public partial class GameManager : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Ball = GetNode<RigidBody3D>("%Ball");
 		Ball.BodyEntered += OnBallCollide;
 		BallAudio = Ball.GetNode<AudioStreamPlayer3D>("BallAudio");
 	}

@@ -5,6 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Brick127.jpg" id="5_vl5dx"]
 [ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Brick127Normal.png" id="6_8km42"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3t5vg"]
+albedo_color = Color(0.4597081, 0.4597081, 0.4597081, 1)
+metallic_specular = 0.0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llpu7"]
 albedo_texture = ExtResource("5_vl5dx")
 metallic_specular = 0.0
@@ -51,6 +55,11 @@ size = Vector2(256, 256)
 [node name="Root" parent="." unique_id=1072632489 instance=ExtResource("1_j843y")]
 
 [node name="Scenery" type="Node3D" parent="." unique_id=970547148]
+
+[node name="GroundGeometry_Custom" type="CSGBox3D" parent="Scenery" unique_id=1690844207]
+visible = false
+material_override = SubResource("StandardMaterial3D_3t5vg")
+size = Vector3(64, 1, 64)
 
 [node name="WallGeometry_Custom" type="CSGBox3D" parent="Scenery" unique_id=1206122418]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 35)

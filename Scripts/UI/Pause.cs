@@ -9,13 +9,14 @@ public partial class Pause : Button
 	public override void _Ready()
 	{
 		CH = GetNode<Label>("%Crosshair");
+		Ball = GameManager.Ball;
 		this.Toggled += OnToggle;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		//CH.Text = GameManager.thrower.ToString();
+		CH.Text = Ball.GlobalPosition.Y.ToString();
 	}
 	public void OnToggle(bool toggled) {
 		CH.Text = (toggled) ? "Paused" : "+";

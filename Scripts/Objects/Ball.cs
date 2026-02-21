@@ -6,10 +6,13 @@ public partial class Ball : RigidBody3D
 	[Export] public StaticBody3D Wall, Ground;
 	private Score score;
 	private Vector3 min, max;
+	public static GpuParticles3D WallParticles;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		score = GetNode<Score>("%Score");
+		WallParticles = GetNode<GpuParticles3D>("%WallParticles");
+		BodyEntered += OnBodyEntered;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,8 +20,14 @@ public partial class Ball : RigidBody3D
 	{
 		
 	}
-	private void OnBodyEntered(Node3D node) {
-		
+	public void OnBodyEntered(Node node) {
+		if(node.Name == "Wall" && !GameManager.HitWall) {
+			if(LinearVelocity.Length() > 4.5) {
+				WallParticles.Restart();
+				WallParticles.Emitting = true;
+			}
+			
+		}
 	}
 	public void Catch(GameManager.PossessionEnum p, Vector3 pos) {
 		GameManager.possession = p;

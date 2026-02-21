@@ -83,8 +83,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.33770615, 0.33770615)
-shader_parameter/cirrus_position2 = Vector2(0.33770615, 0.33770615)
+shader_parameter/cirrus_position1 = Vector2(0.15646635, 0.15646635)
+shader_parameter/cirrus_position2 = Vector2(0.15646635, 0.15646635)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -97,7 +97,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(1.6885309, 1.6885309)
+shader_parameter/cumulus_position = Vector2(40.911385, 40.911385)
 shader_parameter/cumulus_texture = ExtResource("3_md48u")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -141,6 +141,24 @@ albedo_color = Color(0, 0.6464422, 0.1451917, 0.09019608)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_md48u"]
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wm5c7"]
+lifetime_randomness = 0.1
+initial_velocity_min = 30.0
+initial_velocity_max = 60.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wm5c7"]
+metallic_specular = 0.0
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 3.0
+emission_operator = 1
+rim_enabled = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_qfjt1"]
+material = SubResource("StandardMaterial3D_wm5c7")
+size = Vector3(0.25, 0.25, 0.25)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xpl1q"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_7gq7q"]
@@ -177,10 +195,16 @@ bounce = 1.0
 absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8aa1y"]
-size = Vector3(2, 256, 64)
+size = Vector3(8, 256, 80)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wm5c7"]
+size = Vector3(80, 256, 8)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j7tkl"]
-size = Vector3(64, 256, 2)
+size = Vector3(80, 256, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qfjt1"]
+size = Vector3(96, 4, 96)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3ktvn"]
 _data = {
@@ -242,6 +266,7 @@ utc = -4.0
 [node name="Ball" type="RigidBody3D" parent="." unique_id=1418367293 node_paths=PackedStringArray("Wall", "Ground")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+disable_mode = 2
 mass = 0.05
 physics_material_override = SubResource("PhysicsMaterial_ybkb3")
 gravity_scale = 2.0
@@ -266,6 +291,19 @@ shape = SubResource("SphereShape3D_md48u")
 stream = ExtResource("12_7t5af")
 script = ExtResource("13_8aa1y")
 
+[node name="WallParticles" type="GPUParticles3D" parent="Ball" unique_id=535532160]
+unique_name_in_owner = true
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 1)
+cast_shadow = 0
+emitting = false
+amount = 32
+interp_to_end = 0.25
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_wm5c7")
+draw_pass_1 = SubResource("BoxMesh_qfjt1")
+
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1103171266]
 unique_name_in_owner = true
 collision_layer = 2
@@ -281,12 +319,11 @@ script = ExtResource("15_3ktvn")
 transform = Transform3D(-0.99776316, 0, 0.066848494, 0, 1, 0, -0.066848494, 0, -0.99776316, 0, 2.8698173, 0.42388678)
 attributes = SubResource("CameraAttributesPhysical_7gq7q")
 
-[node name="GameManager" type="Node3D" parent="." unique_id=1430480616 node_paths=PackedStringArray("Wall", "Ground", "Ball")]
+[node name="GameManager" type="Node3D" parent="." unique_id=1430480616 node_paths=PackedStringArray("Wall", "Ground")]
 unique_name_in_owner = true
 script = ExtResource("16_sm46x")
 Wall = NodePath("../Wall")
 Ground = NodePath("../Ground")
-Ball = NodePath("../Ball")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1733992744]
 unique_name_in_owner = true
@@ -325,20 +362,24 @@ collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_7t5af")
 
 [node name="West" type="CollisionShape3D" parent="Boundaries" unique_id=1352074395]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 128, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 120, 0)
 shape = SubResource("BoxShape3D_8aa1y")
 
 [node name="East" type="CollisionShape3D" parent="Boundaries" unique_id=1094096895]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 128, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 120, 0)
 shape = SubResource("BoxShape3D_8aa1y")
 
 [node name="South" type="CollisionShape3D" parent="Boundaries" unique_id=1945992062]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 128, 32)
-shape = SubResource("BoxShape3D_j7tkl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 120, 36)
+shape = SubResource("BoxShape3D_wm5c7")
 
 [node name="North" type="CollisionShape3D" parent="Boundaries" unique_id=1847820973]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 128, -32)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 120, -36)
 shape = SubResource("BoxShape3D_j7tkl")
+
+[node name="Ground" type="CollisionShape3D" parent="Boundaries" unique_id=1173041966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+shape = SubResource("BoxShape3D_qfjt1")
 
 [node name="PlayerManager" type="Node3D" parent="." unique_id=1779219998 node_paths=PackedStringArray("Wall", "Ground", "Ball", "SafePoint", "Player")]
 unique_name_in_owner = true

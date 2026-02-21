@@ -31,7 +31,7 @@ public partial class MapSelector : MenuButton
 	{
 	}
 	public void OnLeftClick() {
-		Index -= 1;
+		if(Index > 0) Index -= 1;
 		Texture2D texture = GD.Load(GameData.MAPS[Index].Item3) as Texture2D;
 		if(texture != null) {
 			Selected.Texture = texture;
@@ -39,7 +39,7 @@ public partial class MapSelector : MenuButton
 		Name.Text = GameData.MAPS[Index].Item1;
 	}
 	public void OnRightClick() {
-		Index += 1;
+		if(Index <= GameData.MAPS.Count) Index += 1;
 		Texture2D texture = GD.Load(GameData.MAPS[Index].Item3) as Texture2D;
 		if(texture != null) {
 			Selected.Texture = texture;

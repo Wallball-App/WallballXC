@@ -9,7 +9,8 @@ public partial class PlayerInput : CharacterBody3D
 	private float sensitivity = 0.0015f;
 	private float Jump = 12f;
 	private bool isJumping;
-	private float WalkSpeed = 10f;
+	[Export] public float WalkSpeed = 10f;
+	public static bool IsSprinting;
 	private CanvasLayer GameUI;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -62,8 +63,10 @@ public partial class PlayerInput : CharacterBody3D
 		}
 		if(@e.IsActionPressed("Sprint")) {
 			WalkSpeed = 25f;
+			IsSprinting = true;
 		} else {
 			WalkSpeed = 15f;
+			IsSprinting = false;
 		}
 		if(@e.IsActionPressed("UI_Toggle")) {
 			GameUI.Visible = (GameUI.Visible) ? false : true;

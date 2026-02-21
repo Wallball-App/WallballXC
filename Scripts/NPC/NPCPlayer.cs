@@ -29,6 +29,7 @@ public partial class NPCPlayer : Node3D
 	private int Frames;
 	[Export] public float Max_Hold = 60;
 	[Export] public float Throw_Speed = 3;
+	[Export] public float Throw_Max = 5;
 	[Export] public Node3D SafePoint;
 	public float WallBounce = 0.75f;
 	public bool IsHolding;
@@ -153,12 +154,13 @@ public partial class NPCPlayer : Node3D
 			rng.Randomize();
 			AnimController.PlayThrow();
 			float DirectionX = rng.RandfRange(WallMin.X, WallMax.X);
-			float DirectionY = rng.RandfRange(WallMin.Y, WallMax.Y);
+			float DirectionY = rng.RandfRange(WallMin.Y, WallMax.Y - 5.0f);
 			float DirectionZ = WallMax.Z;
 			Vector3 Point = new Vector3(DirectionX, DirectionY, DirectionZ);
 			Vector3 Direction = (Point - GlobalPosition).Normalized();
+			float Speed = rng.RandfRange(Throw_Speed, Throw_Max);
 			BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
-				Direction, Throw_Speed);
+				Direction, Speed);
 			if(NpcController.CurrentPossession == this) NpcController.CurrentPossession = null;
 		}
 	}

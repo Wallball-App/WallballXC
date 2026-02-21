@@ -14,7 +14,7 @@ public partial class Quit : Button
 	{
 	}
 	public void OnPressed() {
-		GetTree().ChangeSceneToFile("res://Scenes/TitleScreen.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Config/TitleScreen.tscn");
 	}
 	
 }

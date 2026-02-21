@@ -6,7 +6,8 @@ public partial class MousePick : CollisionShape3D
 	private RigidBody3D Ball;
 	private Ball BallControl;
 	private GameManager ctx;
-	[Export] private float ThrowSpeed = 2f;
+	[Export] public float ThrowSpeed = 2f;
+	[Export] public float Sprint_ThrowSpeed = 6f;
 	private Camera3D cam;
 	private Vector3 Offset = new Vector3(0.0f, 0.0f, -3.0f);
 	// Called when the node enters the scene tree for the first time.
@@ -52,7 +53,7 @@ public partial class MousePick : CollisionShape3D
 					Ball.AngularVelocity = Vector3.Zero;
 					Ball.ApplyImpulse(-cam.GlobalTransform.Basis.Z * ThrowSpeed);*/
 					BallControl.Throw(GameManager.ThrowerEnum.PLAYER, 
-						-cam.GlobalTransform.Basis.Z, ThrowSpeed);
+						-cam.GlobalTransform.Basis.Z, (PlayerInput.IsSprinting ? Sprint_ThrowSpeed : ThrowSpeed));
 				}
 			}
 		}
