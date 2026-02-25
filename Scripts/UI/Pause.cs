@@ -16,7 +16,7 @@ public partial class Pause : Button
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		CH.Text = Ball.GlobalPosition.Y.ToString();
+		//CH.Text = Ball.LinearVelocity.Length().ToString();
 	}
 	public void OnToggle(bool toggled) {
 		CH.Text = (toggled) ? "Paused" : "+";

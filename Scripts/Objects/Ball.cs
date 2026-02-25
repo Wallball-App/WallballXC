@@ -22,7 +22,7 @@ public partial class Ball : RigidBody3D
 	}
 	public void OnBodyEntered(Node node) {
 		if(node.Name == "Wall" && !GameManager.HitWall) {
-			if(LinearVelocity.Length() > 4.5) {
+			if(LinearVelocity.Length() >= 60) {
 				WallParticles.Restart();
 				WallParticles.Emitting = true;
 			}
@@ -30,6 +30,7 @@ public partial class Ball : RigidBody3D
 		}
 	}
 	public void Catch(GameManager.PossessionEnum p, Vector3 pos) {
+		GameManager.previous_pos = GameManager.possession;
 		GameManager.possession = p;
 		GameManager.previous = GameManager.thrower;
 		GameManager.thrower = GameManager.ThrowerEnum.NONE;
@@ -45,11 +46,15 @@ public partial class Ball : RigidBody3D
 		Vector3 Direction, float Speed) {
 		if(t == GameManager.ThrowerEnum.RUNNING) GameManager.previous = TransferEnums();
 		else if(t != GameManager.ThrowerEnum.RUNNING) GameManager.previous = GameManager.thrower; 
+		GameManager.previous_pos = GameManager.possession;
 		GameManager.possession = GameManager.PossessionEnum.NONE;
 		GameManager.thrower = t;
 		GameManager.Pitches = 0;
+		GameManager.HitWall = false;
+		GameManager.HitFloor = false;
 		
 		Freeze = false;
+		Sleeping = false;
 		LinearVelocity = Vector3.Zero;
 		AngularVelocity = Vector3.Zero;
 		ApplyImpulse(Direction * Speed);

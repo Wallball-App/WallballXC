@@ -28,8 +28,8 @@ public partial class NPCPlayer : Node3D
 	private float Hold = -1;
 	private int Frames;
 	[Export] public float Max_Hold = 60;
-	[Export] public float Throw_Speed = 3;
-	[Export] public float Throw_Max = 5;
+	[Export] public float Throw_Speed = 2;
+	[Export] public float Throw_Max = 4;
 	[Export] public Node3D SafePoint;
 	public float WallBounce = 0.75f;
 	public bool IsHolding;
@@ -47,8 +47,8 @@ public partial class NPCPlayer : Node3D
 		CollisionShape3D GroundShape = Ground.GetNode<CollisionShape3D>("GroundCollision");
 		if(GroundShape.Shape is BoxShape3D s) {
 			//GD.Print($"Box Size: {s.Size}");
-			min = GroundShape.GlobalPosition - (s.Size / 2.0f) - new Vector3(2.0f, 0.0f, 2.0f);
-			max = GroundShape.GlobalPosition + (s.Size / 2.0f) + new Vector3(0.5f, 0.0f, 0.5f);
+			min = GroundShape.GlobalPosition - (s.Size / 2.0f) + new Vector3(2.0f, 0.0f, 2.0f);
+			max = GroundShape.GlobalPosition + (s.Size / 2.0f) - new Vector3(2.0f, 0.0f, 2.0f);
 			
 			min.Y = GroundShape.GlobalPosition.Y;
 			min.Z = Wall.GlobalPosition.Z - margin;
@@ -129,7 +129,7 @@ public partial class NPCPlayer : Node3D
 					rng.Randf() <= 0.7f && GameManager.possession == GameManager.PossessionEnum.NONE) {
 				//GD.Print(rng.Randf());
 				BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
-					GlobalPosition + new Vector3(0.0f, 0.0f, -3.0f));
+					GlobalPosition + new Vector3(0.0f, 0.0f, 1.0f));
 					rng.Randomize();
 				if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + 1;
 				else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + 1;
@@ -154,7 +154,7 @@ public partial class NPCPlayer : Node3D
 			rng.Randomize();
 			AnimController.PlayThrow();
 			float DirectionX = rng.RandfRange(WallMin.X, WallMax.X);
-			float DirectionY = rng.RandfRange(WallMin.Y, WallMax.Y - 5.0f);
+			float DirectionY = rng.RandfRange(WallMin.Y + 1.0f, WallMax.Y - 5.0f);
 			float DirectionZ = WallMax.Z;
 			Vector3 Point = new Vector3(DirectionX, DirectionY, DirectionZ);
 			Vector3 Direction = (Point - GlobalPosition).Normalized();
@@ -167,7 +167,7 @@ public partial class NPCPlayer : Node3D
 	private void HoldBall() {
 		//IsHolding = (IsHolding && Frames < Hold);
 		if(IsHolding) {
-			Ball.GlobalPosition = GlobalPosition + new Vector3(0.0f, 2.0f, -1.0f);
+			Ball.GlobalPosition = GlobalPosition + new Vector3(0.0f, 2.0f, 1.0f);
 		}
 	}
 	private void CheckWallCollide() {

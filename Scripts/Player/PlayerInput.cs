@@ -23,7 +23,9 @@ public partial class PlayerInput : CharacterBody3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
-
+		IsSprinting = Input.IsActionPressed("Sprint");
+		WalkSpeed = (IsSprinting) ? 25f : 15f;
+		
 		Vector3 velocity = Velocity;
 		velocity = new Vector3(0.0f, velocity.Y, 0.0f);
 		Vector2 keys = Input.GetVector("Left", "Right", "Forward", "Backward");
@@ -60,13 +62,6 @@ public partial class PlayerInput : CharacterBody3D
 		}
 		if(@e.IsActionPressed("Jump") && !@e.IsEcho() && IsOnFloor()) {
 			isJumping = true;
-		}
-		if(@e.IsActionPressed("Sprint")) {
-			WalkSpeed = 25f;
-			IsSprinting = true;
-		} else {
-			WalkSpeed = 15f;
-			IsSprinting = false;
 		}
 		if(@e.IsActionPressed("UI_Toggle")) {
 			GameUI.Visible = (GameUI.Visible) ? false : true;

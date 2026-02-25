@@ -83,8 +83,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.15646635, 0.15646635)
-shader_parameter/cirrus_position2 = Vector2(0.15646635, 0.15646635)
+shader_parameter/cirrus_position1 = Vector2(0.38617355, 0.38617355)
+shader_parameter/cirrus_position2 = Vector2(0.38617355, 0.38617355)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -97,7 +97,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(40.911385, 40.911385)
+shader_parameter/cumulus_position = Vector2(1.9309292, 1.9309292)
 shader_parameter/cumulus_texture = ExtResource("3_md48u")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -195,13 +195,13 @@ bounce = 1.0
 absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8aa1y"]
-size = Vector3(8, 256, 80)
+size = Vector3(10, 256, 80)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wm5c7"]
-size = Vector3(80, 256, 8)
+size = Vector3(80, 256, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j7tkl"]
-size = Vector3(80, 256, 8)
+size = Vector3(80, 256, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qfjt1"]
 size = Vector3(96, 4, 96)

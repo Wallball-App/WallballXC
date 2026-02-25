@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cs2tsqfcdr8k2"]
 
 [ext_resource type="Theme" uid="uid://b4gl6qyuw7ngx" path="res://UI/Themes/Settings.tres" id="1_boueq"]
-[ext_resource type="Texture2D" path="res://Icon.tres" id="2_hgpks"]
+[ext_resource type="Texture2D" uid="uid://delnyndybeu8" path="res://Icon.tres" id="2_hgpks"]
 [ext_resource type="Script" uid="uid://c7hje2pbixsuj" path="res://Scripts/UI/MapSelector.cs" id="2_nobls"]
 [ext_resource type="Theme" uid="uid://c4jihbcpya2b1" path="res://UI/Themes/Button.tres" id="3_p04md"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="4_04khp"]
@@ -182,24 +182,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_op2sa")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vnqbt")
 text = " > "
 
-[node name="Selected" type="TextureRect" parent="GameConfig/Map" unique_id=1445298434]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(720, 480)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_hgpks")
-expand_mode = 1
-
 [node name="NameMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=1311373325]
 layout_mode = 1
 anchors_preset = 7
@@ -220,6 +202,21 @@ layout_mode = 2
 theme = ExtResource("1_boueq")
 theme_override_font_sizes/font_size = 36
 text = "Courtyard"
+
+[node name="CenterSelect" type="CenterContainer" parent="GameConfig/Map" unique_id=225516799]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Selected" type="TextureRect" parent="GameConfig/Map/CenterSelect" unique_id=1445298434]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(720, 480)
+layout_mode = 2
+texture = ExtResource("2_hgpks")
+expand_mode = 1
 
 [node name="Play" type="MarginContainer" parent="." unique_id=485483494]
 anchors_preset = 3

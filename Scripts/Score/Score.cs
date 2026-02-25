@@ -7,7 +7,7 @@ public partial class Score : Node3D
 	public static int TeamScore, OpponentScore;
 	[Export] public RigidBody3D Ball;
 	private bool cwall, cfloor;
-	public bool Scored;
+	public static bool Scored_Wall, Scored_Catch;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -20,10 +20,13 @@ public partial class Score : Node3D
 	public override void _Process(double delta)
 	{
 		CheckScore();
-		if(Scored && !GameManager.HitWall) Scored = false;
+		if((Scored_Catch || Scored_Wall) && !GameManager.HitWall) {
+			Scored_Wall = false;
+			Scored_Catch = false;
+		}
 	}
 	public void CheckScore() {
-		if(Scored) return;
+		if(Scored_Wall) return;
 		if(cwall) {
 			if(GameManager.thrower == GameManager.ThrowerEnum.PLAYER || 
 						GameManager.thrower == GameManager.ThrowerEnum.TEAM) {
@@ -37,24 +40,25 @@ public partial class Score : Node3D
 					PlayerManager.Reset = (PlayerManager.Reset) ? false : true;
 				}
 			}
+			Scored_Wall = true;
 		}
-		Scored = true;
 	}
 	public void CatchScore() {
-		if(Scored) return;
+		if(Scored_Catch) return;
 		GameManager.Pitches = -1;
-			if(GameManager.previous == GameManager.ThrowerEnum.PLAYER || 
-						GameManager.previous == GameManager.ThrowerEnum.TEAM) {
-				if(GameManager.possession == GameManager.PossessionEnum.OPPONENT) {
-					OpponentScore++;
-				}
-			} else if(GameManager.previous == GameManager.ThrowerEnum.OPPONENT) {
-				if(GameManager.possession == GameManager.PossessionEnum.TEAM ||
-							GameManager.possession == GameManager.PossessionEnum.PLAYER) {
-					TeamScore++;
-				}
+		if(GameManager.previous == GameManager.ThrowerEnum.PLAYER || 
+					GameManager.previous == GameManager.ThrowerEnum.TEAM) {
+			if(GameManager.possession == GameManager.PossessionEnum.OPPONENT) {
+				OpponentScore++;
+				Scored_Catch = true;
 			}
-		Scored = true;
+		} else if(GameManager.previous == GameManager.ThrowerEnum.OPPONENT) {
+			if(GameManager.possession == GameManager.PossessionEnum.TEAM ||
+						GameManager.possession == GameManager.PossessionEnum.PLAYER) {
+				TeamScore++;
+				Scored_Catch = true;
+			}
+		}
 	}
 	public void OnCollide(Node node) {
 		cwall = (node.Name == "Wall");
