@@ -41,7 +41,7 @@ public partial class NPCPlayer : Node3D
 	{
 		//Position = new Vector3(0.0f, 0.0f, 0.0f);
 		//Rotation = new Vector3(0, Mathf.DegToRad(0f), Mathf.DegToRad(-90f));
-		AnimController = GetNode<AnimationController>("AnimationController");
+		AnimController = FindChild("AnimationController", true, false) as AnimationController;
 		AnimController.PlayRun();
 		
 		CollisionShape3D GroundShape = Ground.GetNode<CollisionShape3D>("GroundCollision");
@@ -61,7 +61,7 @@ public partial class NPCPlayer : Node3D
 		}
 		WallGeometry = Wall.GetNode<Node3D>("WallGeometry");
 		BallControl = Ball as Ball;
-		Triangle = GetNode<Node3D>("Triangle");
+		Triangle = FindChild("Triangle", true, false) as Node3D;
 		
 		Red = new StandardMaterial3D();
 		Red.AlbedoColor = Colors.Red;
@@ -87,7 +87,6 @@ public partial class NPCPlayer : Node3D
 		HoldBall();
 		if(IsRunning) CheckWallCollide();
 		SetMaterial();
-		
 		Frames++;
 	}
 	private void MoveTowardTarget(double delta) {
