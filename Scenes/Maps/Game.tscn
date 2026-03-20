@@ -83,8 +83,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.45518038, 0.45518038)
-shader_parameter/cirrus_position2 = Vector2(0.45518038, 0.45518038)
+shader_parameter/cirrus_position1 = Vector2(0.29516932, 0.29516932)
+shader_parameter/cirrus_position2 = Vector2(0.29516932, 0.29516932)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -97,7 +97,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(37.390205, 37.390205)
+shader_parameter/cumulus_position = Vector2(71.47594, 71.47594)
 shader_parameter/cumulus_texture = ExtResource("3_md48u")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -188,7 +188,7 @@ ao_enabled = true
 uv1_scale = Vector3(2, 2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8prw7"]
-size = Vector3(56, 32, 1)
+size = Vector3(58, 34, 1)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7t5af"]
 bounce = 1.0
@@ -332,8 +332,8 @@ Ground = NodePath("../Ground")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1733992744]
 unique_name_in_owner = true
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_08olo")
 
 [node name="GroundCollision" type="CollisionShape3D" parent="Ground" unique_id=678891050]
@@ -346,8 +346,8 @@ size = Vector3(64, 1, 64)
 
 [node name="Wall" type="StaticBody3D" parent="." unique_id=293261974]
 unique_name_in_owner = true
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_idc1r")
 
 [node name="WallGeometry" type="CSGBox3D" parent="Wall" unique_id=184512836]
@@ -415,21 +415,11 @@ OpponentController = NodePath("OpponentController")
 
 [node name="OpponentController" type="Node3D" parent="NPCController" unique_id=1722626024]
 
-[node name="NPC_T_Physics" type="RigidBody3D" parent="NPCController" unique_id=1704615134 node_paths=PackedStringArray("NPC1", "NPC2", "Ball", "Wall", "Ground", "SafePoint")]
+[node name="NPC_T_Physics" type="CharacterBody3D" parent="NPCController" unique_id=323532595]
 disable_mode = 1
 collision_layer = 7
 collision_mask = 7
-mass = 80.0
-can_sleep = false
-freeze = true
-freeze_mode = 1
 script = ExtResource("22_6v4id")
-NPC1 = NodePath("NPC_T/Running")
-NPC2 = NodePath("NPC_T/Throwing")
-Ball = NodePath("../../Ball")
-Wall = NodePath("../../Wall")
-Ground = NodePath("../../Ground")
-SafePoint = NodePath("../../SafePoint")
 
 [node name="NPC_T" type="Node3D" parent="NPCController/NPC_T_Physics" unique_id=2035428293]
 
@@ -461,42 +451,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 visible = false
 shape = SubResource("CapsuleShape3D_wm5c7")
 
-[node name="NPC_O_Physics" type="RigidBody3D" parent="NPCController" unique_id=123836057 node_paths=PackedStringArray("NPC1", "NPC2", "Ball", "Wall", "Ground", "SafePoint")]
+[node name="NPC_O_Physics" type="CharacterBody3D" parent="NPCController" unique_id=2088579054]
 disable_mode = 1
 collision_layer = 7
 collision_mask = 7
-mass = 80.0
-can_sleep = false
-freeze = true
-freeze_mode = 1
 script = ExtResource("22_6v4id")
-NPC1 = NodePath("NPC_O/Running_O")
-NPC2 = NodePath("NPC_O/Throwing_O")
-Ball = NodePath("../../Ball")
-Wall = NodePath("../../Wall")
-Ground = NodePath("../../Ground")
-SafePoint = NodePath("../../SafePoint")
 
 [node name="NPC_O" type="Node3D" parent="NPCController/NPC_O_Physics" unique_id=629705035]
 transform = Transform3D(0.05, 0, 0, 0, -2.1855695e-09, -0.05, 0, 0.05, -2.1855695e-09, 0, 0, 0)
 
 [node name="AnimationController" type="Node3D" parent="NPCController/NPC_O_Physics/NPC_O" unique_id=1450135917 node_paths=PackedStringArray("Running", "Throwing", "RunningSprite", "ThrowingSprite")]
 script = ExtResource("27_exo3b")
-Running = NodePath("../Running_O/RunAnim")
-Throwing = NodePath("../Throwing_O/ThrowAnim")
-RunningSprite = NodePath("../Running_O")
-ThrowingSprite = NodePath("../Throwing_O")
+Running = NodePath("../Running/RunAnim")
+Throwing = NodePath("../Throwing/ThrowAnim")
+RunningSprite = NodePath("../Running")
+ThrowingSprite = NodePath("../Throwing")
 
-[node name="Throwing_O" parent="NPCController/NPC_O_Physics/NPC_O" unique_id=2033239272 instance=ExtResource("29_y8217")]
+[node name="Throwing" parent="NPCController/NPC_O_Physics/NPC_O" unique_id=2033239272 instance=ExtResource("29_y8217")]
 transform = Transform3D(100, 0, 0, 0, -4.371139e-06, 100, 0, -100, -4.371139e-06, 0, 0, -10)
 
-[node name="ThrowAnim" type="AnimationPlayer" parent="NPCController/NPC_O_Physics/NPC_O/Throwing_O" unique_id=527300299]
+[node name="ThrowAnim" type="AnimationPlayer" parent="NPCController/NPC_O_Physics/NPC_O/Throwing" unique_id=527300299]
 libraries/Throwing = SubResource("AnimationLibrary_sm46x")
 
-[node name="Running_O" parent="NPCController/NPC_O_Physics/NPC_O" unique_id=565378558 instance=ExtResource("30_6vojv")]
+[node name="Running" parent="NPCController/NPC_O_Physics/NPC_O" unique_id=565378558 instance=ExtResource("30_6vojv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
 
-[node name="RunAnim" type="AnimationPlayer" parent="NPCController/NPC_O_Physics/NPC_O/Running_O" unique_id=41907268]
+[node name="RunAnim" type="AnimationPlayer" parent="NPCController/NPC_O_Physics/NPC_O/Running" unique_id=41907268]
 libraries/Running = SubResource("AnimationLibrary_3ktvn")
 
 [node name="Triangle" parent="NPCController/NPC_O_Physics/NPC_O" unique_id=2083473901 instance=ExtResource("28_umh3s")]

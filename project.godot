@@ -19,7 +19,7 @@ config/name="Wallball"
 run/main_scene="uid://sfuvni5rx0ur"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="uid://b6pt4815w87ck"
+boot_splash/image="uid://bfmsr4hj6bd42"
 config/icon="uid://cnodlnda5bswy"
 boot_splash/minimum_display_time=500
 

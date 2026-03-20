@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6pt4815w87ck"
-path="res://.godot/imported/Splash_20260129.png-dd80f20b5f9649d86dfc7bd652ec7cb6.ctex"
+uid="uid://88r3lrnype3k"
+path="res://.godot/imported/Back_Arrow (1).png-3873ce27c0f22b2d4eb363187401d2e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Splash_20260129.png"
-dest_files=["res://.godot/imported/Splash_20260129.png-dd80f20b5f9649d86dfc7bd652ec7cb6.ctex"]
+source_file="res://UI/Images/Back_Arrow (1).png"
+dest_files=["res://.godot/imported/Back_Arrow (1).png-3873ce27c0f22b2d4eb363187401d2e4.ctex"]
 
 [params]
 

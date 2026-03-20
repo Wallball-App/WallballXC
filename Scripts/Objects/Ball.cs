@@ -13,12 +13,16 @@ public partial class Ball : RigidBody3D
 		score = GetNode<Score>("%Score");
 		WallParticles = GetNode<GpuParticles3D>("%WallParticles");
 		BodyEntered += OnBodyEntered;
+		CollisionShape3D GroundShape = Ground.GetNode<CollisionShape3D>("GroundCollision");
+		if(GroundShape.Shape is BoxShape3D s) {
+			min = GroundShape.GlobalPosition - (s.Size / 2.0f);
+			max = GroundShape.GlobalPosition + (s.Size / 2.0f);
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
 	}
 	public void OnBodyEntered(Node node) {
 		if(node.Name == "Wall" && !GameManager.HitWall) {
