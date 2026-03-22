@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfmsr4hj6bd42"
-path="res://.godot/imported/TennisBallSplash (1).png-281d590d3da812262990baaf2876fda4.ctex"
+uid="uid://cgn4k30hsy5j2"
+path="res://.godot/imported/WallBall-Scenic-1.png-69eb2053155cf2b301e96fb6a352bcba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TennisBallSplash (1).png"
-dest_files=["res://.godot/imported/TennisBallSplash (1).png-281d590d3da812262990baaf2876fda4.ctex"]
+source_file="res://WallBall-Scenic-1.png"
+dest_files=["res://.godot/imported/WallBall-Scenic-1.png-69eb2053155cf2b301e96fb6a352bcba.ctex"]
 
 [params]
 

@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://cs2tsqfcdr8k2"]
 
 [ext_resource type="Theme" uid="uid://b4gl6qyuw7ngx" path="res://UI/Themes/Settings.tres" id="1_boueq"]
+[ext_resource type="Texture2D" uid="uid://cgn4k30hsy5j2" path="res://WallBall-Scenic-1.png" id="1_op2sa"]
 [ext_resource type="Texture2D" uid="uid://delnyndybeu8" path="res://Icon.tres" id="2_hgpks"]
 [ext_resource type="Script" uid="uid://c7hje2pbixsuj" path="res://Scripts/UI/MapSelector.cs" id="2_nobls"]
 [ext_resource type="Theme" uid="uid://c4jihbcpya2b1" path="res://UI/Themes/Button.tres" id="3_p04md"]
-[ext_resource type="Texture2D" uid="uid://ctqkkmx72ov4f" path="res://UI/Images/Navigation.png" id="4_p04md"]
+[ext_resource type="Texture2D" uid="uid://ctqkkmx72ov4f" path="res://UI/Images/Navigation_L.png" id="4_p04md"]
 [ext_resource type="Texture2D" uid="uid://88r3lrnype3k" path="res://UI/Images/Back_Arrow (1).png" id="6_ju0sh"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="6_p04md"]
+[ext_resource type="Texture2D" uid="uid://dmi2cayf16rw4" path="res://UI/Images/Navigation_R.png" id="7_vnqbt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3kbbk"]
 content_margin_left = 0.0
@@ -197,6 +199,15 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="SceneImage" type="TextureRect" parent="." unique_id=1166087741]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_op2sa")
+expand_mode = 1
+
 [node name="GameConfig" type="TabContainer" parent="." unique_id=1228629782]
 anchors_preset = 15
 anchor_right = 1.0
@@ -263,14 +274,13 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = 35.0
-offset_right = 125.0
-offset_bottom = 110.0
+offset_left = -125.0
+offset_top = -37.5
+offset_bottom = 37.5
 grow_horizontal = 0
 grow_vertical = 2
-scale = Vector2(-1, -1)
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 50
 
 [node name="Right" type="Button" parent="GameConfig/Map/RightMargin" unique_id=766914276]
 unique_name_in_owner = true
@@ -280,7 +290,7 @@ theme = ExtResource("3_p04md")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ju0sh")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_op2sa")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vnqbt")
-icon = ExtResource("4_p04md")
+icon = ExtResource("7_vnqbt")
 icon_alignment = 1
 expand_icon = true
 

@@ -30,6 +30,8 @@ public partial class NPCPlayer : CharacterBody3D
 	[Export] public float Max_Hold = 60;
 	[Export] public float Throw_Speed = 2;
 	[Export] public float Throw_Max = 4;
+	[Export] public float JumpStrength = 0;
+	public bool IsJumping;
 	private Node3D SafePoint;
 	public float WallBounce = 0.75f;
 	public bool IsHolding;
@@ -120,7 +122,7 @@ public partial class NPCPlayer : CharacterBody3D
 	}
 	private void MoveTowardTarget(double delta) {
 		if(GlobalPosition.DistanceTo(Target) <= 3.0f || Frames % 180 == 0) {
-			SetPossession();
+			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession();
 			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) {
 				if(!IsRunning) Target = PredictTrajectory();
 				WalkSpeed = BaseSpeed * Sprint;
@@ -131,16 +133,21 @@ public partial class NPCPlayer : CharacterBody3D
 		} else {
 			if(GameManager.HitWall) SetPossession();
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
-			Vector3 velocity = (Target - GlobalPosition).Normalized() * WalkSpeed;
-			velocity.Y = Velocity.Y;
-			Velocity = velocity;
-			Vector3 d = Target - GlobalPosition;
+			Vector3 velocity = Velocity;
+			velocity = (Target - GlobalPosition).Normalized() * WalkSpeed;
+			if(!IsJumping) {
+				velocity.Y = 0;
+				Velocity = new Vector3(velocity.X, 0.0f, velocity.Z);
+			} else {
+				Velocity = velocity;
+			}
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
 	}
 	private Vector3 CreateNewTarget(bool Wall, bool IsRunning) {
 		if(IsRunning) return SafePoint.GlobalPosition + new Vector3(0f, 0f, 2f);
-		else if(Wall || NpcController.NPCS.Where(n => n.IsRunning).Count() > 0) {
+		else if(Wall || (NpcController.NPCS.Where(n => n.IsRunning).Count() > 0 &&
+			GameManager.possession == GameManager.PossessionEnum.NONE)) {
 			Vector3 pos = Ball.GlobalPosition;
 			pos.Y = GlobalPosition.Y;
 			WalkSpeed = BaseSpeed * Sprint;
@@ -182,7 +189,7 @@ public partial class NPCPlayer : CharacterBody3D
 			IsHolding = false;
 			AnimController.PlayThrow();
 			float DirectionX = rng.RandfRange(WallMin.X, WallMax.X);
-			float DirectionY = rng.RandfRange(GlobalPosition.Y + FindNearestObject().Y, WallMax.Y - 5.0f);
+			float DirectionY = rng.RandfRange(GlobalPosition.Y + 5.0f, WallMax.Y - 5.0f);
 			float DirectionZ = WallMax.Z;
 			Vector3 Point = new Vector3(DirectionX, DirectionY, DirectionZ);
 			Vector3 Direction = (Point - GlobalPosition).Normalized();
@@ -263,15 +270,15 @@ public partial class NPCPlayer : CharacterBody3D
 		}
 	}
 	private void ApplyGravity(double delta) {
-		if(!IsOnFloor()) {
+		if(!IsOnFloor() || IsJumping) {
 			Vector3 velocity = Velocity;
 			velocity.Y -= Gravity * (float)delta;
 			Velocity = velocity;
 		}
 	}
-	private Vector3 FindNearestObject() {
+	private Vector3 FindNearestForward() {
 		Vector3 MinDist = Vector3.Zero;
-		foreach(NPCPlayer N in NpcController.NPCS) {
+		foreach(NPCPlayer N in NpcController.NPCS.Where(n => n.GlobalPosition.Z > GlobalPosition.Z)) {
 			if(MinDist == Vector3.Zero) MinDist = N.GlobalPosition - GlobalPosition;
 			if(N.GlobalPosition - GlobalPosition < MinDist) MinDist = N.GlobalPosition - GlobalPosition;
 		}

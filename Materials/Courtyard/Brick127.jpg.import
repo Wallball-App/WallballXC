@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bv0by26ldhlhi"
-path="res://.godot/imported/Brick127Normal.png-915a41cd4b9247cef84c5e13478a0d73.ctex"
+uid="uid://bw4lkmp380kbv"
+path="res://.godot/imported/Brick127.jpg-7a1b5bbff36dc30fabee57e3d98ac502.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Materials/Brick127Normal.png"
-dest_files=["res://.godot/imported/Brick127Normal.png-915a41cd4b9247cef84c5e13478a0d73.ctex"]
+source_file="res://Materials/Courtyard/Brick127.jpg"
+dest_files=["res://.godot/imported/Brick127.jpg-7a1b5bbff36dc30fabee57e3d98ac502.ctex"]
 
 [params]
 
@@ -21,12 +21,12 @@ compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://Materials/Brick127Normal.png"
+roughness/mode=0
+roughness/src_normal=""
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2
