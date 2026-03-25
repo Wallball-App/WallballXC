@@ -16,8 +16,8 @@
 [ext_resource type="Script" uid="uid://cdwl3i5ju5oc4" path="res://Scripts/Player/PlayerInput.cs" id="14_j7tkl"]
 [ext_resource type="Script" uid="uid://cku54ewyfioiy" path="res://Scripts/Player/MousePick.cs" id="15_3ktvn"]
 [ext_resource type="Script" uid="uid://dx50yroqnp1om" path="res://Scripts/Main/GameManager.cs" id="16_sm46x"]
-[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Courtyard/Brick127.jpg" id="17_1xl64"]
-[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Courtyard/Brick127Normal.png" id="18_anl24"]
+[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Game/Brick127.jpg" id="17_1xl64"]
+[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Game/Brick127Normal.png" id="18_anl24"]
 [ext_resource type="Script" uid="uid://bq82rbl85a7mb" path="res://Scripts/Player/PlayerManager.cs" id="19_gxt2r"]
 [ext_resource type="PackedScene" uid="uid://dnfy6hu4i3okb" path="res://Scenes/UI/UI.tscn" id="20_v4h64"]
 [ext_resource type="Script" uid="uid://0hf74hxdb6fx" path="res://Scripts/NPC/NpcController.cs" id="21_u7t2v"]
@@ -83,8 +83,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.24152572, 0.24152572)
-shader_parameter/cirrus_position2 = Vector2(0.24152572, 0.24152572)
+shader_parameter/cirrus_position1 = Vector2(0.013199274, 0.013199274)
+shader_parameter/cirrus_position2 = Vector2(0.013199274, 0.013199274)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -97,7 +97,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(1.2075071, 1.2075071)
+shader_parameter/cumulus_position = Vector2(0.065996334, 0.065996334)
 shader_parameter/cumulus_texture = ExtResource("3_md48u")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)

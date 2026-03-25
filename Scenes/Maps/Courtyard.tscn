@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://gcgqh7uk6mnc" path="res://Scenes/Maps/Game.tscn" id="1_g6lpc"]
 [ext_resource type="Material" uid="uid://qk5kw4y8ybup" path="res://Materials/Courtyard/Glass.tres" id="2_g6lpc"]
 [ext_resource type="Material" uid="uid://lv6xuko4g25s" path="res://Materials/Courtyard/Siding.tres" id="3_s3ry8"]
-[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Courtyard/Brick127.jpg" id="5_s3ry8"]
-[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Courtyard/Brick127Normal.png" id="6_vjqu4"]
+[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Game/Brick127.jpg" id="5_s3ry8"]
+[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Game/Brick127Normal.png" id="6_vjqu4"]
 [ext_resource type="Material" uid="uid://coj761m321bmn" path="res://Materials/Courtyard/Floor_Courtyard.tres" id="7_vjqu4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vjqu4"]
