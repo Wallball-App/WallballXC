@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://gcgqh7uk6mnc" path="res://Scenes/Maps/Game.tscn" id="1_j843y"]
 [ext_resource type="Shader" uid="uid://05bjle35agn4" path="res://Shaders/Water.gdshader" id="4_gn067"]
-[ext_resource type="PackedScene" uid="uid://dsbva3h223pdc" path="res://Materials/Raft/Wood.glb" id="5_gtu55"]
+[ext_resource type="PackedScene" uid="uid://clmbxmeumm81l" path="res://Models/Raft/Wood.glb" id="5_gtu55"]
 [ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Game/Brick127.jpg" id="5_vl5dx"]
 [ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Game/Brick127Normal.png" id="6_8km42"]
 
@@ -50,6 +50,10 @@ size = Vector2(256, 256)
 [sub_resource type="BoxShape3D" id="BoxShape3D_gtu55"]
 size = Vector3(64, 2, 64)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gtu55"]
+albedo_color = Color(0.21224236, 0.10748046, 0.00783056, 1)
+metallic_specular = 0.0
+
 [node name="Root" type="Node3D" unique_id=1288671872]
 
 [node name="Root" parent="." unique_id=1072632489 instance=ExtResource("1_j843y")]
@@ -57,19 +61,26 @@ size = Vector3(64, 2, 64)
 [node name="Scenery" type="Node3D" parent="." unique_id=970547148]
 
 [node name="WallGeometry_Custom" type="CSGBox3D" parent="Scenery" unique_id=1206122418]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 28)
 visible = false
 material_override = SubResource("StandardMaterial3D_llpu7")
-size = Vector3(56, 32, 15)
+size = Vector3(56, 32, 4)
 
 [node name="Water" type="MeshInstance3D" parent="Scenery" unique_id=15561701]
 mesh = SubResource("PlaneMesh_07x2j")
 
 [node name="GroundGeometry_Custom" type="StaticBody3D" parent="Scenery" unique_id=59024261]
-transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 34, 0, 0)
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 34.2, 0, 0)
 
-[node name="Wood" parent="Scenery/GroundGeometry_Custom" unique_id=450816318 instance=ExtResource("5_gtu55")]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Scenery/GroundGeometry_Custom" unique_id=2003919647]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 0, 0)
+[node name="GroundCollision" type="CollisionShape3D" parent="Scenery/GroundGeometry_Custom" unique_id=2003919647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 0.5, 0)
 shape = SubResource("BoxShape3D_gtu55")
+disabled = true
+
+[node name="Wood" parent="Scenery/GroundGeometry_Custom" unique_id=466154078 instance=ExtResource("5_gtu55")]
+transform = Transform3D(0.9090909, 0, 0, 0, 0.9090909, 0, 0, 0, 0.9090909, -32, 0, 0)
+
+[node name="Fill" type="CSGBox3D" parent="Scenery/GroundGeometry_Custom" unique_id=555487526]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.1, 0, 0)
+material_override = SubResource("StandardMaterial3D_gtu55")
+size = Vector3(58, 1, 58)

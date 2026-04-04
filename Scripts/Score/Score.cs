@@ -20,7 +20,7 @@ public partial class Score : Node3D
 	public override void _Process(double delta)
 	{
 		CheckScore();
-		if((Scored_Catch || Scored_Wall) && !GameManager.HitWall) {
+		if((Scored_Catch || Scored_Wall) && !GameManager.HitWall && GameManager.thrower == GameManager.ThrowerEnum.NONE) {
 			Scored_Wall = false;
 			Scored_Catch = false;
 		}

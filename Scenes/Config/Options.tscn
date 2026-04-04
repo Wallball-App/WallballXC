@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://bc3u0yh1yojr5"]
+
+[ext_resource type="Texture2D" uid="uid://cgn4k30hsy5j2" path="res://WallBall-Scenic-1.png" id="1_djx3p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ee5j"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Root" type="CanvasLayer" unique_id=957889292]
+
+[node name="Background" type="ColorRect" parent="." unique_id=669793488]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="SceneImage" type="TextureRect" parent="." unique_id=2145430944]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_djx3p")
+expand_mode = 1
+
+[node name="Options2" type="MenuBar" parent="." unique_id=2088540194]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Settings" type="MenuButton" parent="Options2" unique_id=161771722]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_tab_index = 1
+
+[node name="Elements" type="VBoxContainer" parent="Options2/Settings" unique_id=813687972]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Spacer" type="Panel" parent="Options2/Settings/Elements" unique_id=1809758483]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2ee5j")
+
+[node name="Colors" type="HBoxContainer" parent="Options2/Settings/Elements" unique_id=1068540847]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Team" type="VBoxContainer" parent="Options2/Settings/Elements/Colors" unique_id=946088828]
+layout_mode = 2
+
+[node name="ColorLabel" type="Label" parent="Options2/Settings/Elements/Colors/Team" unique_id=1969803431]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Team Color:"
+
+[node name="TeamColor" type="ColorPicker" parent="Options2/Settings/Elements/Colors/Team" unique_id=1079570033]
+unique_name_in_owner = true
+layout_mode = 2
+edit_alpha = false
+edit_intensity = false
+sampler_visible = false
+color_modes_visible = false
+presets_visible = false
+
+[node name="Opponent" type="VBoxContainer" parent="Options2/Settings/Elements/Colors" unique_id=2086900318]
+layout_mode = 2
+
+[node name="ColorLabel" type="Label" parent="Options2/Settings/Elements/Colors/Opponent" unique_id=1645702610]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Opponent Color:"
+
+[node name="OpponentColor" type="ColorPicker" parent="Options2/Settings/Elements/Colors/Opponent" unique_id=1109251954]
+unique_name_in_owner = true
+layout_mode = 2
+edit_alpha = false
+edit_intensity = false
+sampler_visible = false
+color_modes_visible = false
+presets_visible = false

@@ -7,7 +7,8 @@ public partial class NPCPlayer : CharacterBody3D
 {
 	private AnimationPlayer animation;
 	private AnimationController AnimController;
-	public Node3D NPC1, NPC2, NPC3, NPC4;
+	public Node3D NPC1, NPC2;
+	public List<Node3D> NPCS;
 	private RigidBody3D Ball;
 	private StaticBody3D Wall, Ground;
 	private Node3D WallGeometry;
@@ -46,11 +47,15 @@ public partial class NPCPlayer : CharacterBody3D
 		//Position = new Vector3(0.0f, 0.0f, 0.0f);
 		//Rotation = new Vector3(0, Mathf.DegToRad(0f), Mathf.DegToRad(-90f));
 		Node Root = GetTree().Root;
+		NPCS = new List<Node3D>();
 		
 		NPC1 = Root.FindChild("Running", true, false) as Node3D;
 		NPC2 = Root.FindChild("Throwing", true, false) as Node3D;
-		NPC3 = Root.FindChild("Running", true, false) as Node3D;
-		NPC4 = Root.FindChild("Running", true, false) as Node3D;
+		/*NPC3 = Root.FindChild("Running", true, false) as Node3D;
+		NPC4 = Root.FindChild("Running", true, false) as Node3D;*/
+		
+		NPCS.Add(Root.FindChild("Running", true, false) as Node3D);
+		NPCS.Add(Root.FindChild("Throwing", true, false) as Node3D);
 		
 		SafePoint = Root.FindChild("SafePoint", true, false) as Node3D;
 		
@@ -283,5 +288,11 @@ public partial class NPCPlayer : CharacterBody3D
 			if(N.GlobalPosition - GlobalPosition < MinDist) MinDist = N.GlobalPosition - GlobalPosition;
 		}
 		return MinDist;
+	}
+	private void SwapLists(int index) {
+		foreach(Node3D npc in NPCS) {
+			if(npc == NPCS[index]) npc.Visible = true;
+			else if(npc != NPCS[index]) npc.Visible = false;
+		}
 	}
 }
