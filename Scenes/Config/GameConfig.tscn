@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cs2tsqfcdr8k2"]
 
+[ext_resource type="Script" uid="uid://7hi3x1see2js" path="res://Scripts/UI/OnLoad.cs" id="1_ah0qr"]
 [ext_resource type="Theme" uid="uid://b4gl6qyuw7ngx" path="res://UI/Themes/Settings.tres" id="1_boueq"]
 [ext_resource type="Texture2D" uid="uid://cgn4k30hsy5j2" path="res://WallBall-Scenic-1.png" id="1_op2sa"]
 [ext_resource type="Texture2D" uid="uid://delnyndybeu8" path="res://Icon.tres" id="2_hgpks"]
@@ -357,3 +358,14 @@ icon = ExtResource("6_ju0sh")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("6_p04md")
+
+[node name="Alpha" type="ColorRect" parent="." unique_id=1316363865]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+script = ExtResource("1_ah0qr")

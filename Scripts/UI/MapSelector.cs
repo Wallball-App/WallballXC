@@ -8,6 +8,7 @@ public partial class MapSelector : MenuButton
 	private Button Right;
 	private Button PlayButton;
 	private Label Name;
+	private OnLoad Alpha;
 	
 	private int Index;
 	// Called when the node enters the scene tree for the first time.
@@ -19,11 +20,15 @@ public partial class MapSelector : MenuButton
 		PlayButton = GetNode<Button>("%PlayButton");
 		Name = GetNode<Label>("%Name");
 		
+		Alpha = GetNode<OnLoad>("%Alpha");
+		
 		Left.Pressed += OnLeftClick;
 		Right.Pressed += OnRightClick;
 		PlayButton.Pressed += StartGame;
 		
 		Index = 0;
+		
+		Alpha.FadeIn();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,7 +51,8 @@ public partial class MapSelector : MenuButton
 		}
 		Name.Text = GameData.MAPS[Index].Item1;
 	}
-	public void StartGame() {
+	public async void StartGame() {
+		await Alpha.FadeOut();
 		GetTree().ChangeSceneToFile(GameData.MAPS[Index].Item2);
 	}
 }
