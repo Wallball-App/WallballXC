@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://c7hje2pbixsuj" path="res://Scripts/UI/MapSelector.cs" id="2_nobls"]
 [ext_resource type="Theme" uid="uid://c4jihbcpya2b1" path="res://UI/Themes/Button.tres" id="3_p04md"]
 [ext_resource type="Texture2D" uid="uid://ctqkkmx72ov4f" path="res://UI/Images/Navigation_L.png" id="4_p04md"]
-[ext_resource type="Texture2D" uid="uid://88r3lrnype3k" path="res://UI/Images/Back_Arrow (1).png" id="6_ju0sh"]
+[ext_resource type="Texture2D" uid="uid://88r3lrnype3k" path="res://UI/Images/Back_Arrow_NOBG.png" id="6_ju0sh"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="6_p04md"]
 [ext_resource type="Texture2D" uid="uid://dmi2cayf16rw4" path="res://UI/Images/Navigation_R.png" id="7_vnqbt"]
 

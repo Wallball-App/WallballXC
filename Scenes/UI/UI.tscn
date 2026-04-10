@@ -1240,6 +1240,7 @@ script = ExtResource("8_mg6lk")
 [node name="Video" type="MenuButton" parent="MenuCenter/SettingsMenu" unique_id=465338215]
 visible = false
 layout_mode = 2
+disabled = true
 metadata/_tab_index = 1
 
 [node name="Margins" type="MarginContainer" parent="MenuCenter/SettingsMenu/Video" unique_id=1156916551]

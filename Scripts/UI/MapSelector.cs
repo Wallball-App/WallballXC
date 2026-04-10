@@ -11,6 +11,7 @@ public partial class MapSelector : MenuButton
 	private OnLoad Alpha;
 	
 	private int Index;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

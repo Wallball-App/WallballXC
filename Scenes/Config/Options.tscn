@@ -1,6 +1,21 @@
 [gd_scene format=3 uid="uid://bc3u0yh1yojr5"]
 
 [ext_resource type="Texture2D" uid="uid://cgn4k30hsy5j2" path="res://WallBall-Scenic-1.png" id="1_djx3p"]
+[ext_resource type="Theme" uid="uid://b4gl6qyuw7ngx" path="res://UI/Themes/Settings.tres" id="2_58lat"]
+[ext_resource type="Script" uid="uid://bmsnvxwcnr1bt" path="res://Scripts/UI/OptionTabs.cs" id="2_gxp6h"]
+[ext_resource type="Texture2D" uid="uid://88r3lrnype3k" path="res://UI/Images/Back_Arrow_NOBG.png" id="2_xmhj6"]
+[ext_resource type="ButtonGroup" uid="uid://cq4qws83t1deu" path="res://UI/Elements/OptionsButtons.tres" id="3_gvr03"]
+[ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="3_sedjm"]
+[ext_resource type="Texture2D" uid="uid://13gok6nk8ts2" path="res://Documents/Instructions/1.png" id="4_kbmxr"]
+[ext_resource type="Texture2D" uid="uid://065lrt0aj84p" path="res://Documents/Instructions/2.png" id="5_hy81j"]
+[ext_resource type="Texture2D" uid="uid://c2svxeg4lkoxs" path="res://Documents/Instructions/3.png" id="6_hy81j"]
+[ext_resource type="Script" uid="uid://7hi3x1see2js" path="res://Scripts/UI/OnLoad.cs" id="8_5udpj"]
+[ext_resource type="Texture2D" uid="uid://clcl53esa5cf5" path="res://Documents/Controls/Controls.png" id="10_sedjm"]
+[ext_resource type="Shader" uid="uid://d8f71k5hmjho" path="res://Shaders/RemoveBG.gdshader" id="11_kd00q"]
+[ext_resource type="Texture2D" uid="uid://qlsfcokj1e50" path="res://UI/Images/LMB.png" id="12_2spwi"]
+[ext_resource type="Texture2D" uid="uid://ck7ya4o2j88k" path="res://UI/Images/RMB.png" id="13_qnfwt"]
+[ext_resource type="Texture2D" uid="uid://dubyktot2t87b" path="res://UI/Screenshots/Wallball-Team-Scenic.png" id="14_2spwi"]
+[ext_resource type="Script" uid="uid://bxp2l0endivhk" path="res://Scripts/UI/TeamColor.cs" id="15_qnfwt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ee5j"]
 content_margin_left = 0.0
@@ -8,6 +23,114 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2spwi"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lvid2"]
+shader = ExtResource("11_kd00q")
+shader_parameter/remove_color = Color(0, 1, 0, 1)
+shader_parameter/replace = Color(0, 0, 0, 0)
+shader_parameter/tolerance = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n3f3d"]
+shader = ExtResource("11_kd00q")
+shader_parameter/remove_color = Color(0, 1, 0, 1)
+shader_parameter/replace = Color(0, 0, 0, 0)
+shader_parameter/tolerance = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1i1l1"]
+shader = ExtResource("11_kd00q")
+shader_parameter/remove_color = Color(0, 1, 0, 1)
+shader_parameter/replace = Color(0, 0, 0, 0)
+shader_parameter/tolerance = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kd00q"]
+shader = ExtResource("11_kd00q")
+shader_parameter/remove_color = Color(0.172292, 0.26370305, 1, 1)
+shader_parameter/replace = Color(0.08235294, 0.45490196, 1, 1)
+shader_parameter/tolerance = 0.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnfwt"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvid2"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.48235294, 0.48235294, 0.48235294, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3f3d"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.2231029, 0.2231029, 0.22310287, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h0kog"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_453ua"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.27450982, 0.27450982, 0.27450982, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kd00q"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.14509805, 0.14509805, 0.14509805, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -22,6 +145,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
 [node name="SceneImage" type="TextureRect" parent="." unique_id=2145430944]
@@ -33,14 +157,17 @@ grow_vertical = 2
 texture = ExtResource("1_djx3p")
 expand_mode = 1
 
-[node name="Options2" type="MenuBar" parent="." unique_id=2088540194]
+[node name="Options" type="MenuBar" parent="." unique_id=2088540194]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="Settings" type="MenuButton" parent="Options2" unique_id=161771722]
+[node name="Colors" type="MenuButton" parent="Options" unique_id=161771722]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,7 +176,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_tab_index = 1
 
-[node name="Elements" type="VBoxContainer" parent="Options2/Settings" unique_id=813687972]
+[node name="Elements" type="VBoxContainer" parent="Options/Colors" unique_id=813687972]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -59,24 +186,24 @@ offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
-[node name="Spacer" type="Panel" parent="Options2/Settings/Elements" unique_id=1809758483]
+[node name="Spacer" type="Panel" parent="Options/Colors/Elements" unique_id=1809758483]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2ee5j")
 
-[node name="Colors" type="HBoxContainer" parent="Options2/Settings/Elements" unique_id=1068540847]
+[node name="Colors" type="HBoxContainer" parent="Options/Colors/Elements" unique_id=1068540847]
 layout_mode = 2
 theme_override_constants/separation = 100
 
-[node name="Team" type="VBoxContainer" parent="Options2/Settings/Elements/Colors" unique_id=946088828]
+[node name="Team" type="VBoxContainer" parent="Options/Colors/Elements/Colors" unique_id=946088828]
 layout_mode = 2
 
-[node name="ColorLabel" type="Label" parent="Options2/Settings/Elements/Colors/Team" unique_id=1969803431]
+[node name="ColorLabel" type="Label" parent="Options/Colors/Elements/Colors/Team" unique_id=1969803431]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Team Color:"
 
-[node name="TeamColor" type="ColorPicker" parent="Options2/Settings/Elements/Colors/Team" unique_id=1079570033]
+[node name="TeamColor" type="ColorPicker" parent="Options/Colors/Elements/Colors/Team" unique_id=1079570033]
 unique_name_in_owner = true
 layout_mode = 2
 edit_alpha = false
@@ -85,15 +212,15 @@ sampler_visible = false
 color_modes_visible = false
 presets_visible = false
 
-[node name="Opponent" type="VBoxContainer" parent="Options2/Settings/Elements/Colors" unique_id=2086900318]
+[node name="Opponent" type="VBoxContainer" parent="Options/Colors/Elements/Colors" unique_id=2086900318]
 layout_mode = 2
 
-[node name="ColorLabel" type="Label" parent="Options2/Settings/Elements/Colors/Opponent" unique_id=1645702610]
+[node name="ColorLabel" type="Label" parent="Options/Colors/Elements/Colors/Opponent" unique_id=1645702610]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Opponent Color:"
 
-[node name="OpponentColor" type="ColorPicker" parent="Options2/Settings/Elements/Colors/Opponent" unique_id=1109251954]
+[node name="OpponentColor" type="ColorPicker" parent="Options/Colors/Elements/Colors/Opponent" unique_id=1109251954]
 unique_name_in_owner = true
 layout_mode = 2
 edit_alpha = false
@@ -101,3 +228,280 @@ edit_intensity = false
 sampler_visible = false
 color_modes_visible = false
 presets_visible = false
+
+[node name="TabMenu" type="MarginContainer" parent="." unique_id=1028984310]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 90
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="MenuContainer" type="HBoxContainer" parent="TabMenu" unique_id=1933962216]
+layout_mode = 2
+
+[node name="Tabs" type="VBoxContainer" parent="TabMenu/MenuContainer" unique_id=1514383397]
+layout_mode = 2
+script = ExtResource("2_gxp6h")
+
+[node name="Instructions" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=271218191]
+custom_minimum_size = Vector2(240, 45)
+layout_mode = 2
+theme = ExtResource("2_58lat")
+theme_override_font_sizes/font_size = 28
+toggle_mode = true
+button_group = ExtResource("3_gvr03")
+text = "Instructions"
+
+[node name="Controls" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=159912019]
+custom_minimum_size = Vector2(240, 45)
+layout_mode = 2
+theme = ExtResource("2_58lat")
+theme_override_font_sizes/font_size = 28
+toggle_mode = true
+button_group = ExtResource("3_gvr03")
+text = "Controls"
+
+[node name="Team" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=1155449473]
+custom_minimum_size = Vector2(240, 45)
+layout_mode = 2
+theme = ExtResource("2_58lat")
+theme_override_font_sizes/font_size = 28
+toggle_mode = true
+button_group = ExtResource("3_gvr03")
+text = "Team"
+
+[node name="View" type="Panel" parent="TabMenu/MenuContainer" unique_id=2131190682]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(840, 500)
+layout_mode = 2
+theme = ExtResource("2_58lat")
+theme_override_styles/panel = SubResource("StyleBoxFlat_2spwi")
+
+[node name="Instructions" type="ScrollContainer" parent="TabMenu/MenuContainer/View" unique_id=259274276]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Pages" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Instructions" unique_id=1387071406]
+custom_minimum_size = Vector2(840, 500)
+layout_mode = 2
+
+[node name="Page1" type="TextureRect" parent="TabMenu/MenuContainer/View/Instructions/Pages" unique_id=205441964]
+custom_minimum_size = Vector2(0, 1000)
+layout_mode = 2
+texture = ExtResource("4_kbmxr")
+expand_mode = 1
+
+[node name="Page2" type="TextureRect" parent="TabMenu/MenuContainer/View/Instructions/Pages" unique_id=504890437]
+custom_minimum_size = Vector2(0, 1000)
+layout_mode = 2
+texture = ExtResource("5_hy81j")
+expand_mode = 1
+
+[node name="Page3" type="TextureRect" parent="TabMenu/MenuContainer/View/Instructions/Pages" unique_id=1929215046]
+custom_minimum_size = Vector2(0, 1000)
+layout_mode = 2
+texture = ExtResource("6_hy81j")
+expand_mode = 1
+
+[node name="Controls" type="Panel" parent="TabMenu/MenuContainer/View" unique_id=516654037]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Controls" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls" unique_id=509080681]
+custom_minimum_size = Vector2(576, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_sedjm")
+expand_mode = 1
+
+[node name="MoveLabels" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls" unique_id=468393984]
+layout_mode = 0
+offset_left = 601.0
+offset_top = 12.0
+offset_right = 641.0
+offset_bottom = 52.0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="W" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=107305046]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "W"
+horizontal_alignment = 1
+
+[node name="A" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=1813718663]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "A"
+horizontal_alignment = 1
+
+[node name="S" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=192216024]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "S"
+horizontal_alignment = 1
+
+[node name="D" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=855611933]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "D"
+horizontal_alignment = 1
+
+[node name="ExtraMoveLabels" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls" unique_id=630784221]
+layout_mode = 0
+offset_left = 561.0
+offset_top = 218.0
+offset_right = 682.0
+offset_bottom = 302.0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="LShift" type="Label" parent="TabMenu/MenuContainer/View/Controls/ExtraMoveLabels" unique_id=851757466]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "LShift"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Space" type="Label" parent="TabMenu/MenuContainer/View/Controls/ExtraMoveLabels" unique_id=1880542399]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Space"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MouseButtons" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls" unique_id=364382295]
+layout_mode = 0
+offset_left = 551.0
+offset_top = 360.0
+offset_right = 687.0
+offset_bottom = 444.0
+alignment = 1
+
+[node name="Throw" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/MouseButtons" unique_id=1217934515]
+material = SubResource("ShaderMaterial_lvid2")
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("12_2spwi")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Catch_Alt" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Controls/MouseButtons" unique_id=101320300]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="RMB" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/MouseButtons/Catch_Alt" unique_id=1897992926]
+material = SubResource("ShaderMaterial_n3f3d")
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("13_qnfwt")
+expand_mode = 1
+
+[node name="OR" type="Label" parent="TabMenu/MenuContainer/View/Controls/MouseButtons/Catch_Alt" unique_id=1549318196]
+layout_mode = 2
+text = "OR"
+
+[node name="LMB" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/MouseButtons/Catch_Alt" unique_id=2068010577]
+material = SubResource("ShaderMaterial_1i1l1")
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("12_2spwi")
+expand_mode = 1
+
+[node name="Team" type="VBoxContainer" parent="TabMenu/MenuContainer/View" unique_id=1068856458]
+layout_mode = 0
+offset_right = 814.0
+offset_bottom = 432.0
+
+[node name="TeamContainer" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Team" unique_id=1651777424]
+clip_contents = true
+layout_mode = 2
+alignment = 1
+
+[node name="ShaderPreview" type="TextureRect" parent="TabMenu/MenuContainer/View/Team/TeamContainer" unique_id=1849840596]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kd00q")
+custom_minimum_size = Vector2(512, 384)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("14_2spwi")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TeamColor" type="ColorPicker" parent="TabMenu/MenuContainer/View/Team/TeamContainer" unique_id=1744818967]
+layout_mode = 2
+alignment = 1
+color = Color(0, 0, 1, 1)
+edit_alpha = false
+edit_intensity = false
+can_add_swatches = false
+sampler_visible = false
+color_modes_visible = false
+presets_visible = false
+script = ExtResource("15_qnfwt")
+
+[node name="Save" type="Button" parent="TabMenu/MenuContainer/View/Team" unique_id=1909809281]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_58lat")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_qnfwt")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lvid2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n3f3d")
+text = "Save Color"
+
+[node name="BackContainer" type="MarginContainer" parent="." unique_id=1401463609]
+offset_left = 15.0
+offset_top = 20.0
+offset_right = 537.0
+offset_bottom = 582.0
+scale = Vector2(0.1, 0.1)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 50
+
+[node name="Back" type="Button" parent="BackContainer" unique_id=106047077]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_h0kog")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_453ua")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kd00q")
+icon = ExtResource("2_xmhj6")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("3_sedjm")
+
+[node name="Alpha" type="ColorRect" parent="." unique_id=1020046351]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+script = ExtResource("8_5udpj")

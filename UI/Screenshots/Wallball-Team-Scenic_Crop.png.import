@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7x8nxornjer1"
-path="res://.godot/imported/NewStadium1224_2.png-8b20d4427da13f77bf82fd6df47d393f.ctex"
+uid="uid://0h7ilte80l15"
+path="res://.godot/imported/Wallball-Team-Scenic_Crop.png-5eb378a088835f6a155eb71647c9b3eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/Images/NewStadium1224_2.png"
-dest_files=["res://.godot/imported/NewStadium1224_2.png-8b20d4427da13f77bf82fd6df47d393f.ctex"]
+source_file="res://UI/Screenshots/Wallball-Team-Scenic_Crop.png"
+dest_files=["res://.godot/imported/Wallball-Team-Scenic_Crop.png-5eb378a088835f6a155eb71647c9b3eb.ctex"]
 
 [params]
 

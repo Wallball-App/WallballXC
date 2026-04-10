@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://cop2kisukgtx2" path="res://UI/Fonts/ZenDots-Regular.ttf" id="2_pkhjh"]
 [ext_resource type="Theme" uid="uid://c4jihbcpya2b1" path="res://UI/Themes/Button.tres" id="3_1xr1c"]
 [ext_resource type="Script" uid="uid://biu4t2tv6f138" path="res://Scripts/UI/NewGame.cs" id="4_n15yj"]
+[ext_resource type="Script" uid="uid://bf4goqpeuompf" path="res://Scripts/UI/OptionsButton.cs" id="5_2ti33"]
 [ext_resource type="Script" uid="uid://7hi3x1see2js" path="res://Scripts/UI/OnLoad.cs" id="5_bkv6j"]
 
 [sub_resource type="Theme" id="Theme_1xr1c"]
@@ -89,6 +90,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_2k3je")
 theme_override_styles/hover = SubResource("StyleBoxFlat_skwql")
 text = "Options"
 text_overrun_behavior = 1
+script = ExtResource("5_2ti33")
 
 [node name="Alpha" type="ColorRect" parent="TitleLayer" unique_id=1481552521]
 unique_name_in_owner = true

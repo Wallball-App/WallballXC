@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://88r3lrnype3k"
-path="res://.godot/imported/Back_Arrow (1).png-3873ce27c0f22b2d4eb363187401d2e4.ctex"
+uid="uid://dubyktot2t87b"
+path="res://.godot/imported/Wallball-Team-Scenic.png-6682b1fd02590b91700885df2ff9c5b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/Images/Back_Arrow (1).png"
-dest_files=["res://.godot/imported/Back_Arrow (1).png-3873ce27c0f22b2d4eb363187401d2e4.ctex"]
+source_file="res://UI/Screenshots/Wallball-Team-Scenic.png"
+dest_files=["res://.godot/imported/Wallball-Team-Scenic.png-6682b1fd02590b91700885df2ff9c5b0.ctex"]
 
 [params]
 
