@@ -31,5 +31,6 @@ public partial class TeamColor : ColorPicker
 	}
 	private void SaveColor() {
 		ResourceSaver.Save(Team, TeamPath);
+		this.Color = Team.AlbedoColor;
 	}
 }

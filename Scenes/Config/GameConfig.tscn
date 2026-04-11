@@ -3,84 +3,39 @@
 [ext_resource type="Script" uid="uid://7hi3x1see2js" path="res://Scripts/UI/OnLoad.cs" id="1_ah0qr"]
 [ext_resource type="Theme" uid="uid://b4gl6qyuw7ngx" path="res://UI/Themes/Settings.tres" id="1_boueq"]
 [ext_resource type="Texture2D" uid="uid://cgn4k30hsy5j2" path="res://WallBall-Scenic-1.png" id="1_op2sa"]
+[ext_resource type="Script" uid="uid://bmsnvxwcnr1bt" path="res://Scripts/UI/OptionTabs.cs" id="2_haxlj"]
 [ext_resource type="Texture2D" uid="uid://delnyndybeu8" path="res://Icon.tres" id="2_hgpks"]
 [ext_resource type="Script" uid="uid://c7hje2pbixsuj" path="res://Scripts/UI/MapSelector.cs" id="2_nobls"]
 [ext_resource type="Theme" uid="uid://c4jihbcpya2b1" path="res://UI/Themes/Button.tres" id="3_p04md"]
+[ext_resource type="ButtonGroup" uid="uid://d4lprwmf15cfb" path="res://UI/Elements/GameConfigButtons.tres" id="4_1nc3w"]
 [ext_resource type="Texture2D" uid="uid://ctqkkmx72ov4f" path="res://UI/Images/Navigation_L.png" id="4_p04md"]
 [ext_resource type="Texture2D" uid="uid://88r3lrnype3k" path="res://UI/Images/Back_Arrow_NOBG.png" id="6_ju0sh"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="6_p04md"]
 [ext_resource type="Texture2D" uid="uid://dmi2cayf16rw4" path="res://UI/Images/Navigation_R.png" id="7_vnqbt"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3kbbk"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7np6"]
 content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.12156863, 0.12156863, 0.12156863, 0.4392157)
+bg_color = Color(0.6, 0.6, 0.6, 0)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fh5pp"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1nc3w"]
 content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mrngk"]
-content_margin_left = 10.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0.0885599, 0.0885599, 0.0885599, 1)
-border_width_left = 1
-border_width_right = 1
-border_color = Color(0.175, 0.175, 0.175, 1)
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cre4e"]
-content_margin_left = 10.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
-border_width_left = 1
-border_width_right = 1
-border_color = Color(0.175, 0.175, 0.175, 1)
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nn6vy"]
-content_margin_left = 10.0
-content_margin_top = 4.0
-content_margin_right = 10.0
-content_margin_bottom = 4.0
-bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.4392157)
-border_width_top = 2
-border_color = Color(1, 1, 1, 0.75)
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kip0a"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(1, 1, 1, 0.75)
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ju0sh"]
 content_margin_left = 4.0
@@ -190,6 +145,77 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3kbbk"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.12156863, 0.12156863, 0.12156863, 0.4392157)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fh5pp"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mrngk"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0885599, 0.0885599, 0.0885599, 1)
+border_width_left = 1
+border_width_right = 1
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cre4e"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.23137255, 0.23137255, 0.23137255, 1)
+border_width_left = 1
+border_width_right = 1
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nn6vy"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.4392157)
+border_width_top = 2
+border_color = Color(1, 1, 1, 0.75)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kip0a"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
 [node name="Root" type="CanvasLayer" unique_id=1765579853]
 
 [node name="Background" type="ColorRect" parent="." unique_id=355809262]
@@ -209,53 +235,72 @@ grow_vertical = 2
 texture = ExtResource("1_op2sa")
 expand_mode = 1
 
-[node name="GameConfig" type="TabContainer" parent="." unique_id=1228629782]
+[node name="TabMenu" type="MarginContainer" parent="." unique_id=1902748936]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -1.0
+offset_right = 26.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_boueq")
-theme_override_styles/panel = SubResource("StyleBoxFlat_3kbbk")
-theme_override_styles/tabbar_background = SubResource("StyleBoxEmpty_fh5pp")
-theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_mrngk")
-theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_cre4e")
-theme_override_styles/tab_selected = SubResource("StyleBoxFlat_nn6vy")
-theme_override_styles/tab_focus = SubResource("StyleBoxFlat_kip0a")
-current_tab = 0
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 90
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
 
-[node name="Map" type="MenuButton" parent="GameConfig" unique_id=972083405]
+[node name="MenuContainer" type="HBoxContainer" parent="TabMenu" unique_id=1729196518]
 layout_mode = 2
-script = ExtResource("2_nobls")
-metadata/_tab_index = 0
 
-[node name="CenterSelect" type="CenterContainer" parent="GameConfig/Map" unique_id=225516799]
+[node name="Tabs" type="VBoxContainer" parent="TabMenu/MenuContainer" unique_id=1641922140]
+layout_mode = 2
+script = ExtResource("2_haxlj")
+
+[node name="Map" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=1107591531]
+custom_minimum_size = Vector2(240, 45)
+layout_mode = 2
+theme = ExtResource("1_boueq")
+theme_override_font_sizes/font_size = 28
+toggle_mode = true
+button_group = ExtResource("4_1nc3w")
+text = "Map"
+
+[node name="View" type="Panel" parent="TabMenu/MenuContainer" unique_id=631314264]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(840, 500)
+layout_mode = 2
+theme = ExtResource("1_boueq")
+theme_override_styles/panel = SubResource("StyleBoxFlat_m7np6")
+
+[node name="Map" type="PanelContainer" parent="TabMenu/MenuContainer/View" unique_id=1218763024]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1nc3w")
+script = ExtResource("2_nobls")
 
-[node name="Selected" type="TextureRect" parent="GameConfig/Map/CenterSelect" unique_id=1445298434]
+[node name="CenterSelect" type="CenterContainer" parent="TabMenu/MenuContainer/View/Map" unique_id=225516799]
+layout_mode = 2
+
+[node name="Selected" type="TextureRect" parent="TabMenu/MenuContainer/View/Map/CenterSelect" unique_id=1445298434]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(720, 480)
+custom_minimum_size = Vector2(576, 420)
 layout_mode = 2
 texture = ExtResource("2_hgpks")
 expand_mode = 1
 
-[node name="LeftMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=123881501]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -37.5
-offset_right = 125.0
-offset_bottom = 37.5
-grow_vertical = 2
+[node name="LeftMargin" type="MarginContainer" parent="TabMenu/MenuContainer/View/Map" unique_id=32302173]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 theme_override_constants/margin_left = 50
 
-[node name="Left" type="Button" parent="GameConfig/Map/LeftMargin" unique_id=961204198]
+[node name="Left" type="Button" parent="TabMenu/MenuContainer/View/Map/LeftMargin" unique_id=552283530]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -268,22 +313,14 @@ icon = ExtResource("4_p04md")
 icon_alignment = 1
 expand_icon = true
 
-[node name="RightMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=538457863]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -125.0
-offset_top = -37.5
-offset_bottom = 37.5
-grow_horizontal = 0
-grow_vertical = 2
+[node name="RightMargin" type="MarginContainer" parent="TabMenu/MenuContainer/View/Map" unique_id=59389780]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_right = 50
 
-[node name="Right" type="Button" parent="GameConfig/Map/RightMargin" unique_id=766914276]
+[node name="Right" type="Button" parent="TabMenu/MenuContainer/View/Map/RightMargin" unique_id=612614071]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -295,21 +332,14 @@ icon = ExtResource("7_vnqbt")
 icon_alignment = 1
 expand_icon = true
 
-[node name="NameMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=1311373325]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -55.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="NameMargin" type="MarginContainer" parent="TabMenu/MenuContainer/View/Map" unique_id=901965116]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/margin_top = 520
 theme_override_constants/margin_bottom = 15
 
-[node name="Name" type="Label" parent="GameConfig/Map/NameMargin" unique_id=1426923998]
+[node name="Name" type="Label" parent="TabMenu/MenuContainer/View/Map/NameMargin" unique_id=1493472954]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_boueq")
@@ -341,11 +371,11 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_528h5")
 text = "Play"
 
 [node name="BackContainer" type="MarginContainer" parent="." unique_id=386028555]
-offset_left = 30.0
-offset_top = 50.0
-offset_right = 552.0
-offset_bottom = 612.0
-scale = Vector2(0.15, 0.15)
+offset_left = 15.0
+offset_top = 20.0
+offset_right = 537.0
+offset_bottom = 582.0
+scale = Vector2(0.1, 0.1)
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 50
 
@@ -358,6 +388,109 @@ icon = ExtResource("6_ju0sh")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("6_p04md")
+
+[node name="GameConfig" type="TabContainer" parent="." unique_id=1228629782]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_boueq")
+theme_override_styles/panel = SubResource("StyleBoxFlat_3kbbk")
+theme_override_styles/tabbar_background = SubResource("StyleBoxEmpty_fh5pp")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_mrngk")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_cre4e")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_nn6vy")
+theme_override_styles/tab_focus = SubResource("StyleBoxFlat_kip0a")
+current_tab = 0
+
+[node name="Map" type="MenuButton" parent="GameConfig" unique_id=1255974260]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="CenterSelect" type="CenterContainer" parent="GameConfig/Map" unique_id=1079606272]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Selected" type="TextureRect" parent="GameConfig/Map/CenterSelect" unique_id=998870935]
+custom_minimum_size = Vector2(720, 480)
+layout_mode = 2
+texture = ExtResource("2_hgpks")
+expand_mode = 1
+
+[node name="LeftMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=252248423]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -37.5
+offset_right = 125.0
+offset_bottom = 37.5
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+
+[node name="Left" type="Button" parent="GameConfig/Map/LeftMargin" unique_id=1363047885]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme = ExtResource("3_p04md")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ju0sh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_op2sa")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vnqbt")
+text = " "
+icon = ExtResource("4_p04md")
+icon_alignment = 1
+expand_icon = true
+
+[node name="RightMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=835324261]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -37.5
+offset_bottom = 37.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 50
+
+[node name="Right" type="Button" parent="GameConfig/Map/RightMargin" unique_id=1242433167]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme = ExtResource("3_p04md")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ju0sh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_op2sa")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vnqbt")
+icon = ExtResource("7_vnqbt")
+icon_alignment = 1
+expand_icon = true
+
+[node name="NameMargin" type="MarginContainer" parent="GameConfig/Map" unique_id=628009434]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -55.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 15
+
+[node name="Name" type="Label" parent="GameConfig/Map/NameMargin" unique_id=2114105968]
+layout_mode = 2
+theme = ExtResource("1_boueq")
+theme_override_font_sizes/font_size = 36
+text = "Courtyard"
 
 [node name="Alpha" type="ColorRect" parent="." unique_id=1316363865]
 unique_name_in_owner = true

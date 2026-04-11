@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class MapSelector : MenuButton
+public partial class MapSelector : PanelContainer
 {
 	private TextureRect Selected;
 	private Button Left;
