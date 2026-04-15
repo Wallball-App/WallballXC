@@ -97,12 +97,21 @@ public partial class NPCPlayer : CharacterBody3D
 		
 		Red = new StandardMaterial3D();
 		Red.AlbedoColor = Colors.Red;
+		Red.EmissionEnabled = true;
+		Red.Emission = Colors.Red;
+		Red.EmissionEnergyMultiplier = 2.0f;
 		
 		Yellow = new StandardMaterial3D();
 		Yellow.AlbedoColor = Colors.Yellow;
+		Yellow.EmissionEnabled = true;
+		Yellow.Emission = Colors.Yellow;
+		Yellow.EmissionEnergyMultiplier = 2.0f;
 		
 		Green = new StandardMaterial3D();
 		Green.AlbedoColor = Colors.Green;
+		Green.EmissionEnabled = true;
+		Green.Emission = Colors.Green;
+		Green.EmissionEnergyMultiplier = 2.0f;
 		
 		Triangle.Visible = false;
 		//Triangle.GlobalPosition = GlobalPosition + new Vector3(0.0f, 5.0f, 0.0f);

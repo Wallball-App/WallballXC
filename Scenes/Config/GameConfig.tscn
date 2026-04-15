@@ -10,6 +10,7 @@
 [ext_resource type="ButtonGroup" uid="uid://d4lprwmf15cfb" path="res://UI/Elements/GameConfigButtons.tres" id="4_1nc3w"]
 [ext_resource type="Texture2D" uid="uid://ctqkkmx72ov4f" path="res://UI/Images/Navigation_L.png" id="4_p04md"]
 [ext_resource type="Texture2D" uid="uid://88r3lrnype3k" path="res://UI/Images/Back_Arrow_NOBG.png" id="6_ju0sh"]
+[ext_resource type="Texture2D" uid="uid://dfkoj2cjmmy5b" path="res://UI/Screenshots/Courtyard_1_23_2026.png" id="6_m7np6"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="6_p04md"]
 [ext_resource type="Texture2D" uid="uid://dmi2cayf16rw4" path="res://UI/Images/Navigation_R.png" id="7_vnqbt"]
 
@@ -291,7 +292,7 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(576, 420)
 layout_mode = 2
-texture = ExtResource("2_hgpks")
+texture = ExtResource("6_m7np6")
 expand_mode = 1
 
 [node name="LeftMargin" type="MarginContainer" parent="TabMenu/MenuContainer/View/Map" unique_id=32302173]
