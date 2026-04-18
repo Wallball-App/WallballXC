@@ -46,7 +46,7 @@ public partial class PlayerInput : CharacterBody3D
 				velocity.Y = 0;
 			}
 		}
-		if(velocity.Length() > 0 && IsOnFloor()) CameraBounce(0.05f, 1f);
+		if(velocity.Length() > 0 && IsOnFloor()) CameraBounce(0.05f * (WalkSpeed/15f), 0.5f);
 		else cam.Position = cam.Position.Lerp(DefaultPos, (float)delta * 10.0f);
 		Velocity = velocity;
 		MoveAndSlide();

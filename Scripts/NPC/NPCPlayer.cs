@@ -5,10 +5,10 @@ using System.Linq;
 
 public partial class NPCPlayer : CharacterBody3D
 {
-	private AnimationPlayer animation;
-	private AnimationController AnimController;
+	//private AnimationPlayer animation;
+	//private AnimationController AnimController;
 	public Node3D NPC1, NPC2;
-	public List<Node3D> NPCS;
+	//public List<Node3D> NPCS;
 	private RigidBody3D Ball;
 	private StaticBody3D Wall, Ground;
 	private Node3D WallGeometry;
@@ -47,15 +47,15 @@ public partial class NPCPlayer : CharacterBody3D
 		//Position = new Vector3(0.0f, 0.0f, 0.0f);
 		//Rotation = new Vector3(0, Mathf.DegToRad(0f), Mathf.DegToRad(-90f));
 		Node Root = GetTree().Root;
-		NPCS = new List<Node3D>();
+		//NPCS = new List<Node3D>();
 		
 		NPC1 = Root.FindChild("Running", true, false) as Node3D;
 		NPC2 = Root.FindChild("Throwing", true, false) as Node3D;
 		/*NPC3 = Root.FindChild("Running", true, false) as Node3D;
 		NPC4 = Root.FindChild("Running", true, false) as Node3D;*/
 		
-		NPCS.Add(Root.FindChild("Running", true, false) as Node3D);
-		NPCS.Add(Root.FindChild("Throwing", true, false) as Node3D);
+		//NPCS.Add(Root.FindChild("Running", true, false) as Node3D);
+		//NPCS.Add(Root.FindChild("Throwing", true, false) as Node3D);
 		
 		SafePoint = Root.FindChild("SafePoint", true, false) as Node3D;
 		
@@ -72,8 +72,8 @@ public partial class NPCPlayer : CharacterBody3D
 		Wall = GetNode<StaticBody3D>("%Wall");
 		Ground = GetNode<StaticBody3D>("%Ground");*/
 		
-		AnimController = FindChild("AnimationController", true, false) as AnimationController;
-		AnimController.PlayRun();
+		//AnimController = FindChild("AnimationController", true, false) as AnimationController;
+		//AnimController.PlayRun();
 		Gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 		
 		CollisionShape3D GroundShape = Ground.GetNode<CollisionShape3D>("GroundCollision");
@@ -93,7 +93,9 @@ public partial class NPCPlayer : CharacterBody3D
 		}
 		WallGeometry = Wall.GetNode<Node3D>("WallGeometry");
 		BallControl = Ball as Ball;
-		Triangle = FindChild("Triangle", true, false) as Node3D;
+		
+		Triangle = FindChild("Triangle", true, false).Duplicate() as Node3D;
+		this.AddChild(Triangle);
 		
 		Red = new StandardMaterial3D();
 		Red.AlbedoColor = Colors.Red;
@@ -114,7 +116,6 @@ public partial class NPCPlayer : CharacterBody3D
 		Green.EmissionEnergyMultiplier = 2.0f;
 		
 		Triangle.Visible = false;
-		//Triangle.GlobalPosition = GlobalPosition + new Vector3(0.0f, 5.0f, 0.0f);
 		Frames = 0;
 		Target = CreateNewTarget(false, IsRunning);
 		
@@ -157,6 +158,7 @@ public partial class NPCPlayer : CharacterBody3D
 			}
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
+		Triangle.GlobalPosition = GlobalPosition + new Vector3(0.0f, 5.0f, 0.0f);
 	}
 	private Vector3 CreateNewTarget(bool Wall, bool IsRunning) {
 		if(IsRunning) return SafePoint.GlobalPosition + new Vector3(0f, 0f, 2f);
@@ -201,7 +203,7 @@ public partial class NPCPlayer : CharacterBody3D
 		if(Frames >= Hold && Hold != -1) {
 			Hold = -1;
 			IsHolding = false;
-			AnimController.PlayThrow();
+			//AnimController.PlayThrow();
 			float DirectionX = rng.RandfRange(WallMin.X, WallMax.X);
 			float DirectionY = rng.RandfRange(GlobalPosition.Y + 5.0f, WallMax.Y - 5.0f);
 			float DirectionZ = WallMax.Z;
@@ -298,10 +300,10 @@ public partial class NPCPlayer : CharacterBody3D
 		}
 		return MinDist;
 	}
-	private void SwapLists(int index) {
+	/*private void SwapLists(int index) {
 		foreach(Node3D npc in NPCS) {
 			if(npc == NPCS[index]) npc.Visible = true;
 			else if(npc != NPCS[index]) npc.Visible = false;
 		}
-	}
+	}*/
 }

@@ -21,15 +21,14 @@
 [ext_resource type="Script" uid="uid://bq82rbl85a7mb" path="res://Scripts/Player/PlayerManager.cs" id="19_gxt2r"]
 [ext_resource type="PackedScene" uid="uid://dnfy6hu4i3okb" path="res://Scenes/UI/UI.tscn" id="20_v4h64"]
 [ext_resource type="Script" uid="uid://0hf74hxdb6fx" path="res://Scripts/NPC/NpcController.cs" id="21_u7t2v"]
-[ext_resource type="Script" uid="uid://blpjlsjb4omqi" path="res://Scripts/NPC/NPCPlayer.cs" id="22_6v4id"]
-[ext_resource type="PackedScene" uid="uid://cd6b84qg2sn52" path="res://Models/Running.glb" id="23_1ynae"]
-[ext_resource type="Animation" uid="uid://jn83gnfhrtdx" path="res://Animation/Running.res" id="24_mvsvp"]
-[ext_resource type="PackedScene" uid="uid://6inq08lewq3p" path="res://Models/Throwing.glb" id="25_ghrtw"]
-[ext_resource type="Animation" uid="uid://dhi1xkromacth" path="res://Animation/Throwing.res" id="26_b8drc"]
-[ext_resource type="Script" uid="uid://bmxtn6y3yypik" path="res://Scripts/NPC/AnimationController.cs" id="27_exo3b"]
-[ext_resource type="PackedScene" uid="uid://cyas1f44vhqmx" path="res://Models/Triangle.glb" id="28_umh3s"]
-[ext_resource type="PackedScene" uid="uid://dbp3cvr5qq1p2" path="res://Models/Throwing_O.glb" id="29_y8217"]
-[ext_resource type="PackedScene" uid="uid://vd107ojhf0a5" path="res://Models/Running_O.glb" id="30_6vojv"]
+[ext_resource type="Script" uid="uid://b587r6au3njyp" path="res://Scripts/NPC/NPCPlayer.cs" id="22_6v4id"]
+[ext_resource type="Animation" uid="uid://dhjfatjwi2wld" path="res://Models/NpcAnimations/Catch.res" id="24_quqqi"]
+[ext_resource type="Animation" uid="uid://c6c711haimnrv" path="res://Models/NpcAnimations/Idle.res" id="25_wm5c7"]
+[ext_resource type="Animation" uid="uid://c6nv3ogu7x83p" path="res://Models/NpcAnimations/Running.res" id="26_qfjt1"]
+[ext_resource type="Animation" uid="uid://cxt5wgwu3fjoh" path="res://Models/NpcAnimations/RunningJump.res" id="27_26cu0"]
+[ext_resource type="Animation" uid="uid://s8k5b37a8eu" path="res://Models/NpcAnimations/Throwing.res" id="28_ybkb3"]
+[ext_resource type="PackedScene" uid="uid://cyas1f44vhqmx" path="res://Models/Triangle.glb" id="29_urdfj"]
+[ext_resource type="PackedScene" uid="uid://clbfky2xivuw6" path="res://Models/NpcAnimation.blend" id="31_qfjt1"]
 [ext_resource type="Script" uid="uid://bat2mm6uybvkj" path="res://Scripts/Score/Score.cs" id="31_soolo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wm5c7"]
@@ -42,7 +41,7 @@ shader_parameter/atm_darkness = 0.0
 shader_parameter/atm_sun_intensity = 18.0
 shader_parameter/atm_day_tint = Color(0.807843, 0.909804, 1, 1)
 shader_parameter/atm_horizon_light_tint = Color(0.980392, 0.635294, 0.462745, 1)
-shader_parameter/atm_night_tint = Color(0.06083974, 0.072158955, 0.09055227, 0.36079478)
+shader_parameter/atm_night_tint = Color(0, 0, 0, 0)
 shader_parameter/atm_level_params = Vector3(1, 0, 0)
 shader_parameter/atm_thickness = 0.7
 shader_parameter/atm_beta_ray = Vector3(5.804544e-06, 1.3562913e-05, 3.311258e-05)
@@ -68,7 +67,7 @@ shader_parameter/starmap_flip_u = false
 shader_parameter/starmap_flip_v = false
 shader_parameter/starmap_alignment = Vector3(2.68288, -0.25891, 0.40101)
 shader_parameter/star_rotation_offset = 9.38899
-shader_parameter/star_rotation = -9.983200969623017
+shader_parameter/star_rotation = -8.773526454665783
 shader_parameter/star_tilt = -0.7853981633974483
 shader_parameter/star_field_color = Color(1, 1, 1, 1)
 shader_parameter/star_field_texture = ExtResource("6_08olo")
@@ -83,8 +82,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.8787603, 0.8787603)
-shader_parameter/cirrus_position2 = Vector2(0.8787603, 0.8787603)
+shader_parameter/cirrus_position1 = Vector2(0.5985873, 0.5985873)
+shader_parameter/cirrus_position2 = Vector2(0.5985873, 0.5985873)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -97,7 +96,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(4.39446, 4.39446)
+shader_parameter/cumulus_position = Vector2(13.011931, 13.011931)
 shader_parameter/cumulus_texture = ExtResource("3_md48u")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -110,7 +109,7 @@ shader_parameter/azimuthal_grid_rotation_offset = 0.03
 shader_parameter/show_equatorial_grid = false
 shader_parameter/equatorial_grid_color = Color(0, 0.75, 1, 1)
 shader_parameter/equatorial_grid_rotation_offset = 0.03
-shader_parameter/moon_matrix = Basis(-3.7252903e-09, -0.99495304, -0.10034203, -0.59868854, -0.080372155, 0.79693943, -0.80098194, 0.06007362, -0.595667)
+shader_parameter/moon_matrix = Basis(-3.7252899e-09, 0.08634072, -0.9962656, -0.72845894, -0.6825311, -0.059151113, -0.68508947, 0.7257386, 0.06289566)
 
 [sub_resource type="Sky" id="Sky_hwsgv"]
 sky_material = SubResource("ShaderMaterial_wm5c7")
@@ -119,8 +118,7 @@ sky_material = SubResource("ShaderMaterial_wm5c7")
 background_mode = 2
 sky = SubResource("Sky_hwsgv")
 ambient_light_source = 2
-ambient_light_color = Color(0.37262368, 0.2250866, 0.1595628, 1)
-ambient_light_sky_contribution = 0.7
+ambient_light_color = Color(1, 1, 1, 1)
 reflected_light_source = 2
 tonemap_mode = 4
 tonemap_white = 6.0
@@ -207,19 +205,55 @@ size = Vector3(80, 256, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_qfjt1"]
 size = Vector3(96, 4, 96)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_3ktvn"]
-_data = {
-&"Running": ExtResource("24_mvsvp")
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_sm46x"]
-_data = {
-&"Throwing": ExtResource("26_b8drc")
-}
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wm5c7"]
 radius = 0.75
 height = 4.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_md48u"]
+_data = {
+&"Catch": ExtResource("24_quqqi"),
+&"Idle": ExtResource("25_wm5c7"),
+&"Running": ExtResource("26_qfjt1"),
+&"RunningJump": ExtResource("27_26cu0"),
+&"Throwing": ExtResource("28_ybkb3")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_quqqi"]
+animation = &"NpcAnimations/Running"
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = false
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wm5c7"]
+animation = &"NpcAnimations/Throwing"
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = true
+start_offset = 0.25
+loop_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qfjt1"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_26cu0"]
+xfade_time = 0.5
+advance_mode = 2
+advance_expression = "Frames >= Hold && Hold != -1"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_quqqi"]
+xfade_time = 0.5
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_quqqi"]
+states/NpcAnimations_Running/node = SubResource("AnimationNodeAnimation_quqqi")
+states/NpcAnimations_Running/position = Vector2(333, 100)
+states/NpcAnimations_Throwing/node = SubResource("AnimationNodeAnimation_wm5c7")
+states/NpcAnimations_Throwing/position = Vector2(513, 182)
+states/Start/position = Vector2(162, 100)
+transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_qfjt1"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_quqqi")]
 
 [node name="Root" type="Node3D" unique_id=1072632489]
 
@@ -230,28 +264,27 @@ camera_attributes = SubResource("CameraAttributesPractical_26cu0")
 script = ExtResource("8_3t5vg")
 editor_time_enabled = false
 game_time_enabled = false
-current_time = 20.885
+current_time = 16.277
 minutes_per_day = 1.0
 auto_exposure = true
 wind_direction = 2.35619451204804
 metadata/_custom_type_script = "uid://deo0gxkmk2ahd"
 
 [node name="SunLight" type="DirectionalLight3D" parent="Sky3D" unique_id=431652165]
-transform = Transform3D(0, -0.6262365, -0.7796332, -0.99527663, 0.07568649, -0.060794797, 0.09707961, 0.77595073, -0.62327856, -0.77963316, -0.060794793, -0.6232785)
-light_color = Color(0.98, 0.523, 0.294, 1)
-light_energy = 0.0
+transform = Transform3D(0, -0.6835345, -0.7299183, 0.16361631, -0.720082, 0.67432314, -0.9865241, -0.11942654, 0.11183738, -0.7299183, 0.67432314, 0.11183738)
+shadow_enabled = true
 
 [node name="MoonLight" type="DirectionalLight3D" parent="Sky3D" unique_id=1386030429]
-transform = Transform3D(0, -0.59868854, -0.80098194, -0.994953, -0.08037215, 0.060073618, -0.10034202, 0.7969394, -0.59566694, -0.80098194, 0.060073618, -0.59566694)
+transform = Transform3D(0, -0.728459, -0.6850895, 0.08634072, -0.6825312, 0.72573864, -0.9962657, -0.05915112, 0.06289567, -0.68508947, 0.7257386, 0.06289566)
 light_color = Color(0.572549, 0.776471, 0.956863, 1)
 light_energy = 0.0
 
 [node name="SkyDome" type="Node" parent="Sky3D" unique_id=830757798]
 script = ExtResource("9_idc1r")
-sun_azimuth = -5.386795
-sun_altitude = -1.6316286
-moon_azimuth = -5.351827
-moon_altitude = -1.5106865
+sun_azimuth = -4.5603523
+sun_altitude = -0.8307486
+moon_azimuth = -4.620839
+moon_altitude = -0.7586889
 atm_darkness = 0.0
 atm_turbidity = 0.003
 fog_density = 0.01
@@ -263,7 +296,7 @@ editor_time_enabled = false
 game_time_enabled = false
 dome_path = NodePath("../SkyDome")
 minutes_per_day = 1.0
-current_time = 20.885
+current_time = 16.277
 day = 21
 month = 6
 year = 2026
@@ -406,11 +439,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
 [node name="GameUI" parent="." unique_id=1151521881 instance=ExtResource("20_v4h64")]
 unique_name_in_owner = true
 
-[node name="NPCController" type="Node3D" parent="." unique_id=846704874 node_paths=PackedStringArray("CloneT", "CloneO", "TeamController", "OpponentController")]
+[node name="NPCController" type="Node3D" parent="." unique_id=846704874 node_paths=PackedStringArray("Clone", "TeamController", "OpponentController")]
 unique_name_in_owner = true
 script = ExtResource("21_u7t2v")
-CloneT = NodePath("NPC_T_Physics")
-CloneO = NodePath("NPC_O_Physics")
+Clone = NodePath("NPC")
 Player_Count = 3
 TeamController = NodePath("TeamController")
 OpponentController = NodePath("OpponentController")
@@ -419,80 +451,31 @@ OpponentController = NodePath("OpponentController")
 
 [node name="OpponentController" type="Node3D" parent="NPCController" unique_id=1722626024]
 
-[node name="NPC_T_Physics" type="CharacterBody3D" parent="NPCController" unique_id=323532595]
+[node name="NPC" type="CharacterBody3D" parent="NPCController" unique_id=323532595]
 disable_mode = 1
 collision_layer = 6
 collision_mask = 6
 script = ExtResource("22_6v4id")
 
-[node name="NPC_T" type="Node3D" parent="NPCController/NPC_T_Physics" unique_id=2035428293]
-
-[node name="Running" parent="NPCController/NPC_T_Physics/NPC_T" unique_id=720217899 instance=ExtResource("23_1ynae")]
-transform = Transform3D(0.05, 0, 0, 0, -2.1855695e-09, -0.05, 0, 0.05, -2.1855695e-09, 0, 0.5, 0)
-visible = false
-
-[node name="RunAnim" type="AnimationPlayer" parent="NPCController/NPC_T_Physics/NPC_T/Running" unique_id=1998689286]
-libraries/Running = SubResource("AnimationLibrary_3ktvn")
-
-[node name="Throwing" parent="NPCController/NPC_T_Physics/NPC_T" unique_id=257079880 instance=ExtResource("25_ghrtw")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0.5, 0)
-
-[node name="ThrowAnim" type="AnimationPlayer" parent="NPCController/NPC_T_Physics/NPC_T/Throwing" unique_id=876311833]
-libraries/Throwing = SubResource("AnimationLibrary_sm46x")
-
-[node name="AnimationController" type="Node3D" parent="NPCController/NPC_T_Physics/NPC_T" unique_id=1026307591 node_paths=PackedStringArray("Running", "Throwing", "RunningSprite", "ThrowingSprite")]
-script = ExtResource("27_exo3b")
-Running = NodePath("../Running/RunAnim")
-Throwing = NodePath("../Throwing/ThrowAnim")
-RunningSprite = NodePath("../Running")
-ThrowingSprite = NodePath("../Throwing")
-
-[node name="Triangle" parent="NPCController/NPC_T_Physics/NPC_T" unique_id=678963739 instance=ExtResource("28_umh3s")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 4.5, 0.25)
-rotation_order = 0
-
-[node name="NPC_Collision" type="CollisionShape3D" parent="NPCController/NPC_T_Physics" unique_id=530181868]
+[node name="NPC_Collision" type="CollisionShape3D" parent="NPCController/NPC" unique_id=530181868]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 visible = false
 shape = SubResource("CapsuleShape3D_wm5c7")
 
-[node name="NPC_O_Physics" type="CharacterBody3D" parent="NPCController" unique_id=2088579054]
+[node name="NPC_Obj" parent="NPCController/NPC" unique_id=1751668497 instance=ExtResource("31_qfjt1")]
+transform = Transform3D(-2.1855694e-06, 0, 50, 0, 50, 0, -50, 0, -2.1855694e-06, 0, 0.5, 0)
+
+[node name="NpcAnimationPlayer" type="AnimationPlayer" parent="NPCController/NPC/NPC_Obj" unique_id=943007744]
+libraries/NpcAnimations = SubResource("AnimationLibrary_md48u")
+
+[node name="AnimationTree" type="AnimationTree" parent="NPCController/NPC/NPC_Obj" unique_id=1273930293]
+tree_root = SubResource("AnimationNodeStateMachine_quqqi")
+advance_expression_base_node = NodePath("../..")
+anim_player = NodePath("../NpcAnimationPlayer")
+
+[node name="Triangle" parent="NPCController/NPC" unique_id=58492237 instance=ExtResource("29_urdfj")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.8, 4.25, -0.35000005)
 visible = false
-disable_mode = 1
-collision_layer = 6
-collision_mask = 6
-script = ExtResource("22_6v4id")
-
-[node name="NPC" type="Node3D" parent="NPCController/NPC_O_Physics" unique_id=629705035]
-transform = Transform3D(0.05, 0, 0, 0, -2.1855695e-09, -0.05, 0, 0.05, -2.1855695e-09, 0, 0, 0)
-
-[node name="AnimationController" type="Node3D" parent="NPCController/NPC_O_Physics/NPC" unique_id=1450135917 node_paths=PackedStringArray("Running", "Throwing", "RunningSprite", "ThrowingSprite")]
-script = ExtResource("27_exo3b")
-Running = NodePath("../Running/RunAnim")
-Throwing = NodePath("../Throwing/ThrowAnim")
-RunningSprite = NodePath("../Running")
-ThrowingSprite = NodePath("../Throwing")
-
-[node name="Throwing" parent="NPCController/NPC_O_Physics/NPC" unique_id=2033239272 instance=ExtResource("29_y8217")]
-transform = Transform3D(100, 0, 0, 0, -4.371139e-06, 100, 0, -100, -4.371139e-06, 0, 0, -10)
-
-[node name="ThrowAnim" type="AnimationPlayer" parent="NPCController/NPC_O_Physics/NPC/Throwing" unique_id=527300299]
-libraries/Throwing = SubResource("AnimationLibrary_sm46x")
-
-[node name="Running" parent="NPCController/NPC_O_Physics/NPC" unique_id=565378558 instance=ExtResource("30_6vojv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
-
-[node name="RunAnim" type="AnimationPlayer" parent="NPCController/NPC_O_Physics/NPC/Running" unique_id=41907268]
-libraries/Running = SubResource("AnimationLibrary_3ktvn")
-
-[node name="Triangle" parent="NPCController/NPC_O_Physics/NPC" unique_id=2083473901 instance=ExtResource("28_umh3s")]
-transform = Transform3D(500, 0, 0, 0, -2.1855694e-05, 500, 0, -500, -2.1855694e-05, 0, 10, -90)
-rotation_order = 0
-
-[node name="NPC_Collision" type="CollisionShape3D" parent="NPCController/NPC_O_Physics" unique_id=2087630973]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
-visible = false
-shape = SubResource("CapsuleShape3D_wm5c7")
 
 [node name="Score" type="Node3D" parent="." unique_id=506243496 node_paths=PackedStringArray("Ball")]
 unique_name_in_owner = true
