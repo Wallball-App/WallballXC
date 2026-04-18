@@ -32,6 +32,7 @@ public partial class NPCPlayer : CharacterBody3D
 	[Export] public float Throw_Speed = 2;
 	[Export] public float Throw_Max = 4;
 	[Export] public float JumpStrength = 0;
+	//public float SteeringWeight = 0.5f;
 	public bool IsJumping;
 	private Node3D SafePoint;
 	public float WallBounce = 0.75f;
@@ -149,12 +150,19 @@ public partial class NPCPlayer : CharacterBody3D
 			if(GameManager.HitWall) SetPossession();
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
 			Vector3 velocity = Velocity;
-			velocity = (Target - GlobalPosition).Normalized() * WalkSpeed;
 			if(!IsJumping) {
 				velocity.Y = 0;
-				Velocity = new Vector3(velocity.X, 0.0f, velocity.Z);
-			} else {
-				Velocity = velocity;
+			}
+			float SteeringWeight = GlobalPosition.DistanceTo(Target) / WorldSize;
+			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed * (1/SteeringWeight);
+			Vector3 steering = (desired - velocity) * SteeringWeight;
+			steering = steering.LimitLength(WalkSpeed);
+			
+			Velocity += steering * (float)delta;
+			
+			if(Velocity.Length() >= 0.5f) {
+				Basis lookat = Basis.LookingAt(-Velocity, Vector3.Up);
+				Basis = Basis.Slerp(lookat, WalkSpeed * (float)delta);
 			}
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
