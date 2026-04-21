@@ -26,12 +26,19 @@ public partial class NPCPlayer : CharacterBody3D
 	RandomNumberGenerator rng = new RandomNumberGenerator();
 	private Vector3 Target;
 	public int TEAM;
-	private float Hold = -1;
-	private int Frames;
+	public float Hold = -1;
+	public int Frames;
 	[Export] public float Max_Hold = 60;
 	[Export] public float Throw_Speed = 2;
 	[Export] public float Throw_Max = 4;
 	[Export] public float JumpStrength = 0;
+	
+	public Vector3 CharacterVelocity;
+	public float Dist;
+	public bool PickUpRight;
+	
+	public float SteeringWeight = 2.0f;
+	public float SteeringModifier = 20.0f;
 	//public float SteeringWeight = 0.5f;
 	public bool IsJumping;
 	private Node3D SafePoint;
@@ -134,11 +141,12 @@ public partial class NPCPlayer : CharacterBody3D
 		SetMaterial();
 		ApplyGravity(delta);
 		MoveAndSlide();
+		UpdatePublicVariables();
 		Frames++;
 	}
 	private void MoveTowardTarget(double delta) {
 		if(GlobalPosition.DistanceTo(Target) <= 3.0f || Frames % 180 == 0) {
-			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession();
+			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession((float)delta);
 			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) {
 				if(!IsRunning) Target = PredictTrajectory();
 				WalkSpeed = BaseSpeed * Sprint;
@@ -146,23 +154,32 @@ public partial class NPCPlayer : CharacterBody3D
 			else {
 				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
 			}
+			PickUpRight = (Dist <= 6.0f && 
+				Target == Ball.GlobalPosition && Ball.GlobalPosition.Y <= 0.75f 
+				&& GameManager.HitWall && GameManager.possession == GameManager.PossessionEnum.NONE);
 		} else {
-			if(GameManager.HitWall) SetPossession();
+			if(GameManager.HitWall) SetPossession((float)delta);
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
 			Vector3 velocity = Velocity;
 			if(!IsJumping) {
 				velocity.Y = 0;
 			}
-			float SteeringWeight = GlobalPosition.DistanceTo(Target) / WorldSize;
-			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed * (1/SteeringWeight);
-			Vector3 steering = (desired - velocity) * SteeringWeight;
+			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed * SteeringWeight;
+			SteeringWeight = (WalkSpeed / 5.0f) * (WorldSize / GlobalPosition.DistanceTo(Target));
+			Vector3 steering = (desired - velocity) * (1/SteeringWeight);
 			steering = steering.LimitLength(WalkSpeed);
 			
 			Velocity += steering * (float)delta;
 			
 			if(Velocity.Length() >= 0.5f) {
-				Basis lookat = Basis.LookingAt(-Velocity, Vector3.Up);
-				Basis = Basis.Slerp(lookat, WalkSpeed * (float)delta);
+				if(IsHolding) {
+					Basis lookat = Basis.LookingAt(GlobalPosition - Wall.GlobalPosition, Vector3.Up);
+					Basis = Basis.Slerp(lookat, WalkSpeed * (float)delta);
+				} else {
+					Basis lookat = Basis.LookingAt(-Velocity, Vector3.Up);
+					Basis = Basis.Slerp(lookat, WalkSpeed * (float)delta);
+				}
+				
 			}
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
@@ -183,7 +200,7 @@ public partial class NPCPlayer : CharacterBody3D
 				rng.RandfRange(min.Z, WallMax.Z));
 		} 
 	}
-	private void SetPossession() {
+	private void SetPossession(float delta) {
 		if(Frames < 120) return;
 		if(Ball.GlobalPosition.DistanceTo(GlobalPosition) <= 5f && !IsHolding) {
 			if(!IsRunning && 
@@ -193,7 +210,7 @@ public partial class NPCPlayer : CharacterBody3D
 					GlobalPosition + new Vector3(0.0f, 0.0f, 1.0f));
 				if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + 1;
 				else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + 1;
-				else Hold = Frames + (rng.Randf() * Max_Hold);
+				else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f);
 				if(NpcController.CurrentPossession == null) {
 					NpcController.CurrentPossession = this;
 					IsHolding = true;
@@ -314,4 +331,8 @@ public partial class NPCPlayer : CharacterBody3D
 			else if(npc != NPCS[index]) npc.Visible = false;
 		}
 	}*/
+	public void UpdatePublicVariables() {
+		CharacterVelocity = Velocity;
+		Dist = GlobalPosition.DistanceTo(Target);
+	}
 }

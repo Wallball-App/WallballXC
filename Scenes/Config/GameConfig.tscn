@@ -74,6 +74,18 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fh5pp"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibsel"]
 content_margin_left = 4.0
 content_margin_top = 4.0
@@ -267,6 +279,15 @@ toggle_mode = true
 button_group = ExtResource("4_1nc3w")
 text = "Map"
 
+[node name="Players" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=879290282]
+custom_minimum_size = Vector2(240, 45)
+layout_mode = 2
+theme = ExtResource("1_boueq")
+theme_override_font_sizes/font_size = 28
+toggle_mode = true
+button_group = ExtResource("4_1nc3w")
+text = "Players"
+
 [node name="View" type="Panel" parent="TabMenu/MenuContainer" unique_id=631314264]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
@@ -347,6 +368,16 @@ theme = ExtResource("1_boueq")
 theme_override_font_sizes/font_size = 36
 text = "Courtyard"
 
+[node name="Players" type="PanelContainer" parent="TabMenu/MenuContainer/View" unique_id=776506366]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fh5pp")
+
 [node name="Play" type="MarginContainer" parent="." unique_id=485483494]
 anchors_preset = 3
 anchor_left = 1.0
@@ -357,13 +388,17 @@ offset_left = -170.0
 offset_top = -123.0
 grow_horizontal = 0
 grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
+theme_override_constants/margin_bottom = 0
 
 [node name="PlayButton" type="Button" parent="Play" unique_id=1408535795]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 theme = ExtResource("1_boueq")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_ibsel")
