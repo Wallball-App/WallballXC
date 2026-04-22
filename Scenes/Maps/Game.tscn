@@ -69,7 +69,7 @@ shader_parameter/starmap_flip_u = false
 shader_parameter/starmap_flip_v = false
 shader_parameter/starmap_alignment = Vector3(2.68288, -0.25891, 0.40101)
 shader_parameter/star_rotation_offset = 9.38899
-shader_parameter/star_rotation = -8.773526454665783
+shader_parameter/star_rotation = -8.700809475359542
 shader_parameter/star_tilt = -0.7853981633974483
 shader_parameter/star_field_color = Color(1, 1, 1, 1)
 shader_parameter/star_field_texture = ExtResource("6_08olo")
@@ -84,8 +84,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.07544663, 0.07544663)
-shader_parameter/cirrus_position2 = Vector2(0.07544663, 0.07544663)
+shader_parameter/cirrus_position1 = Vector2(0.15000038, 0.15000038)
+shader_parameter/cirrus_position2 = Vector2(0.15000038, 0.15000038)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -98,7 +98,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(20.426321, 20.426321)
+shader_parameter/cumulus_position = Vector2(5.7504473, 5.7504473)
 shader_parameter/cumulus_texture = ExtResource("3_md48u")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -111,7 +111,7 @@ shader_parameter/azimuthal_grid_rotation_offset = 0.03
 shader_parameter/show_equatorial_grid = false
 shader_parameter/equatorial_grid_color = Color(0, 0.75, 1, 1)
 shader_parameter/equatorial_grid_rotation_offset = 0.03
-shader_parameter/moon_matrix = Basis(-3.7252899e-09, 0.08634072, -0.9962656, -0.72845894, -0.6825311, -0.059151113, -0.68508947, 0.7257386, 0.06289566)
+shader_parameter/moon_matrix = Basis(0, 0.12377594, -0.99231017, -0.76352894, -0.6408076, -0.07993122, -0.6457735, 0.7576576, 0.09450652)
 
 [sub_resource type="Sky" id="Sky_hwsgv"]
 sky_material = SubResource("ShaderMaterial_wm5c7")
@@ -130,6 +130,11 @@ ssil_enabled = true
 sdfgi_enabled = true
 sdfgi_use_occlusion = true
 glow_enabled = true
+volumetric_fog_density = 0.0603
+volumetric_fog_emission_energy = 21.95
+volumetric_fog_anisotropy = 0.0
+volumetric_fog_detail_spread = 2.8284266
+volumetric_fog_ambient_inject = 1.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_26cu0"]
 auto_exposure_enabled = true
@@ -1297,9 +1302,7 @@ xfade_time = 0.25
 break_loop_at_end = true
 priority = 0
 advance_mode = 2
-advance_expression = "Dist <= 6.0f && 
-				Target == Ball.GlobalPosition && Ball.GlobalPosition.Y <= 0.75f 
-				&& GameManager.HitWall && GameManager.possession == GameManager.PossessionEnum.NONE"
+advance_condition = &"PickUpRight"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ybkb3"]
 xfade_time = 0.25
@@ -1328,7 +1331,7 @@ transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeState
 graph_offset = Vector2(-329, 159)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wm5c7"]
-graph_offset = Vector2(-517.353, 104.45682)
+graph_offset = Vector2(-226, 77)
 nodes/MainStateMachine/node = SubResource("AnimationNodeStateMachine_md48u")
 nodes/MainStateMachine/position = Vector2(-140, 160)
 node_connections = [&"output", 0, &"MainStateMachine"]
@@ -1342,27 +1345,27 @@ camera_attributes = SubResource("CameraAttributesPractical_26cu0")
 script = ExtResource("8_3t5vg")
 editor_time_enabled = false
 game_time_enabled = false
-current_time = 16.277
+current_time = 16.0
 minutes_per_day = 1.0
 auto_exposure = true
 wind_direction = 2.35619451204804
 metadata/_custom_type_script = "uid://deo0gxkmk2ahd"
 
 [node name="SunLight" type="DirectionalLight3D" parent="Sky3D" unique_id=431652165]
-transform = Transform3D(0, -0.6835345, -0.7299183, 0.16361631, -0.720082, 0.67432314, -0.9865241, -0.11942654, 0.11183738, -0.7299183, 0.67432314, 0.11183738)
+transform = Transform3D(0, -0.7259676, -0.68772894, 0.20413439, -0.67324734, 0.7106808, -0.9789429, -0.14038913, 0.14819495, -0.68772894, 0.7106808, 0.14819495)
 shadow_enabled = true
 
 [node name="MoonLight" type="DirectionalLight3D" parent="Sky3D" unique_id=1386030429]
-transform = Transform3D(0, -0.728459, -0.6850895, 0.08634072, -0.6825312, 0.72573864, -0.9962657, -0.05915112, 0.06289567, -0.68508947, 0.7257386, 0.06289566)
+transform = Transform3D(0, -0.76352906, -0.64577353, 0.123775944, -0.6408077, 0.75765765, -0.9923102, -0.07993123, 0.094506525, -0.64577353, 0.75765765, 0.094506525)
 light_color = Color(0.572549, 0.776471, 0.956863, 1)
 light_energy = 0.0
 
 [node name="SkyDome" type="Node" parent="Sky3D" unique_id=830757798]
 script = ExtResource("9_idc1r")
-sun_azimuth = -4.5603523
-sun_altitude = -0.8307486
-moon_azimuth = -4.620839
-moon_altitude = -0.7586889
+sun_azimuth = -4.5001497
+sun_altitude = -0.7803309
+moon_azimuth = -4.5670743
+moon_altitude = -0.7110797
 atm_darkness = 0.0
 atm_turbidity = 0.003
 fog_density = 0.01
@@ -1374,7 +1377,7 @@ editor_time_enabled = false
 game_time_enabled = false
 dome_path = NodePath("../SkyDome")
 minutes_per_day = 1.0
-current_time = 16.277
+current_time = 16.0
 day = 21
 month = 6
 year = 2026
@@ -1528,18 +1531,19 @@ OpponentController = NodePath("OpponentController")
 
 [node name="OpponentController" type="Node3D" parent="NPCController" unique_id=1722626024]
 
-[node name="NPC" type="CharacterBody3D" parent="NPCController" unique_id=323532595]
+[node name="NPC" type="CharacterBody3D" parent="NPCController" unique_id=323532595 node_paths=PackedStringArray("NPCAnimationTree")]
 disable_mode = 1
 collision_layer = 6
 collision_mask = 6
 script = ExtResource("22_6v4id")
+NPCAnimationTree = NodePath("NPC_Obj/NPCAnimationTree")
 
 [node name="NPC_Collision" type="CollisionShape3D" parent="NPCController/NPC" unique_id=530181868]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 visible = false
 shape = SubResource("CapsuleShape3D_wm5c7")
 
-[node name="NPC_Obj" parent="NPCController/NPC" unique_id=688242707 instance=ExtResource("31_qfjt1")]
+[node name="NPC_Obj" parent="NPCController/NPC" unique_id=74490084 instance=ExtResource("31_qfjt1")]
 transform = Transform3D(-2.1855694e-06, 0, 50, 0, 50, 0, -50, 0, -2.1855694e-06, 0, 0.5, 0)
 
 [node name="NpcAnimationPlayer" type="AnimationPlayer" parent="NPCController/NPC/NPC_Obj" unique_id=943007744]
@@ -1549,6 +1553,7 @@ libraries/NpcAnimations = SubResource("AnimationLibrary_md48u")
 tree_root = SubResource("AnimationNodeBlendTree_wm5c7")
 advance_expression_base_node = NodePath("../..")
 anim_player = NodePath("../NpcAnimationPlayer")
+parameters/MainStateMachine/conditions/PickUpRight = false
 
 [node name="Triangle" parent="NPCController/NPC" unique_id=58492237 instance=ExtResource("29_urdfj")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.8, 4.25, -0.35000005)

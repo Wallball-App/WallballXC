@@ -5,7 +5,7 @@ using System.Linq;
 
 public partial class NPCPlayer : CharacterBody3D
 {
-	//private AnimationPlayer animation;
+	[Export] public AnimationTree NPCAnimationTree;
 	//private AnimationController AnimController;
 	public Node3D NPC1, NPC2;
 	//public List<Node3D> NPCS;
@@ -57,14 +57,14 @@ public partial class NPCPlayer : CharacterBody3D
 		Node Root = GetTree().Root;
 		//NPCS = new List<Node3D>();
 		
-		NPC1 = Root.FindChild("Running", true, false) as Node3D;
+		/*NPC1 = Root.FindChild("Running", true, false) as Node3D;
 		NPC2 = Root.FindChild("Throwing", true, false) as Node3D;
 		/*NPC3 = Root.FindChild("Running", true, false) as Node3D;
-		NPC4 = Root.FindChild("Running", true, false) as Node3D;*/
+		NPC4 = Root.FindChild("Running", true, false) as Node3D;
 		
 		//NPCS.Add(Root.FindChild("Running", true, false) as Node3D);
 		//NPCS.Add(Root.FindChild("Throwing", true, false) as Node3D);
-		
+		*/
 		SafePoint = Root.FindChild("SafePoint", true, false) as Node3D;
 		
 		Wall = Root.FindChild("Wall", true, false) as StaticBody3D;
@@ -149,6 +149,7 @@ public partial class NPCPlayer : CharacterBody3D
 			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession((float)delta);
 			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) {
 				if(!IsRunning) Target = PredictTrajectory();
+				Sprint = Dist/WorldSize + 1f;
 				WalkSpeed = BaseSpeed * Sprint;
 			}
 			else {
@@ -157,6 +158,7 @@ public partial class NPCPlayer : CharacterBody3D
 			PickUpRight = (Dist <= 6.0f && 
 				Target == Ball.GlobalPosition && Ball.GlobalPosition.Y <= 0.75f 
 				&& GameManager.HitWall && GameManager.possession == GameManager.PossessionEnum.NONE);
+			NPCAnimationTree.Set("paramaters/conditions/PickUpRight", PickUpRight);
 		} else {
 			if(GameManager.HitWall) SetPossession((float)delta);
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
@@ -164,22 +166,21 @@ public partial class NPCPlayer : CharacterBody3D
 			if(!IsJumping) {
 				velocity.Y = 0;
 			}
-			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed * SteeringWeight;
-			SteeringWeight = (WalkSpeed / 5.0f) * (WorldSize / GlobalPosition.DistanceTo(Target));
-			Vector3 steering = (desired - velocity) * (1/SteeringWeight);
+			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed;
+			SteeringWeight = (5.0f/WalkSpeed) * (WorldSize / GlobalPosition.DistanceTo(Target));
+			Vector3 steering = desired - velocity;
 			steering = steering.LimitLength(WalkSpeed);
 			
 			Velocity += steering * (float)delta;
 			
 			if(Velocity.Length() >= 0.5f) {
+				Basis lookat;
 				if(IsHolding) {
-					Basis lookat = Basis.LookingAt(GlobalPosition - Wall.GlobalPosition, Vector3.Up);
-					Basis = Basis.Slerp(lookat, WalkSpeed * (float)delta);
+					lookat = Basis.LookingAt(GlobalPosition - Wall.GlobalPosition, Vector3.Up);
 				} else {
-					Basis lookat = Basis.LookingAt(-Velocity, Vector3.Up);
-					Basis = Basis.Slerp(lookat, WalkSpeed * (float)delta);
+					lookat = Basis.LookingAt(-Velocity, Vector3.Up);
 				}
-				
+				Basis = Basis.Orthonormalized().Slerp(lookat.Orthonormalized(), WalkSpeed * (float)delta);
 			}
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
@@ -208,9 +209,9 @@ public partial class NPCPlayer : CharacterBody3D
 				//GD.Print(rng.Randf());
 				BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
 					GlobalPosition + new Vector3(0.0f, 0.0f, 1.0f));
-				if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + 1;
-				else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + 1;
-				else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f);
+				if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
+				else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
+				else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
 				if(NpcController.CurrentPossession == null) {
 					NpcController.CurrentPossession = this;
 					IsHolding = true;

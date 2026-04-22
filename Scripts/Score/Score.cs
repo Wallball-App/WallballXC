@@ -6,28 +6,23 @@ public partial class Score : Node3D
 {
 	public static int TeamScore, OpponentScore;
 	[Export] public RigidBody3D Ball;
-	private bool cwall, cfloor;
 	public static bool Scored_Wall, Scored_Catch;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		TeamScore = 0;
 		OpponentScore = 0;
-		Ball.BodyEntered += OnCollide;
+		(Ball as Ball).OnBallThrow += ResetScoreBooleans;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		CheckScore();
-		if((Scored_Catch || Scored_Wall) && !GameManager.HitWall && GameManager.thrower == GameManager.ThrowerEnum.NONE) {
-			Scored_Wall = false;
-			Scored_Catch = false;
-		}
 	}
 	public void CheckScore() {
 		if(Scored_Wall) return;
-		if(cwall) {
+		if(GameManager.CWall) {
 			if(GameManager.thrower == GameManager.ThrowerEnum.PLAYER || 
 						GameManager.thrower == GameManager.ThrowerEnum.TEAM) {
 				int Running = NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count();
@@ -60,8 +55,11 @@ public partial class Score : Node3D
 			}
 		}
 	}
-	public void OnCollide(Node node) {
-		cwall = (node.Name == "Wall");
-		cfloor = (node.Name == "Ground");
+
+	private void ResetScoreBooleans() {
+		if(Scored_Catch || Scored_Wall) {
+			Scored_Wall = false;
+			Scored_Catch = false;
+		}
 	}
 }
