@@ -15,7 +15,7 @@ public partial class NPCPlayer : CharacterBody3D
 	Ball BallControl;
 	private Aabb GroundAABB;
 	[Export] public float WalkSpeed = 8f;
-	[Export] public float BaseSpeed = 8f;
+	[Export] public float BaseSpeed = 12f;
 	[Export] public float Sprint = 2.0f;
 	
 	private Vector3 min, max;
@@ -147,6 +147,7 @@ public partial class NPCPlayer : CharacterBody3D
 	private void MoveTowardTarget(double delta) {
 		if(GlobalPosition.DistanceTo(Target) <= 3.0f || Frames % 180 == 0) {
 			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession((float)delta);
+			
 			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) {
 				if(!IsRunning) Target = PredictTrajectory();
 				Sprint = Dist/WorldSize + 1f;
@@ -156,9 +157,9 @@ public partial class NPCPlayer : CharacterBody3D
 				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
 			}
 			PickUpRight = (Dist <= 6.0f && 
-				Target == Ball.GlobalPosition && Ball.GlobalPosition.Y <= 0.75f 
+				Target.DistanceTo(Ball.GlobalPosition) <= 0.5f && Ball.GlobalPosition.Y <= 0.75f 
 				&& GameManager.HitWall && GameManager.possession == GameManager.PossessionEnum.NONE);
-			NPCAnimationTree.Set("paramaters/conditions/PickUpRight", PickUpRight);
+			NPCAnimationTree.Set("parameters/conditions/PickUpRight", PickUpRight);
 		} else {
 			if(GameManager.HitWall) SetPossession((float)delta);
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
@@ -167,7 +168,7 @@ public partial class NPCPlayer : CharacterBody3D
 				velocity.Y = 0;
 			}
 			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed;
-			SteeringWeight = (5.0f/WalkSpeed) * (WorldSize / GlobalPosition.DistanceTo(Target));
+			//SteeringWeight = (5.0f/WalkSpeed) * (WorldSize / GlobalPosition.DistanceTo(Target));
 			Vector3 steering = desired - velocity;
 			steering = steering.LimitLength(WalkSpeed);
 			
@@ -207,14 +208,14 @@ public partial class NPCPlayer : CharacterBody3D
 			if(!IsRunning && 
 					rng.Randf() <= 0.7f && GameManager.possession == GameManager.PossessionEnum.NONE) {
 				//GD.Print(rng.Randf());
-				BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
-					GlobalPosition + new Vector3(0.0f, 0.0f, 1.0f));
-				if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
-				else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
-				else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
 				if(NpcController.CurrentPossession == null) {
 					NpcController.CurrentPossession = this;
 					IsHolding = true;
+						BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
+					GlobalPosition + new Vector3(0.0f, 0.0f, 1.0f));
+					if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
+					else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
+					else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
 				}
 			}
 			else {
@@ -250,7 +251,7 @@ public partial class NPCPlayer : CharacterBody3D
 	private void CheckWallCollide() {
 		if(GlobalPosition.Z > SafePoint.GlobalPosition.Z) {
 			if(IsRunning) IsRunning = false;
-			Target = CreateNewTarget(false, IsRunning);
+			Target = CreateNewTarget(GameManager.HitWall, IsRunning); //Change HitWall to FALSE to change NPC Behavior
 			//GD.Print("NPC Safe");
 		} 
 	}
@@ -270,16 +271,13 @@ public partial class NPCPlayer : CharacterBody3D
 						|| GameManager.possession == GameManager.PossessionEnum.PLAYER) {
 					RecursiveSearch(Triangle, Yellow);
 				} else {
-					if(GameManager.possession == GameManager.PossessionEnum.TEAM
-						|| GameManager.possession == GameManager.PossessionEnum.PLAYER) RecursiveSearch(Triangle, Yellow);
-					else RecursiveSearch(Triangle, Red);
+					RecursiveSearch(Triangle, Red);
 				}
 			} else {
 				if(GameManager.possession == GameManager.PossessionEnum.OPPONENT) {
 					RecursiveSearch(Triangle, Yellow);
 				} else {
-					if(GameManager.thrower == GameManager.ThrowerEnum.OPPONENT) RecursiveSearch(Triangle, Yellow);
-					else RecursiveSearch(Triangle, Red);
+					RecursiveSearch(Triangle, Red);
 				}
 			}
 		} else if(NpcController.CurrentPossession == this){
@@ -322,7 +320,7 @@ public partial class NPCPlayer : CharacterBody3D
 		Vector3 MinDist = Vector3.Zero;
 		foreach(NPCPlayer N in NpcController.NPCS.Where(n => n.GlobalPosition.Z > GlobalPosition.Z)) {
 			if(MinDist == Vector3.Zero) MinDist = N.GlobalPosition - GlobalPosition;
-			if(N.GlobalPosition - GlobalPosition < MinDist) MinDist = N.GlobalPosition - GlobalPosition;
+			if((N.GlobalPosition - GlobalPosition).Length() < MinDist.Length()) MinDist = N.GlobalPosition - GlobalPosition;
 		}
 		return MinDist;
 	}

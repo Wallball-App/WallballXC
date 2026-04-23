@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://dfkoj2cjmmy5b" path="res://UI/Screenshots/Courtyard_1_23_2026.png" id="6_m7np6"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="6_p04md"]
 [ext_resource type="Texture2D" uid="uid://dmi2cayf16rw4" path="res://UI/Images/Navigation_R.png" id="7_vnqbt"]
+[ext_resource type="Texture2D" uid="uid://caduaecfn87ps" path="res://UI/Screenshots/NPC_Idle.png" id="10_3kbbk"]
+[ext_resource type="Script" uid="uid://bhx5jfj48pt0p" path="res://Scripts/UI/PlayerConfig.cs" id="10_fh5pp"]
+[ext_resource type="Script" uid="uid://b2edrfe8olsy6" path="res://Scripts/UI/TeamMaterial.cs" id="12_mrngk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7np6"]
 content_margin_left = 0.0
@@ -87,6 +90,51 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fh5pp"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="Shader" id="Shader_cre4e"]
+code = "shader_type canvas_item;
+
+uniform vec4 remove_color : source_color = vec4(1.0);
+uniform vec4 replace : source_color = vec4(0.0);
+uniform float tolerance = 0.1f;
+
+void vertex() {
+	// Called for every vertex the material is visible on.
+}
+
+void fragment() {
+	vec4 current = texture(TEXTURE, UV);
+	float difference = distance(current, remove_color);
+	
+	if(difference <= tolerance) {
+		COLOR = replace;
+	}
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the CanvasItem.
+//	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cre4e"]
+resource_local_to_scene = true
+shader = SubResource("Shader_cre4e")
+shader_parameter/remove_color = Color(1, 0, 0, 1)
+shader_parameter/replace = Color(0, 1, 0, 1)
+shader_parameter/tolerance = 0.6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tysuo"]
 content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
@@ -309,6 +357,7 @@ theme = ExtResource("1_boueq")
 theme_override_styles/panel = SubResource("StyleBoxFlat_m7np6")
 
 [node name="Map" type="PanelContainer" parent="TabMenu/MenuContainer/View" unique_id=1218763024]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -381,7 +430,6 @@ theme_override_font_sizes/font_size = 36
 text = "Courtyard"
 
 [node name="Players" type="PanelContainer" parent="TabMenu/MenuContainer/View" unique_id=776506366]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -389,6 +437,103 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fh5pp")
+script = ExtResource("10_fh5pp")
+
+[node name="TeamsVBox" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Players" unique_id=2100229342]
+layout_mode = 2
+
+[node name="TextMargins" type="MarginContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox" unique_id=2062325061]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 0
+
+[node name="TextGrid" type="GridContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/TextMargins" unique_id=1351447065]
+layout_mode = 2
+theme_override_constants/h_separation = 288
+columns = 2
+
+[node name="TeamText" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/TextMargins/TextGrid" unique_id=340100720]
+layout_mode = 2
+
+[node name="Team" type="Label" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/TextMargins/TextGrid/TeamText" unique_id=563962987]
+layout_mode = 2
+text = "Team: "
+
+[node name="TeamPlayerCount" type="LineEdit" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/TextMargins/TextGrid/TeamText" unique_id=1232080353]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "3"
+placeholder_text = "3"
+max_length = 1
+
+[node name="OpponentText" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/TextMargins/TextGrid" unique_id=1294573273]
+layout_mode = 2
+
+[node name="Opponent" type="Label" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/TextMargins/TextGrid/OpponentText" unique_id=1077538089]
+layout_mode = 2
+text = "Opponent: "
+
+[node name="OpponentPlayerCount" type="LineEdit" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/TextMargins/TextGrid/OpponentText" unique_id=1951488889]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "3"
+placeholder_text = "3"
+max_length = 1
+
+[node name="PlayerMargins" type="MarginContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox" unique_id=883026871]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 160
+theme_override_constants/margin_right = 50
+
+[node name="Teams" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/PlayerMargins" unique_id=1764391794]
+layout_mode = 2
+
+[node name="TeamPlayer" type="TextureRect" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/PlayerMargins/Teams" unique_id=919055242]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_cre4e")
+custom_minimum_size = Vector2(60, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_3kbbk")
+expand_mode = 3
+script = ExtResource("12_mrngk")
+
+[node name="OpponentPlayer" type="TextureRect" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/PlayerMargins/Teams" unique_id=82681755]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(60, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_3kbbk")
+expand_mode = 3
+flip_h = true
+
+[node name="Teammates" type="GridContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/PlayerMargins/Teams" unique_id=686196115]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 192)
+layout_mode = 2
+columns = 4
+
+[node name="Split" type="Panel" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/PlayerMargins/Teams" unique_id=133325525]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tysuo")
+
+[node name="Opponents" type="GridContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/PlayerMargins/Teams" unique_id=1888436534]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 192)
+layout_mode = 2
+columns = 4
 
 [node name="Play" type="MarginContainer" parent="." unique_id=485483494]
 anchors_preset = 3

@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://c3c7nh0mpqxi4" path="res://Scripts/UI/Fps.cs" id="10_j04uc"]
 [ext_resource type="Script" uid="uid://dw870i2hltblk" path="res://Scripts/UI/Vram.cs" id="11_vqx31"]
 [ext_resource type="Script" uid="uid://dhy5huro2jq5p" path="res://Scripts/UI/Quit.cs" id="12_b1goy"]
+[ext_resource type="Shader" uid="uid://d8f71k5hmjho" path="res://Shaders/RemoveBG.gdshader" id="13_o3jj0"]
+[ext_resource type="Script" uid="uid://tf5wagfnjtld" path="res://Scripts/UI/TeamColorRect.cs" id="13_thdbn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yx171"]
 font_size = 32
@@ -1029,6 +1031,12 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jeqmb"]
+shader = ExtResource("13_o3jj0")
+shader_parameter/remove_color = Color(1, 1, 1, 1)
+shader_parameter/replace = Color(0, 0, 1, 1)
+shader_parameter/tolerance = 1.0
+
 [node name="GameUI" type="CanvasLayer" unique_id=811244294]
 process_mode = 3
 
@@ -1333,3 +1341,34 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_b1goy")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_n04ve")
 text = "Quit"
 script = ExtResource("12_b1goy")
+
+[node name="TeamMargins" type="MarginContainer" parent="." unique_id=121852576]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="TeamHBox" type="HBoxContainer" parent="TeamMargins" unique_id=1710462065]
+layout_mode = 2
+
+[node name="TeamColorLabel" type="Label" parent="TeamMargins/TeamHBox" unique_id=1999606555]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_mg6lk")
+text = "Team: "
+
+[node name="TeamColorRect" type="ColorRect" parent="TeamMargins/TeamHBox" unique_id=289981917]
+material = SubResource("ShaderMaterial_jeqmb")
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("13_thdbn")

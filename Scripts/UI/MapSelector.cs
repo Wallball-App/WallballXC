@@ -54,6 +54,6 @@ public partial class MapSelector : PanelContainer
 	}
 	public async void StartGame() {
 		await Alpha.FadeOut();
-		GetTree().ChangeSceneToFile(GameData.MAPS[Index].Item2);
+		GetTree().CallDeferred("change_scene_to_file", GameData.MAPS[Index].Item2);
 	}
 }

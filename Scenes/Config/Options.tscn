@@ -17,18 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://dubyktot2t87b" path="res://UI/Screenshots/Wallball-Team-Scenic.png" id="14_2spwi"]
 [ext_resource type="Script" uid="uid://bxp2l0endivhk" path="res://Scripts/UI/TeamColor.cs" id="15_qnfwt"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ee5j"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2spwi"]
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -156,78 +144,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_djx3p")
 expand_mode = 1
-
-[node name="Options" type="MenuBar" parent="." unique_id=2088540194]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Colors" type="MenuButton" parent="Options" unique_id=161771722]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_tab_index = 1
-
-[node name="Elements" type="VBoxContainer" parent="Options/Colors" unique_id=813687972]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
-grow_horizontal = 2
-
-[node name="Spacer" type="Panel" parent="Options/Colors/Elements" unique_id=1809758483]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2ee5j")
-
-[node name="Colors" type="HBoxContainer" parent="Options/Colors/Elements" unique_id=1068540847]
-layout_mode = 2
-theme_override_constants/separation = 100
-
-[node name="Team" type="VBoxContainer" parent="Options/Colors/Elements/Colors" unique_id=946088828]
-layout_mode = 2
-
-[node name="ColorLabel" type="Label" parent="Options/Colors/Elements/Colors/Team" unique_id=1969803431]
-layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "Team Color:"
-
-[node name="TeamColor" type="ColorPicker" parent="Options/Colors/Elements/Colors/Team" unique_id=1079570033]
-unique_name_in_owner = true
-layout_mode = 2
-edit_alpha = false
-edit_intensity = false
-sampler_visible = false
-color_modes_visible = false
-presets_visible = false
-
-[node name="Opponent" type="VBoxContainer" parent="Options/Colors/Elements/Colors" unique_id=2086900318]
-layout_mode = 2
-
-[node name="ColorLabel" type="Label" parent="Options/Colors/Elements/Colors/Opponent" unique_id=1645702610]
-layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "Opponent Color:"
-
-[node name="OpponentColor" type="ColorPicker" parent="Options/Colors/Elements/Colors/Opponent" unique_id=1109251954]
-unique_name_in_owner = true
-layout_mode = 2
-edit_alpha = false
-edit_intensity = false
-sampler_visible = false
-color_modes_visible = false
-presets_visible = false
 
 [node name="TabMenu" type="MarginContainer" parent="." unique_id=1028984310]
 anchors_preset = 15
@@ -452,6 +368,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="TeamColor" type="ColorPicker" parent="TabMenu/MenuContainer/View/Team/TeamContainer" unique_id=1744818967]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 color = Color(0, 0, 1, 1)
