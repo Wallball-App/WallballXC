@@ -12,6 +12,7 @@ public partial class PlayerConfig : PanelContainer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		TreeExiting += SaveFinal;
 		OpponentPlayer = GetNode<TextureRect>("%OpponentPlayer");
 		TeamPlayer = GetNode<TextureRect>("%TeamPlayer");
 		
@@ -59,6 +60,13 @@ public partial class PlayerConfig : PanelContainer
 	private void Save(string Team, int number) {
 		ConfigFile counts = new ConfigFile();
 		counts.SetValue("Players", Team, number);
+		counts.Save(SettingsPath);
+	}
+	private void SaveFinal() {
+		ConfigFile counts = new ConfigFile();
+		counts.SetValue("Players", "Team", TeamPlayerText.Text);
+		counts.Save(SettingsPath);
+		counts.SetValue("Players", "Opponent", OpponentPlayerText.Text);
 		counts.Save(SettingsPath);
 	}
 }

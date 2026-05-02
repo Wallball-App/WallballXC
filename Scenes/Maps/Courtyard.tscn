@@ -125,6 +125,7 @@ material_override = ExtResource("1_eca22")
 size = Vector3(1, 32, 64)
 
 [node name="Window" type="Node3D" parent="Scenery_Control/Scenery" unique_id=1365255377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Glass_L" type="CSGBox3D" parent="Scenery_Control/Scenery/Window" unique_id=1132181841]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 36.5, 28)
@@ -144,6 +145,7 @@ material_override = SubResource("StandardMaterial3D_2xset")
 size = Vector3(56, 10, 1)
 
 [node name="Roof" type="Node3D" parent="Scenery_Control/Scenery" unique_id=1730496349]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Triangle" type="CSGPolygon3D" parent="Scenery_Control/Scenery/Roof" unique_id=1606722458]
 transform = Transform3D(32, 0, 0, 0, 15, 0, 0, 0, 15, 0, 40, 42)

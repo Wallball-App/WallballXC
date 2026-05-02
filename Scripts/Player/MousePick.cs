@@ -8,6 +8,8 @@ public partial class MousePick : CollisionShape3D
 	private GameManager ctx;
 	[Export] public float ThrowSpeed = 2f;
 	[Export] public float Sprint_ThrowSpeed = 4f;
+
+	public static bool IsThrowClicked;
 	private Camera3D cam;
 	private Vector3 Offset = new Vector3(0.0f, 0.0f, 3.0f);
 	// Called when the node enters the scene tree for the first time.
@@ -45,6 +47,7 @@ public partial class MousePick : CollisionShape3D
 				}
 			}
 			if(ev.ButtonIndex == MouseButton.Left && !ev.Pressed) {
+				IsThrowClicked = true;
 				if(GameManager.possession == GameManager.PossessionEnum.PLAYER) {
 					/*GameManager.possession = GameManager.PossessionEnum.NONE;
 					GameManager.thrower = GameManager.ThrowerEnum.PLAYER;

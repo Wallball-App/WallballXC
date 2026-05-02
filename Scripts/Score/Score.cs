@@ -41,13 +41,14 @@ public partial class Score : Node3D
 	public void CatchScore() {
 		if(Scored_Catch) return;
 		GameManager.Pitches = -1;
-		if(GameManager.previous == GameManager.ThrowerEnum.PLAYER || 
-					GameManager.previous == GameManager.ThrowerEnum.TEAM) {
+		// Use previous thrower (who threw the ball) and possession (who caught it)
+		if(GameManager.previous_thrower == GameManager.ThrowerEnum.PLAYER || 
+					GameManager.previous_thrower == GameManager.ThrowerEnum.TEAM) {
 			if(GameManager.possession == GameManager.PossessionEnum.OPPONENT) {
 				OpponentScore++;
 				Scored_Catch = true;
 			}
-		} else if(GameManager.previous == GameManager.ThrowerEnum.OPPONENT) {
+		} else if(GameManager.previous_thrower == GameManager.ThrowerEnum.OPPONENT) {
 			if(GameManager.possession == GameManager.PossessionEnum.TEAM ||
 						GameManager.possession == GameManager.PossessionEnum.PLAYER) {
 				TeamScore++;

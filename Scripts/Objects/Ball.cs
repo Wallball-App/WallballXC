@@ -41,10 +41,22 @@ public partial class Ball : RigidBody3D
 		}
 	}
 	public void Catch(GameManager.PossessionEnum p, Vector3 pos) {
-		GameManager.previous_pos = GameManager.possession;
+		// Store who threw the ball before overwriting
+		GameManager.ThrowerEnum previousThrower = GameManager.thrower;
+		GameManager.PossessionEnum previousPossession = GameManager.possession;
+		
+		GameManager.previous_thrower = previousThrower;
 		GameManager.possession = p;
-		GameManager.previous = GameManager.thrower;
+		GameManager.previous_pos = previousPossession;
 		GameManager.thrower = GameManager.ThrowerEnum.NONE;
+		
+		GameManager.HitWall = false;
+		GameManager.HitFloor = false;
+		
+		// Reset score booleans for new play
+		Score.Scored_Wall = false;
+		Score.Scored_Catch = false;
+		
 		if(GameManager.Pitches == 0) {
 			score.CatchScore();
 		}
@@ -57,11 +69,10 @@ public partial class Ball : RigidBody3D
 	public void Throw(GameManager.ThrowerEnum t, 
 		Vector3 Direction, float Speed) {
 		GameManager.previous_pos = GameManager.possession;
+		GameManager.previous_thrower = GameManager.thrower;
 		GameManager.possession = GameManager.PossessionEnum.NONE;
 		GameManager.thrower = t;
 		GameManager.Pitches = 0;
-		GameManager.HitWall = false;
-		GameManager.HitFloor = false;
 		
 		Freeze = false;
 		Sleeping = false;

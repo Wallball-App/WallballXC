@@ -12,10 +12,16 @@ public partial class NpcController : Node3D
 	public static NPCPlayer CurrentPossession = null;
 	private string TeamMaterialLoadPath, OpponentMaterialLoadPath;
 	private string CountLoadPath;
+	
+	private Timer CutScene;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		TreeExiting += Clear;
+		NPCS.Clear();
+		CurrentPossession = null;
+		
+		CutScene = GetNode<Timer>("%CutsceneTimer");
 		Init();
 		GD.Print("Functions Bound to NPCController");
 	}
@@ -38,7 +44,41 @@ public partial class NpcController : Node3D
 			RecursiveSearch(child, Path);
 		}
 	}
+	private void ResetClone(Node3D node)
+	{
+		foreach(Node child in node.GetChildren()) {
+			if(child is Node3D child3D) {
+				ResetClone(child3D);
+			}
+		}
+		if(node is CharacterBody3D body) {
+			body.Velocity = Vector3.Zero;
+		}
+		if(node is NPCPlayer npc) {
+			npc.IsHolding = false;
+			npc.IsRunning = false;
+			npc.IsJumping = false;
+			npc.Hold = -1;
+			npc.Frames = 0;
+			npc.Target = npc.GlobalPosition;
+		}
+		// Reset Triangle visibility and clear emissive materials
+		if(node.Name == "Triangle") {
+			node.Visible = false;
+			node.GlobalPosition = Vector3.Zero;
+			// Clear any emissive materials applied to Triangle meshes
+			if(node is MeshInstance3D mesh) {
+				for(int i = 0; i < mesh.GetSurfaceOverrideMaterialCount(); i++) {
+					mesh.SetSurfaceOverrideMaterial(i, null);
+				}
+			}
+		}
+	}
 	public void Init() {
+		GD.Print("--------------------");
+		ResetClone(Clone);
+		Clone.Visible = false;
+		Clone.SetPhysicsProcess(false);
 		GD.Print("Initialization Started");
 		TeamMaterialLoadPath = (FileAccess.FileExists("user://Team.tres")) ? 
 					"user://Team.tres" : "res://Materials/Team.tres";
@@ -50,7 +90,7 @@ public partial class NpcController : Node3D
 			ConfigFile cfg = new ConfigFile();
 			cfg.Load(CountLoadPath);
 			TeamCount = (int)cfg.GetValue("Players", "Team", 3);
-			OpponentCount = (int)cfg.GetValue("Players", "Opponents", 3);
+			OpponentCount = (int)cfg.GetValue("Players", "Opponent", 3);
 			GD.Print("ConfigFile Found");
 		} else GD.Print("ConfigFile Not Found");
 		GD.Print("Using Team Material: " + TeamMaterialLoadPath);
@@ -58,6 +98,7 @@ public partial class NpcController : Node3D
 		for(int i = 0; i < (TeamCount-1); i++) {   //PLAYER COUNTS AS TEAM
 			Node3D ClonedNode = Clone.Duplicate() as Node3D;
 			ClonedNode.Visible = true;
+			Clone.SetPhysicsProcess(true);
 			RecursiveSearch(ClonedNode, TeamMaterialLoadPath);
 			TeamController.AddChild(ClonedNode);
 			(ClonedNode as NPCPlayer).TEAM = 0;
@@ -67,19 +108,22 @@ public partial class NpcController : Node3D
 		for(int i = 0; i < (OpponentCount-1); i++) { 	//MAIN NPC IS PART OF OPPONENTS
 			Node3D ClonedNode = Clone.Duplicate() as Node3D;
 			ClonedNode.Visible = true;
+			Clone.SetPhysicsProcess(true);
 			RecursiveSearch(ClonedNode, OpponentMaterialLoadPath);
 			OpponentController.AddChild(ClonedNode);
 			(ClonedNode as NPCPlayer).TEAM = 1;
 			NPCS.Add(ClonedNode as NPCPlayer);
 			GD.Print("Adding Opponents");
 		}
+		Clone.Visible = true;
+		Clone.SetPhysicsProcess(true);
 	}
 	public void Clear() {
 		foreach(Node child in TeamController.GetChildren()) {
-			child.QueueFree();
+			child.Free();
 		}
 		foreach(Node child in OpponentController.GetChildren()) {
-			child.QueueFree();
+			child.Free();
 		}
 		NPCS.Clear();
 	}

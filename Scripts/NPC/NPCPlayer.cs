@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 
 public partial class NPCPlayer : CharacterBody3D
 {
@@ -9,7 +11,7 @@ public partial class NPCPlayer : CharacterBody3D
 	//private AnimationController AnimController;
 	public Node3D NPC1, NPC2;
 	//public List<Node3D> NPCS;
-	private RigidBody3D Ball;
+	public RigidBody3D Ball;
 	private StaticBody3D Wall, Ground;
 	private Node3D WallGeometry;
 	Ball BallControl;
@@ -24,7 +26,7 @@ public partial class NPCPlayer : CharacterBody3D
 	float margin = 15f;
 	
 	RandomNumberGenerator rng = new RandomNumberGenerator();
-	private Vector3 Target;
+	public Vector3 Target;
 	public int TEAM;
 	public float Hold = -1;
 	public int Frames;
@@ -49,6 +51,8 @@ public partial class NPCPlayer : CharacterBody3D
 	private float WorldSize;
 	private StandardMaterial3D Red, Green, Yellow;
 	private float Gravity;
+
+	private int TargetFrame;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -102,6 +106,12 @@ public partial class NPCPlayer : CharacterBody3D
 		WallGeometry = Wall.GetNode<Node3D>("WallGeometry");
 		BallControl = Ball as Ball;
 		
+		// Remove any existing Triangle first to prevent duplicates on restart
+		Node existingTriangle = FindChild("Triangle", true, false);
+		if(existingTriangle != null) {
+			existingTriangle.QueueFree();
+		}
+		
 		Triangle = FindChild("Triangle", true, false).Duplicate() as Node3D;
 		this.AddChild(Triangle);
 		
@@ -126,6 +136,7 @@ public partial class NPCPlayer : CharacterBody3D
 		Triangle.Visible = false;
 		Frames = 0;
 		Target = CreateNewTarget(false, IsRunning);
+		TargetFrame = 0;
 		
 		rng.Randomize();
 	}
@@ -134,6 +145,7 @@ public partial class NPCPlayer : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		if(!Visible) return;
+		if(NpcController.NPCS.Count == 0) return;
 		MoveTowardTarget(delta);
 		CheckForThrow();
 		HoldBall();
@@ -145,7 +157,7 @@ public partial class NPCPlayer : CharacterBody3D
 		Frames++;
 	}
 	private void MoveTowardTarget(double delta) {
-		if(GlobalPosition.DistanceTo(Target) <= 3.0f || Frames % 180 == 0) {
+		if(GlobalPosition.DistanceTo(Target) <= 3.0f || Frames % (3/delta) == 0) {
 			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession((float)delta);
 			
 			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) {
@@ -154,13 +166,21 @@ public partial class NPCPlayer : CharacterBody3D
 				WalkSpeed = BaseSpeed * Sprint;
 			}
 			else {
+				/*if(rng.Randf() <= 0.5f) Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+				else if(!IsRunning && !IsHolding && !GameManager.HitWall) Target = Vector3.Zero;*/
 				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+				TargetFrame = Frames;
 			}
 			PickUpRight = (Dist <= 6.0f && 
 				Target.DistanceTo(Ball.GlobalPosition) <= 0.5f && Ball.GlobalPosition.Y <= 0.75f 
 				&& GameManager.HitWall && GameManager.possession == GameManager.PossessionEnum.NONE);
-			NPCAnimationTree.Set("parameters/conditions/PickUpRight", PickUpRight);
+			
+
 		} else {
+			/*if(Target == Vector3.Zero)
+			{
+				Velocity -= (Velocity * 0.5f);
+			}*/
 			if(GameManager.HitWall) SetPossession((float)delta);
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
 			Vector3 velocity = Velocity;
@@ -170,10 +190,10 @@ public partial class NPCPlayer : CharacterBody3D
 			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed;
 			//SteeringWeight = (5.0f/WalkSpeed) * (WorldSize / GlobalPosition.DistanceTo(Target));
 			Vector3 steering = desired - velocity;
-			steering = steering.LimitLength(WalkSpeed);
+			steering = steering.LimitLength(WalkSpeed * Math.Clamp(Dist, 0.0f, 1.0f));
 			
 			Velocity += steering * (float)delta;
-			
+
 			if(Velocity.Length() >= 0.5f) {
 				Basis lookat;
 				if(IsHolding) {
@@ -223,6 +243,7 @@ public partial class NPCPlayer : CharacterBody3D
 				BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
 							Vector3.Down, 1);
 				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+				TargetFrame = Frames;
 			}
 		}
 	}
@@ -246,6 +267,10 @@ public partial class NPCPlayer : CharacterBody3D
 		//IsHolding = (IsHolding && Frames < Hold);
 		if(IsHolding) {
 			Ball.GlobalPosition = GlobalPosition + new Vector3(0.0f, 2.0f, 1.0f);
+			if(GlobalPosition.Z > SafePoint.GlobalPosition.Z) {
+				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+				TargetFrame = Frames;
+			}
 		}
 	}
 	private void CheckWallCollide() {
@@ -253,6 +278,7 @@ public partial class NPCPlayer : CharacterBody3D
 			if(IsRunning) IsRunning = false;
 			Target = CreateNewTarget(GameManager.HitWall, IsRunning); //Change HitWall to FALSE to change NPC Behavior
 			//GD.Print("NPC Safe");
+			TargetFrame = Frames;
 		} 
 	}
 	private void RecursiveSearch(Node node, StandardMaterial3D mat) {

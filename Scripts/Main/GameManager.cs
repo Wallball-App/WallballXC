@@ -5,11 +5,11 @@ public partial class GameManager : Node3D
 {
 	public enum ThrowerEnum {PLAYER, TEAM, OPPONENT, NONE /*, RUNNING*/};
 	public static ThrowerEnum thrower;
-	public static ThrowerEnum previous;
 	
 	public enum PossessionEnum {PLAYER, TEAM, OPPONENT, NONE};
 	public static PossessionEnum possession;
 	public static PossessionEnum previous_pos;
+	public static ThrowerEnum previous_thrower;
 	
 	[Export] public StaticBody3D Wall, Ground;
 	public static RigidBody3D Ball;

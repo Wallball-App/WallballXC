@@ -6,8 +6,10 @@
 [ext_resource type="Script" uid="uid://cjmkcj8hwm7ts" path="res://addons/sky_3d/src/TimeOfDay.gd" id="10_2a0aq"]
 [ext_resource type="Script" uid="uid://bmjkj0so6nltq" path="res://Scripts/Objects/Ball.cs" id="11_8prw7"]
 [ext_resource type="AudioStream" uid="uid://swgxawequqk4" path="res://Audio/Effects/Bounce.wav" id="12_7t5af"]
+[ext_resource type="Script" uid="uid://bxsp353dokv2s" path="res://Scripts/Player/PlayerModel.cs" id="12_quqqi"]
 [ext_resource type="PackedScene" uid="uid://cwm4tbstoucnl" path="res://Models/TennisBall.blend" id="12_wm5c7"]
 [ext_resource type="Script" uid="uid://dc5x2whjafxf0" path="res://Scripts/Audio/BallAudio.cs" id="13_8aa1y"]
+[ext_resource type="Animation" uid="uid://dt284364j4uy" path="res://Models/NpcAnimations/RunningStop.res" id="14_ifvgg"]
 [ext_resource type="Script" uid="uid://cdwl3i5ju5oc4" path="res://Scripts/Player/PlayerInput.cs" id="14_j7tkl"]
 [ext_resource type="Script" uid="uid://cku54ewyfioiy" path="res://Scripts/Player/MousePick.cs" id="15_3ktvn"]
 [ext_resource type="Script" uid="uid://dx50yroqnp1om" path="res://Scripts/Main/GameManager.cs" id="16_sm46x"]
@@ -22,6 +24,7 @@
 [ext_resource type="Animation" uid="uid://c6nv3ogu7x83p" path="res://Models/NpcAnimations/Running.res" id="26_qfjt1"]
 [ext_resource type="Animation" uid="uid://cxt5wgwu3fjoh" path="res://Models/NpcAnimations/RunningJump.res" id="27_26cu0"]
 [ext_resource type="Animation" uid="uid://b1frevrwg2n5p" path="res://Models/NpcAnimations/PickUp_Right.res" id="27_ybkb3"]
+[ext_resource type="Script" uid="uid://bwhek8gvim7i5" path="res://Scripts/Main/Weather.cs" id="28_5paon"]
 [ext_resource type="Animation" uid="uid://s8k5b37a8eu" path="res://Models/NpcAnimations/Throwing.res" id="28_ybkb3"]
 [ext_resource type="PackedScene" uid="uid://cyas1f44vhqmx" path="res://Models/Triangle.glb" id="29_urdfj"]
 [ext_resource type="Animation" uid="uid://bda1is2q1khaa" path="res://Models/NpcAnimations/RunningStop_001.res" id="30_26cu0"]
@@ -57,6 +60,76 @@ size = Vector3(0.25, 0.25, 0.25)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xpl1q"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_7gq7q"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_quqqi"]
+_data = {
+&"Catch": ExtResource("24_quqqi"),
+&"Idle": ExtResource("25_wm5c7"),
+&"Running": ExtResource("26_qfjt1"),
+&"RunningStop": ExtResource("14_ifvgg"),
+&"Throwing": ExtResource("28_ybkb3")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ifvgg"]
+animation = &"PlayerAnimation/Idle"
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_quqqi"]
+animation = &"PlayerAnimation/Running"
+use_custom_timeline = true
+timeline_length = 0.5
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_26cu0"]
+animation = &"PlayerAnimation/Throwing"
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qfjt1"]
+xfade_time = 0.25
+advance_mode = 2
+advance_condition = &"Running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_quqqi"]
+xfade_time = 0.25
+advance_mode = 2
+advance_condition = &"Stopped"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ybkb3"]
+xfade_time = 0.25
+priority = 0
+advance_mode = 2
+advance_condition = &"ThrowClicked"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_md48u"]
+xfade_time = 0.25
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wm5c7"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xpl1q"]
+advance_mode = 2
+advance_condition = &"ThrowClicked"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_26cu0"]
+states/PlayerAnimation_Idle/node = SubResource("AnimationNodeAnimation_ifvgg")
+states/PlayerAnimation_Idle/position = Vector2(443, 126)
+states/PlayerAnimation_Running/node = SubResource("AnimationNodeAnimation_quqqi")
+states/PlayerAnimation_Running/position = Vector2(713, 207)
+states/PlayerAnimation_Throwing/node = SubResource("AnimationNodeAnimation_26cu0")
+states/PlayerAnimation_Throwing/position = Vector2(397, 207)
+transitions = ["PlayerAnimation_Idle", "PlayerAnimation_Running", SubResource("AnimationNodeStateMachineTransition_qfjt1"), "PlayerAnimation_Running", "PlayerAnimation_Idle", SubResource("AnimationNodeStateMachineTransition_quqqi"), "PlayerAnimation_Idle", "PlayerAnimation_Throwing", SubResource("AnimationNodeStateMachineTransition_ybkb3"), "PlayerAnimation_Throwing", "PlayerAnimation_Idle", SubResource("AnimationNodeStateMachineTransition_md48u"), "Start", "PlayerAnimation_Idle", SubResource("AnimationNodeStateMachineTransition_wm5c7"), "PlayerAnimation_Running", "PlayerAnimation_Throwing", SubResource("AnimationNodeStateMachineTransition_xpl1q")]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_08olo"]
 rough = true
@@ -116,14 +189,6 @@ _data = {
 &"Throwing": ExtResource("28_ybkb3")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_26cu0"]
-animation = &"NpcAnimations/Running"
-use_custom_timeline = true
-timeline_length = 1.0
-stretch_time_scale = false
-start_offset = 0.0
-loop_mode = 1
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wm5c7"]
 animation = &"NpcAnimations/Running"
 use_custom_timeline = true
@@ -132,7 +197,7 @@ stretch_time_scale = false
 start_offset = 0.0
 loop_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ybkb3"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e7kvu"]
 animation = &"NpcAnimations/RunningStop_001"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qfjt1"]
@@ -151,19 +216,17 @@ xfade_time = 0.5
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xpl1q"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e7kvu"]
 xfade_time = 0.25
-break_loop_at_end = true
-priority = 0
 advance_mode = 2
 advance_expression = "Frames >= Hold && Hold != -1"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_md48u"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5paon"]
 xfade_time = 0.25
 advance_mode = 2
-advance_expression = "Dist <= 3.0f"
+advance_expression = "GlobalPosition.AngleTo(Target) <= (PI/3)"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ybkb3"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ifvgg"]
 switch_mode = 2
 advance_mode = 2
 
@@ -171,18 +234,16 @@ advance_mode = 2
 states/End/position = Vector2(851, 108)
 states/NpcAnimations_Running/node = SubResource("AnimationNodeAnimation_wm5c7")
 states/NpcAnimations_Running/position = Vector2(390, 151)
-"states/NpcAnimations_Running 2/node" = SubResource("AnimationNodeAnimation_26cu0")
-"states/NpcAnimations_Running 2/position" = Vector2(193, 288)
-states/NpcAnimations_RunningStop_001/node = SubResource("AnimationNodeAnimation_ybkb3")
-states/NpcAnimations_RunningStop_001/position = Vector2(596, 282)
+states/NpcAnimations_RunningStop_001/node = SubResource("AnimationNodeAnimation_e7kvu")
+states/NpcAnimations_RunningStop_001/position = Vector2(740, 199)
 states/NpcAnimations_Throwing/node = SubResource("AnimationNodeAnimation_qfjt1")
-states/NpcAnimations_Throwing/position = Vector2(90, 204)
+states/NpcAnimations_Throwing/position = Vector2(390, 250)
 states/Start/position = Vector2(141, 108)
-transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running 2", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_xpl1q"), "NpcAnimations_Running", "NpcAnimations_RunningStop_001", SubResource("AnimationNodeStateMachineTransition_md48u"), "NpcAnimations_RunningStop_001", "NpcAnimations_Running 2", SubResource("AnimationNodeStateMachineTransition_ybkb3")]
-graph_offset = Vector2(-321, 133)
+transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_e7kvu"), "NpcAnimations_Running", "NpcAnimations_RunningStop_001", SubResource("AnimationNodeStateMachineTransition_5paon"), "NpcAnimations_RunningStop_001", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_ifvgg")]
+graph_offset = Vector2(-107, 98)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wm5c7"]
-graph_offset = Vector2(-309, 107)
+graph_offset = Vector2(-297, -10)
 nodes/MainStateMachine/node = SubResource("AnimationNodeStateMachine_md48u")
 nodes/MainStateMachine/position = Vector2(-140, 160)
 node_connections = [&"output", 0, &"MainStateMachine"]
@@ -278,7 +339,6 @@ draw_pass_1 = SubResource("BoxMesh_qfjt1")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1103171266]
 unique_name_in_owner = true
-visible = false
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("14_j7tkl")
@@ -289,8 +349,26 @@ shape = SubResource("CapsuleShape3D_xpl1q")
 script = ExtResource("15_3ktvn")
 
 [node name="MainCamera" type="Camera3D" parent="Player" unique_id=1338620527]
-transform = Transform3D(-0.99776316, 0, 0.066848494, 0, 1, 0, -0.066848494, 0, -0.99776316, 0, 3.5, 0.424)
+transform = Transform3D(-0.99776316, 0, 0.066848494, 0, 1, 0, -0.066848494, 0, -0.99776316, 0.75, 3.25, 1.6)
 attributes = SubResource("CameraAttributesPhysical_7gq7q")
+
+[node name="PlayerGeometry" parent="Player" unique_id=1813489923 instance=ExtResource("31_qfjt1")]
+unique_name_in_owner = true
+transform = Transform3D(-2.1855694e-06, 0, 50, 0, 50, 0, -50, 0, -2.1855694e-06, 0.625, 0.5, 0)
+script = ExtResource("12_quqqi")
+
+[node name="PlayerAnimation" type="AnimationPlayer" parent="Player/PlayerGeometry" unique_id=801042898]
+libraries/PlayerAnimation = SubResource("AnimationLibrary_quqqi")
+
+[node name="PlayerAnimTree" type="AnimationTree" parent="Player/PlayerGeometry" unique_id=903568921]
+unique_name_in_owner = true
+root_node = NodePath("%PlayerAnimTree/..")
+tree_root = SubResource("AnimationNodeStateMachine_26cu0")
+advance_expression_base_node = NodePath("../..")
+anim_player = NodePath("../PlayerAnimation")
+parameters/conditions/Running = false
+parameters/conditions/Stopped = false
+parameters/conditions/ThrowClicked = false
 
 [node name="GameManager" type="Node3D" parent="." unique_id=1430480616 node_paths=PackedStringArray("Wall", "Ground")]
 unique_name_in_owner = true
@@ -404,6 +482,11 @@ tree_root = SubResource("AnimationNodeBlendTree_wm5c7")
 advance_expression_base_node = NodePath("../..")
 anim_player = NodePath("../NpcAnimationPlayer")
 
+[node name="NPCAnimationTree" type="AnimationTree" parent="NPCController/NPC/NPC_Obj/NPCAnimationTree" unique_id=1488301630]
+tree_root = SubResource("AnimationNodeBlendTree_wm5c7")
+advance_expression_base_node = NodePath("../..")
+anim_player = NodePath("../NpcAnimationPlayer")
+
 [node name="Triangle" parent="NPCController/NPC" unique_id=58492237 instance=ExtResource("29_urdfj")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.8, 4.25, -0.35000005)
 visible = false
@@ -412,3 +495,12 @@ visible = false
 unique_name_in_owner = true
 script = ExtResource("31_soolo")
 Ball = NodePath("../Ball")
+
+[node name="CutsceneTimer" type="Timer" parent="." unique_id=956177540]
+unique_name_in_owner = true
+process_mode = 3
+wait_time = 5.0
+autostart = true
+
+[node name="Weather" type="Node3D" parent="." unique_id=919686878]
+script = ExtResource("28_5paon")

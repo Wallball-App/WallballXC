@@ -4,6 +4,7 @@ using System;
 public partial class PlayerInput : CharacterBody3D
 {
 	[Export] public float Gravity = -9.81f;
+	private float Gravity_Save;
 	[Export] public float GravityScale = 2f;
 	private Node3D cam, rt;
 	private float sensitivity = 0.0015f;
@@ -13,6 +14,12 @@ public partial class PlayerInput : CharacterBody3D
 	public static bool IsSprinting;
 	private CanvasLayer GameUI;
 	private Vector3 DefaultPos;
+	private AnimationTree PlayerAnimationTree;
+	public Vector3 velocity;
+	private Timer CutScene;
+
+	public static Vector3 CamRotation;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -20,6 +27,12 @@ public partial class PlayerInput : CharacterBody3D
 		GameUI = GetNode<CanvasLayer>("%GameUI");
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		DefaultPos = cam.Position;
+		Gravity_Save = Gravity;
+		CutScene = GetNode<Timer>("%CutsceneTimer");
+		PlayerAnimationTree = GetNode<AnimationTree>("PlayerGeometry/PlayerAnimTree");
+		PlayerAnimationTree.Active = true;
+		CutScenePosition();
+		CutScene.Timeout += Start;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,7 +41,7 @@ public partial class PlayerInput : CharacterBody3D
 		IsSprinting = Input.IsActionPressed("Sprint");
 		WalkSpeed = (IsSprinting) ? 25f : 15f;
 		
-		Vector3 velocity = Velocity;
+		velocity = Velocity;
 		velocity = new Vector3(0.0f, velocity.Y, 0.0f);
 		Vector2 keys = Input.GetVector("Left", "Right", "Forward", "Backward");
 		Vector3 movement = cam.Transform.Basis * Transform.Basis * new Vector3(keys.X, 0, keys.Y);
@@ -48,6 +61,13 @@ public partial class PlayerInput : CharacterBody3D
 		}
 		if(velocity.Length() > 0 && IsOnFloor()) CameraBounce(0.05f * (WalkSpeed/15f), 0.5f);
 		else cam.Position = cam.Position.Lerp(DefaultPos, (float)delta * 10.0f);
+
+		PlayerAnimationTree.Set("parameters/conditions/ThrowClicked", MousePick.IsThrowClicked);
+		PlayerAnimationTree.Set("parameters/conditions/Running", velocity.Length() >= 0.25f);
+		PlayerAnimationTree.Set("parameters/conditions/Stopped", velocity.Length() < 0.25f);
+		if(MousePick.IsThrowClicked) MousePick.IsThrowClicked = false;
+		CamRotation = cam.GlobalRotation;
+		
 		Velocity = velocity;
 		MoveAndSlide();
 	}
@@ -74,5 +94,13 @@ public partial class PlayerInput : CharacterBody3D
 	private void CameraBounce(float Amp, float Freq) {
 		Vector3 offset = new Vector3((float)Math.Abs(0.5 * Math.Cos(GameManager.FRAMES * Freq)), (float) Math.Sin(GameManager.FRAMES * Freq), 0.0f) * Amp;
 		cam.Position = cam.Position + offset;
+	}
+	private void CutScenePosition() {
+		//Gravity = 0;
+		//GlobalPosition = new Vector3(0.0f, 30.0f, -150.0f);
+	}
+	private void Start() {
+		//Gravity = Gravity_Save;
+		//GlobalPosition = new Vector3(0.0f, 1.0f, 0.0f);
 	}
 }
