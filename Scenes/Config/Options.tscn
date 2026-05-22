@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://clcl53esa5cf5" path="res://Documents/Controls/Controls.png" id="10_sedjm"]
 [ext_resource type="Shader" uid="uid://d8f71k5hmjho" path="res://Shaders/RemoveBG.gdshader" id="11_kd00q"]
 [ext_resource type="Texture2D" uid="uid://qlsfcokj1e50" path="res://UI/Images/LMB.png" id="12_2spwi"]
+[ext_resource type="FoldableGroup" uid="uid://0h0qbbidmcqy" path="res://UI/Elements/UserOptionsFoldable.tres" id="12_lvid2"]
 [ext_resource type="Texture2D" uid="uid://ck7ya4o2j88k" path="res://UI/Images/RMB.png" id="13_qnfwt"]
 [ext_resource type="Texture2D" uid="uid://dubyktot2t87b" path="res://UI/Screenshots/Wallball-Team-Scenic.png" id="14_2spwi"]
 [ext_resource type="Script" uid="uid://bxp2l0endivhk" path="res://Scripts/UI/TeamColor.cs" id="15_qnfwt"]
@@ -159,9 +160,10 @@ theme_override_constants/margin_bottom = 60
 [node name="MenuContainer" type="HBoxContainer" parent="TabMenu" unique_id=1933962216]
 layout_mode = 2
 
-[node name="Tabs" type="VBoxContainer" parent="TabMenu/MenuContainer" unique_id=1514383397]
+[node name="Tabs" type="VBoxContainer" parent="TabMenu/MenuContainer" unique_id=1514383397 node_paths=PackedStringArray("UserName")]
 layout_mode = 2
 script = ExtResource("2_gxp6h")
+UserName = NodePath("../View/User/UserContainer/Name/UsernameContainer/Username")
 
 [node name="Instructions" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=271218191]
 custom_minimum_size = Vector2(240, 45)
@@ -181,14 +183,14 @@ toggle_mode = true
 button_group = ExtResource("3_gvr03")
 text = "Controls"
 
-[node name="Team" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=1155449473]
+[node name="User" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=1155449473]
 custom_minimum_size = Vector2(240, 45)
 layout_mode = 2
 theme = ExtResource("2_58lat")
 theme_override_font_sizes/font_size = 28
 toggle_mode = true
 button_group = ExtResource("3_gvr03")
-text = "Team"
+text = "User"
 
 [node name="View" type="Panel" parent="TabMenu/MenuContainer" unique_id=2131190682]
 unique_name_in_owner = true
@@ -346,17 +348,51 @@ layout_mode = 2
 texture = ExtResource("12_2spwi")
 expand_mode = 1
 
-[node name="Team" type="VBoxContainer" parent="TabMenu/MenuContainer/View" unique_id=1068856458]
-layout_mode = 0
-offset_right = 814.0
-offset_bottom = 432.0
+[node name="User" type="ScrollContainer" parent="TabMenu/MenuContainer/View" unique_id=1243015804]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="TeamContainer" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Team" unique_id=1651777424]
+[node name="UserContainer" type="VBoxContainer" parent="TabMenu/MenuContainer/View/User" unique_id=1068856458]
+layout_mode = 2
+
+[node name="Name" type="FoldableContainer" parent="TabMenu/MenuContainer/View/User/UserContainer" unique_id=1521659129]
+layout_mode = 2
+folded = true
+title = "Username Settings"
+foldable_group = ExtResource("12_lvid2")
+
+[node name="UsernameContainer" type="HBoxContainer" parent="TabMenu/MenuContainer/View/User/UserContainer/Name" unique_id=373710288]
+visible = false
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="TabMenu/MenuContainer/View/User/UserContainer/Name/UsernameContainer" unique_id=212980388]
+layout_mode = 2
+text = "Username:"
+
+[node name="Username" type="LineEdit" parent="TabMenu/MenuContainer/View/User/UserContainer/Name/UsernameContainer" unique_id=1108283700]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(432, 0)
+layout_mode = 2
+placeholder_text = "Enter your username here"
+
+[node name="ColorContainer" type="FoldableContainer" parent="TabMenu/MenuContainer/View/User/UserContainer" unique_id=2094878276]
+layout_mode = 2
+title = "Team Colors"
+foldable_group = ExtResource("12_lvid2")
+
+[node name="InterfaceVBox" type="VBoxContainer" parent="TabMenu/MenuContainer/View/User/UserContainer/ColorContainer" unique_id=132039427]
+layout_mode = 2
+
+[node name="TeamContainer" type="HBoxContainer" parent="TabMenu/MenuContainer/View/User/UserContainer/ColorContainer/InterfaceVBox" unique_id=1651777424]
 clip_contents = true
 layout_mode = 2
 alignment = 1
 
-[node name="ShaderPreview" type="TextureRect" parent="TabMenu/MenuContainer/View/Team/TeamContainer" unique_id=1849840596]
+[node name="ShaderPreview" type="TextureRect" parent="TabMenu/MenuContainer/View/User/UserContainer/ColorContainer/InterfaceVBox/TeamContainer" unique_id=1849840596]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_kd00q")
 custom_minimum_size = Vector2(512, 384)
@@ -367,7 +403,7 @@ texture = ExtResource("14_2spwi")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="TeamColor" type="ColorPicker" parent="TabMenu/MenuContainer/View/Team/TeamContainer" unique_id=1744818967]
+[node name="TeamColor" type="ColorPicker" parent="TabMenu/MenuContainer/View/User/UserContainer/ColorContainer/InterfaceVBox/TeamContainer" unique_id=1744818967]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
@@ -380,12 +416,12 @@ color_modes_visible = false
 presets_visible = false
 script = ExtResource("15_qnfwt")
 
-[node name="Save" type="Button" parent="TabMenu/MenuContainer/View/Team" unique_id=1909809281]
+[node name="Save" type="Button" parent="TabMenu/MenuContainer/View/User/UserContainer/ColorContainer/InterfaceVBox" unique_id=1909809281]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 8
 theme = ExtResource("2_58lat")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_qnfwt")

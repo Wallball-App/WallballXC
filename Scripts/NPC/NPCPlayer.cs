@@ -53,11 +53,18 @@ public partial class NPCPlayer : CharacterBody3D
 	private float Gravity;
 
 	private int TargetFrame;
+
+	private Node3D NpcGeometry;
+	private Skeleton3D NpcSkeleton;
+	private string BoneName = "mixamorig_Head";
+	private int BoneIndex;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		//Position = new Vector3(0.0f, 0.0f, 0.0f);
 		//Rotation = new Vector3(0, Mathf.DegToRad(0f), Mathf.DegToRad(-90f));
+
+
 		Node Root = GetTree().Root;
 		//NPCS = new List<Node3D>();
 		
@@ -87,6 +94,11 @@ public partial class NPCPlayer : CharacterBody3D
 		//AnimController = FindChild("AnimationController", true, false) as AnimationController;
 		//AnimController.PlayRun();
 		Gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+
+		NpcGeometry = Root.FindChild("NPC_Obj", true, false) as Node3D;
+		NpcSkeleton = FindSkeleton(NpcGeometry);
+
+		BoneIndex = NpcSkeleton.FindBone(BoneName);
 		
 		CollisionShape3D GroundShape = Ground.GetNode<CollisionShape3D>("GroundCollision");
 		if(GroundShape.Shape is BoxShape3D s) {
@@ -206,6 +218,8 @@ public partial class NPCPlayer : CharacterBody3D
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
 		Triangle.GlobalPosition = GlobalPosition + new Vector3(0.0f, 5.0f, 0.0f);
+
+
 	}
 	private Vector3 CreateNewTarget(bool Wall, bool IsRunning) {
 		if(IsRunning) return SafePoint.GlobalPosition + new Vector3(0f, 0f, 2f);
@@ -231,8 +245,11 @@ public partial class NPCPlayer : CharacterBody3D
 				if(NpcController.CurrentPossession == null) {
 					NpcController.CurrentPossession = this;
 					IsHolding = true;
-						BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
-					GlobalPosition + new Vector3(0.0f, 0.0f, 1.0f));
+
+					Vector3 BonePos = NpcSkeleton.ToGlobal(NpcSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
+					BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
+							BonePos + new Vector3(0.0f, 0.25f, 0.0f));
+
 					if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
 					else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
 					else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
@@ -359,5 +376,18 @@ public partial class NPCPlayer : CharacterBody3D
 	public void UpdatePublicVariables() {
 		CharacterVelocity = Velocity;
 		Dist = GlobalPosition.DistanceTo(Target);
+	}
+	private Skeleton3D FindSkeleton(Node root)
+	{
+		if(root is Skeleton3D) return root as Skeleton3D;
+		else
+		{
+			foreach(Node child in root.GetChildren())
+			{
+				Node result = FindSkeleton(child);
+				if(result is Skeleton3D skeleton) return skeleton;
+			}
+		}
+		return null;
 	}
 }

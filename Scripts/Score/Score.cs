@@ -36,6 +36,7 @@ public partial class Score : Node3D
 				}
 			}
 			Scored_Wall = true;
+			GameManager.CWall = false;
 		}
 	}
 	public void CatchScore() {

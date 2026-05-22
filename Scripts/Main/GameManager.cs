@@ -10,6 +10,9 @@ public partial class GameManager : Node3D
 	public static PossessionEnum possession;
 	public static PossessionEnum previous_pos;
 	public static ThrowerEnum previous_thrower;
+
+	public enum CameraPerspectiveEnum {FIRST_PERSON, THIRD_PERSON};
+	public static CameraPerspectiveEnum perspective;
 	
 	[Export] public StaticBody3D Wall, Ground;
 	public static RigidBody3D Ball;

@@ -1,12 +1,13 @@
 using Godot;
 using System;
+using System.Net;
 
 public partial class PlayerInput : CharacterBody3D
 {
 	[Export] public float Gravity = -9.81f;
 	private float Gravity_Save;
 	[Export] public float GravityScale = 2f;
-	private Node3D cam, rt;
+	private Camera3D cam;
 	private float sensitivity = 0.0015f;
 	private float Jump = 12f;
 	private bool isJumping;
@@ -19,13 +20,22 @@ public partial class PlayerInput : CharacterBody3D
 	private Timer CutScene;
 
 	public static Vector3 CamRotation;
+	private Node3D PlayerGeometry;
+	private Node Movement;
+	private Node Rotation;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		cam = GetNode<Node3D>("MainCamera");
+		cam = GetNode<Camera3D>("%MainCamera");
+		PlayerGeometry = GetNode<Node3D>("%PlayerGeometry");
 		GameUI = GetNode<CanvasLayer>("%GameUI");
+
+		Movement = GetNode<Node>("%Movement");
+		Rotation = GetNode<Node>("%Rotation");
+      
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+
 		DefaultPos = cam.Position;
 		Gravity_Save = Gravity;
 		CutScene = GetNode<Timer>("%CutsceneTimer");
@@ -38,13 +48,38 @@ public partial class PlayerInput : CharacterBody3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
-		IsSprinting = Input.IsActionPressed("Sprint");
-		WalkSpeed = (IsSprinting) ? 25f : 15f;
-		
-		velocity = Velocity;
-		velocity = new Vector3(0.0f, velocity.Y, 0.0f);
-		Vector2 keys = Input.GetVector("Left", "Right", "Forward", "Backward");
-		Vector3 movement = cam.Transform.Basis * Transform.Basis * new Vector3(keys.X, 0, keys.Y);
+		Vector3 movement = Vector3.Zero;;
+		if(OS.HasFeature("pc"))
+		{
+			IsSprinting = Input.IsActionPressed("Sprint");
+			WalkSpeed = (IsSprinting) ? 25f : 15f;
+			
+			velocity = Velocity;
+			velocity = new Vector3(0.0f, velocity.Y, 0.0f);
+
+			Vector2 keys = Input.GetVector("Left", "Right", "Forward", "Backward");
+
+			movement = cam.GlobalTransform.Basis * new Vector3(keys.X, 0, keys.Y);
+		}
+		else if(OS.HasFeature("mobile"))
+		{
+			Vector2 movepos = Movement.Get("value").As<Vector2>();
+			movepos *= 0.1f;
+			if(movepos != Vector2.Zero) movement = cam.GlobalTransform.Basis * new Vector3(movepos.X, 0, movepos.Y);
+
+			Vector2 rot = Rotation.Get("value").As<Vector2>();
+			rot *= 5.0f;
+			
+			cam.RotateX(rot.Y * sensitivity);
+			RotateY(rot.X * sensitivity);
+			PlayerGeometry.RotateY(rot.X * sensitivity);
+			Vector3 camrot = cam.Rotation;
+			camrot.Z = 0;
+			camrot.X = (float) Math.Clamp(camrot.X, -Math.PI/2, Math.PI/2);
+			cam.Rotation = camrot;
+		}
+
+
 		movement.Y = 0;
 		velocity += movement * WalkSpeed;
 		if(isJumping && IsOnFloor()) {
@@ -59,8 +94,8 @@ public partial class PlayerInput : CharacterBody3D
 				velocity.Y = 0;
 			}
 		}
-		if(velocity.Length() > 0 && IsOnFloor()) CameraBounce(0.05f * (WalkSpeed/15f), 0.5f);
-		else cam.Position = cam.Position.Lerp(DefaultPos, (float)delta * 10.0f);
+		//if(velocity.Length() > 0 && IsOnFloor()) CameraBounce(0.05f * (WalkSpeed/15f), 0.5f);
+		//else if(GameManager.perspective == GameManager.CameraPerspectiveEnum.FIRST_PERSON) cam.Position = cam.Position.Lerp(DefaultPos, (float)delta * 10.0f);
 
 		PlayerAnimationTree.Set("parameters/conditions/ThrowClicked", MousePick.IsThrowClicked);
 		PlayerAnimationTree.Set("parameters/conditions/Running", velocity.Length() >= 0.25f);
@@ -73,8 +108,10 @@ public partial class PlayerInput : CharacterBody3D
 	}
 	public override void _Input(InputEvent @e) {
 		if(@e is InputEventMouseMotion mm) {
+			if(OS.HasFeature("mobile")) return;
 			cam.RotateX(mm.Relative.Y * sensitivity);
 			RotateY(-mm.Relative.X * sensitivity);
+			PlayerGeometry.RotateY(-mm.Relative.X * sensitivity);
 			Vector3 rot = cam.Rotation;
 			rot.Z = 0;
 			rot.X = (float) Math.Clamp(rot.X, -Math.PI/2, Math.PI/2);
@@ -89,6 +126,19 @@ public partial class PlayerInput : CharacterBody3D
 		}
 		if(@e.IsActionPressed("UI_Toggle")) {
 			GameUI.Visible = (GameUI.Visible) ? false : true;
+		}
+		if(@e.IsActionPressed("Perspective_Change", false))
+		{
+			switch (GameManager.perspective)
+			{
+				case GameManager.CameraPerspectiveEnum.FIRST_PERSON:
+					GameManager.perspective = GameManager.CameraPerspectiveEnum.THIRD_PERSON;
+					break;
+				case GameManager.CameraPerspectiveEnum.THIRD_PERSON:
+					GameManager.perspective = GameManager.CameraPerspectiveEnum.FIRST_PERSON;
+					break;
+			}
+			GetViewport().SetInputAsHandled();
 		}
 	}
 	private void CameraBounce(float Amp, float Freq) {

@@ -348,6 +348,15 @@ toggle_mode = true
 button_group = ExtResource("4_1nc3w")
 text = "Players"
 
+[node name="Weather" type="Button" parent="TabMenu/MenuContainer/Tabs" unique_id=1420725122]
+custom_minimum_size = Vector2(240, 45)
+layout_mode = 2
+theme = ExtResource("1_boueq")
+theme_override_font_sizes/font_size = 28
+toggle_mode = true
+button_group = ExtResource("4_1nc3w")
+text = "Weather"
+
 [node name="View" type="Panel" parent="TabMenu/MenuContainer" unique_id=631314264]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
@@ -531,6 +540,106 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_tysuo")
 
 [node name="Opponents" type="GridContainer" parent="TabMenu/MenuContainer/View/Players/TeamsVBox/PlayerMargins/Teams" unique_id=1888436534]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 192)
+layout_mode = 2
+columns = 4
+
+[node name="Weather" type="PanelContainer" parent="TabMenu/MenuContainer/View" unique_id=294208471]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fh5pp")
+script = ExtResource("10_fh5pp")
+
+[node name="TeamsVBox" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Weather" unique_id=687946964]
+layout_mode = 2
+
+[node name="TextMargins" type="MarginContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox" unique_id=1322445034]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 0
+
+[node name="TextGrid" type="GridContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins" unique_id=110753485]
+layout_mode = 2
+theme_override_constants/h_separation = 288
+columns = 2
+
+[node name="TeamText" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid" unique_id=389166778]
+layout_mode = 2
+
+[node name="Team" type="Label" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/TeamText" unique_id=1074088366]
+layout_mode = 2
+text = "Team: "
+
+[node name="TeamPlayerCount" type="LineEdit" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/TeamText" unique_id=5679920]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "3"
+placeholder_text = "3"
+max_length = 1
+
+[node name="OpponentText" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid" unique_id=859029895]
+layout_mode = 2
+
+[node name="Opponent" type="Label" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/OpponentText" unique_id=1951805525]
+layout_mode = 2
+text = "Opponent: "
+
+[node name="OpponentPlayerCount" type="LineEdit" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/OpponentText" unique_id=2065231180]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "3"
+placeholder_text = "3"
+max_length = 1
+
+[node name="PlayerMargins" type="MarginContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox" unique_id=103938991]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 160
+theme_override_constants/margin_right = 50
+
+[node name="Teams" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins" unique_id=2050832681]
+layout_mode = 2
+
+[node name="TeamPlayer" type="TextureRect" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=1977541695]
+visible = false
+material = SubResource("ShaderMaterial_cre4e")
+custom_minimum_size = Vector2(60, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_3kbbk")
+expand_mode = 3
+script = ExtResource("12_mrngk")
+
+[node name="OpponentPlayer" type="TextureRect" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=880231118]
+visible = false
+custom_minimum_size = Vector2(60, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_3kbbk")
+expand_mode = 3
+flip_h = true
+
+[node name="Teammates" type="GridContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=1746300383]
+custom_minimum_size = Vector2(288, 192)
+layout_mode = 2
+columns = 4
+
+[node name="Split" type="Panel" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=1728640168]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tysuo")
+
+[node name="Opponents" type="GridContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=446338933]
 custom_minimum_size = Vector2(288, 192)
 layout_mode = 2
 columns = 4

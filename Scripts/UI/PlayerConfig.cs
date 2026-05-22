@@ -1,4 +1,5 @@
 using Godot;
+using GodotCookies;
 using System;
 
 public partial class PlayerConfig : PanelContainer
@@ -12,7 +13,7 @@ public partial class PlayerConfig : PanelContainer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		TreeExiting += SaveFinal;
+		TreeExiting += Save;
 		OpponentPlayer = GetNode<TextureRect>("%OpponentPlayer");
 		TeamPlayer = GetNode<TextureRect>("%TeamPlayer");
 		
@@ -43,7 +44,7 @@ public partial class PlayerConfig : PanelContainer
 			clone.Visible = true;
 			TeamContainer.AddChild(clone);
 		}
-		Save("Team", count);
+		Save();
 	}
 	public void OnOpponentTextChange(String text) {
 		foreach(Node child in OpponentContainer.GetChildren()) {
@@ -55,18 +56,10 @@ public partial class PlayerConfig : PanelContainer
 			clone.Visible = true;
 			OpponentContainer.AddChild(clone);
 		}
-		Save("Opponent", count);
+		Save();
 	}
-	private void Save(string Team, int number) {
-		ConfigFile counts = new ConfigFile();
-		counts.SetValue("Players", Team, number);
-		counts.Save(SettingsPath);
-	}
-	private void SaveFinal() {
-		ConfigFile counts = new ConfigFile();
-		counts.SetValue("Players", "Team", TeamPlayerText.Text);
-		counts.Save(SettingsPath);
-		counts.SetValue("Players", "Opponent", OpponentPlayerText.Text);
-		counts.Save(SettingsPath);
+	private void Save() {
+		Cookies.User.Set("Teamcount", int.Parse(TeamPlayerText.Text));
+		Cookies.User.Set("Opponentcount", int.Parse(OpponentPlayerText.Text));
 	}
 }

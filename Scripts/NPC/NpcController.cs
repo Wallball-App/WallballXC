@@ -1,4 +1,5 @@
 using Godot;
+using GodotCookies;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,6 @@ public partial class NpcController : Node3D
 	public static List<NPCPlayer> NPCS = new List<NPCPlayer>();
 	public static NPCPlayer CurrentPossession = null;
 	private string TeamMaterialLoadPath, OpponentMaterialLoadPath;
-	private string CountLoadPath;
 	
 	private Timer CutScene;
 	// Called when the node enters the scene tree for the first time.
@@ -84,15 +84,12 @@ public partial class NpcController : Node3D
 					"user://Team.tres" : "res://Materials/Team.tres";
 		OpponentMaterialLoadPath = (FileAccess.FileExists("user://Opponent.tres")) ? 
 					"user://Opponent.tres" : "res://Materials/Opponent.tres";
-		CountLoadPath = (FileAccess.FileExists("user://transition.cfg")) ? 
-		"user://transition.cfg" : null;
-		if(CountLoadPath != null) {
-			ConfigFile cfg = new ConfigFile();
-			cfg.Load(CountLoadPath);
-			TeamCount = (int)cfg.GetValue("Players", "Team", 3);
-			OpponentCount = (int)cfg.GetValue("Players", "Opponent", 3);
-			GD.Print("ConfigFile Found");
-		} else GD.Print("ConfigFile Not Found");
+
+		TeamCount = Cookies.User.Get<int>("Teamcount");
+		if(TeamCount <= 0) TeamCount = 3;
+		OpponentCount = Cookies.User.Get<int>("Opponentcount");
+		if(OpponentCount <= 0) OpponentCount = 3;
+		
 		GD.Print("Using Team Material: " + TeamMaterialLoadPath);
 		GD.Print("Using Opponent Material: " + OpponentMaterialLoadPath);
 		for(int i = 0; i < (TeamCount-1); i++) {   //PLAYER COUNTS AS TEAM

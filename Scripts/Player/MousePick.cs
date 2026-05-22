@@ -11,6 +11,7 @@ public partial class MousePick : CollisionShape3D
 
 	public static bool IsThrowClicked;
 	private Camera3D cam;
+	private Node3D PlayerGeometry;
 	private Vector3 Offset = new Vector3(0.0f, 0.0f, 3.0f);
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -18,7 +19,9 @@ public partial class MousePick : CollisionShape3D
 		Ball = GetNode<RigidBody3D>("%Ball");
 		BallControl = GetNode<Ball>("%Ball");
 		ctx = GetNode<GameManager>("%GameManager");
-		cam = GetNode<Camera3D>("../MainCamera");
+		cam = GetNode<Camera3D>("%MainCamera");
+		PlayerGeometry = GetNode<Node3D>("%PlayerGeometry");
+		
 		Ball.GlobalTransform = new Transform3D(Basis.Identity, new Vector3(0.0f, 10f, 0.0f));
 		GameManager.possession = GameManager.PossessionEnum.PLAYER;
 		GameManager.thrower = GameManager.ThrowerEnum.NONE;
@@ -42,8 +45,10 @@ public partial class MousePick : CollisionShape3D
 					/*Ball.GlobalTransform = new Transform3D(Basis.Identity, 
 						cam.GlobalPosition - cam.Rotation);
 					Ball.GlobalPosition = cam.GlobalPosition + Offset;*/
-					if(SafeText.Safe) BallControl.Catch(GameManager.PossessionEnum.PLAYER, 
-						cam.GlobalPosition + Offset);
+					if(SafeText.Safe && GameManager.possession == GameManager.PossessionEnum.NONE)
+					{
+						BallControl.Catch(GameManager.PossessionEnum.PLAYER, cam.GlobalPosition + Offset);
+					}
 				}
 			}
 			if(ev.ButtonIndex == MouseButton.Left && !ev.Pressed) {
