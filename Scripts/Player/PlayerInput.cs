@@ -8,6 +8,7 @@ public partial class PlayerInput : CharacterBody3D
 	private float Gravity_Save;
 	[Export] public float GravityScale = 2f;
 	private Camera3D cam;
+	private MainCamera CameraSpring;
 	private float sensitivity = 0.0015f;
 	private float Jump = 12f;
 	private bool isJumping;
@@ -17,7 +18,7 @@ public partial class PlayerInput : CharacterBody3D
 	private Vector3 DefaultPos;
 	private AnimationTree PlayerAnimationTree;
 	public Vector3 velocity;
-	private Timer CutScene;
+	private Node3D Preview;
 
 	public static Vector3 CamRotation;
 	private Node3D PlayerGeometry;
@@ -28,6 +29,7 @@ public partial class PlayerInput : CharacterBody3D
 	public override void _Ready()
 	{
 		cam = GetNode<Camera3D>("%MainCamera");
+		CameraSpring = GetNode<MainCamera>("%CameraArm");
 		PlayerGeometry = GetNode<Node3D>("%PlayerGeometry");
 		GameUI = GetNode<CanvasLayer>("%GameUI");
 
@@ -38,11 +40,10 @@ public partial class PlayerInput : CharacterBody3D
 
 		DefaultPos = cam.Position;
 		Gravity_Save = Gravity;
-		CutScene = GetNode<Timer>("%CutsceneTimer");
+		Preview = GetNode<Node3D>("%Preview");
 		PlayerAnimationTree = GetNode<AnimationTree>("PlayerGeometry/PlayerAnimTree");
 		PlayerAnimationTree.Active = true;
 		CutScenePosition();
-		CutScene.Timeout += Start;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -118,8 +119,12 @@ public partial class PlayerInput : CharacterBody3D
 			cam.Rotation = rot;
 		}
 		if(@e.IsActionPressed("ui_cancel")) {
-			Input.MouseMode = (Input.MouseMode == Input.MouseModeEnum.Captured) ? 
-				Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+			if(!CameraSpring.IsInPreview) {
+				Input.MouseMode = (Input.MouseMode == Input.MouseModeEnum.Captured) ? 
+					Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+			} else {
+				CameraSpring.Reparent();
+			}
 		}
 		if(@e.IsActionPressed("Jump") && !@e.IsEcho() && IsOnFloor()) {
 			isJumping = true;

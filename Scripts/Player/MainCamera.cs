@@ -1,6 +1,7 @@
 using Godot;
 using GodotCookies;
 using System;
+using System.Runtime.CompilerServices;
 
 public partial class MainCamera : SpringArm3D
 {
@@ -9,12 +10,16 @@ public partial class MainCamera : SpringArm3D
 	private string BoneName = "mixamorig_Head";
 	private int BoneIndex;
 	private Camera3D Camera;
+	private Node3D Preview;
+	public bool IsInPreview = true;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		PlayerGeometry = GetNode<Node3D>("%PlayerGeometry");
 		PlayerSkeleton = FindSkeleton(PlayerGeometry);
 		Camera = GetNode<Camera3D>("%MainCamera");
+		Preview = GetNode<Node3D>("%Preview");
+		(Preview as Preview).CutsceneEnded += Reparent;
 
 		BoneIndex = PlayerSkeleton.FindBone(BoneName);
 	}
@@ -22,6 +27,13 @@ public partial class MainCamera : SpringArm3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(IsInPreview)
+		{
+			GlobalPosition = Preview.GlobalPosition;
+			GlobalRotation = Preview.GlobalRotation;
+			Camera.GlobalRotation = new Vector3(Preview.GlobalRotation.X, Camera.GlobalRotation.Y, Camera.GlobalRotation.Z);
+			return;
+		}
 		if(GameManager.perspective == GameManager.CameraPerspectiveEnum.FIRST_PERSON)
 		{
 			Vector3 BonePos = PlayerSkeleton.ToGlobal(PlayerSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
@@ -73,6 +85,10 @@ public partial class MainCamera : SpringArm3D
 			} else PlayerGeometry.Visible = true;
 		}
  	}
-
+	public void Reparent()
+	{
+		IsInPreview = false;
+		GlobalRotation = Vector3.Zero;
+	}
 }
 

@@ -32,6 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://clbfky2xivuw6" path="res://Models/NpcAnimation.blend" id="31_qfjt1"]
 [ext_resource type="Script" uid="uid://bat2mm6uybvkj" path="res://Scripts/Score/Score.cs" id="31_soolo"]
 [ext_resource type="Script" uid="uid://e0hay8e7e0me" path="res://addons/virtual_joystick_plus/virtual_joystick_plus.gd" id="32_ybkb3"]
+[ext_resource type="Script" uid="uid://t731bfsl4o8i" path="res://Scripts/Player/Preview.cs" id="33_26cu0"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_26cu0"]
 auto_exposure_enabled = true
@@ -372,6 +373,7 @@ parameters/conditions/Stopped = false
 parameters/conditions/ThrowClicked = false
 
 [node name="CameraArm" type="SpringArm3D" parent="Player/PlayerGeometry" unique_id=1128353360]
+unique_name_in_owner = true
 transform = Transform3D(-8.742278e-10, 0, -0.02, 0, 0.02, 0, 0.02, 0, -8.742278e-10, -0.02, 0.055, -0.0005000001)
 shape = SubResource("SeparationRayShape3D_ybkb3")
 script = ExtResource("11_wm5c7")
@@ -566,3 +568,7 @@ stick_use_textures = false
 stick_preset_texture = 0
 stick_color = Color(0.2231029, 0.2231029, 0.22310287, 1)
 metadata/_custom_type_script = "uid://e0hay8e7e0me"
+
+[node name="Preview" type="Node3D" parent="." unique_id=2063891887]
+unique_name_in_owner = true
+script = ExtResource("33_26cu0")
