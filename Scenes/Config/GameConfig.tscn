@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://caduaecfn87ps" path="res://UI/Screenshots/NPC_Idle.png" id="10_3kbbk"]
 [ext_resource type="Script" uid="uid://bhx5jfj48pt0p" path="res://Scripts/UI/PlayerConfig.cs" id="10_fh5pp"]
 [ext_resource type="Script" uid="uid://b2edrfe8olsy6" path="res://Scripts/UI/TeamMaterial.cs" id="12_mrngk"]
+[ext_resource type="Script" uid="uid://dcht2yuxpx1o4" path="res://Scripts/UI/WeatherConfig.cs" id="13_cre4e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7np6"]
 content_margin_left = 0.0
@@ -140,6 +141,42 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8n4ko"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u78hf"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.21176471, 0.21176471, 0.21176471, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ehs4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.21176471, 0.21176471, 0.21176471, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -439,6 +476,7 @@ theme_override_font_sizes/font_size = 36
 text = "Courtyard"
 
 [node name="Players" type="PanelContainer" parent="TabMenu/MenuContainer/View" unique_id=776506366]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -552,97 +590,80 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fh5pp")
-script = ExtResource("10_fh5pp")
+script = ExtResource("13_cre4e")
 
-[node name="TeamsVBox" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Weather" unique_id=687946964]
+[node name="WeatherContainer" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Weather" unique_id=755647848]
 layout_mode = 2
 
-[node name="TextMargins" type="MarginContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox" unique_id=1322445034]
+[node name="TimeHBox" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer" unique_id=229932918]
 layout_mode = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
-[node name="TextGrid" type="GridContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins" unique_id=110753485]
+[node name="Time" type="Label" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/TimeHBox" unique_id=993969975]
 layout_mode = 2
-theme_override_constants/h_separation = 288
-columns = 2
+text = "Time: "
 
-[node name="TeamText" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid" unique_id=389166778]
+[node name="TimeSlider" type="HSlider" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/TimeHBox" unique_id=197401748]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(432, 32)
 layout_mode = 2
+max_value = 24.0
+step = 0.0
+tick_count = 25
+ticks_position = 3
 
-[node name="Team" type="Label" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/TeamText" unique_id=1074088366]
+[node name="CurrentTime" type="Label" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/TimeHBox" unique_id=1075879666]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Team: "
+text = "[time]"
 
-[node name="TeamPlayerCount" type="LineEdit" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/TeamText" unique_id=5679920]
+[node name="CloudContainer" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer" unique_id=673544713]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-text = "3"
-placeholder_text = "3"
-max_length = 1
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
-[node name="OpponentText" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid" unique_id=859029895]
-layout_mode = 2
-
-[node name="Opponent" type="Label" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/OpponentText" unique_id=1951805525]
-layout_mode = 2
-text = "Opponent: "
-
-[node name="OpponentPlayerCount" type="LineEdit" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/TextMargins/TextGrid/OpponentText" unique_id=2065231180]
+[node name="Presets" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/CloudContainer" unique_id=976442452]
+custom_minimum_size = Vector2(768, 240)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "3"
-placeholder_text = "3"
-max_length = 1
+alignment = 1
 
-[node name="PlayerMargins" type="MarginContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox" unique_id=103938991]
+[node name="CloudPresets" type="OptionButton" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/CloudContainer/Presets" unique_id=208464597]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(432, 48)
 layout_mode = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 160
-theme_override_constants/margin_right = 50
+size_flags_vertical = 0
+theme = ExtResource("1_boueq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_8n4ko")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_u78hf")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5ehs4")
+item_count = 4
+popup/item_0/text = "Clear"
+popup/item_0/id = 0
+popup/item_1/text = "Partly Cloudy"
+popup/item_1/id = 1
+popup/item_2/text = "Cloudy"
+popup/item_2/id = 2
+popup/item_3/text = "Overcast"
+popup/item_3/id = 3
 
-[node name="Teams" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins" unique_id=2050832681]
-layout_mode = 2
-
-[node name="TeamPlayer" type="TextureRect" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=1977541695]
+[node name="Cirrus" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/CloudContainer" unique_id=489355304]
 visible = false
-material = SubResource("ShaderMaterial_cre4e")
-custom_minimum_size = Vector2(60, 120)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("10_3kbbk")
-expand_mode = 3
-script = ExtResource("12_mrngk")
 
-[node name="OpponentPlayer" type="TextureRect" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=880231118]
-visible = false
-custom_minimum_size = Vector2(60, 120)
+[node name="CirrusCloudLabel" type="Label" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/CloudContainer/Cirrus" unique_id=1392502170]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("10_3kbbk")
-expand_mode = 3
-flip_h = true
+text = "Cirrus Cloud Cover: "
 
-[node name="Teammates" type="GridContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=1746300383]
-custom_minimum_size = Vector2(288, 192)
+[node name="TimeSlider" type="HSlider" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/CloudContainer/Cirrus" unique_id=257509522]
+custom_minimum_size = Vector2(432, 32)
 layout_mode = 2
-columns = 4
-
-[node name="Split" type="Panel" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=1728640168]
-custom_minimum_size = Vector2(192, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_tysuo")
-
-[node name="Opponents" type="GridContainer" parent="TabMenu/MenuContainer/View/Weather/TeamsVBox/PlayerMargins/Teams" unique_id=446338933]
-custom_minimum_size = Vector2(288, 192)
-layout_mode = 2
-columns = 4
+max_value = 1.0
+step = 0.0
+tick_count = 25
+ticks_position = 3
 
 [node name="Play" type="MarginContainer" parent="." unique_id=485483494]
 anchors_preset = 3

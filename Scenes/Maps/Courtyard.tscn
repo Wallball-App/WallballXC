@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Game/Brick127.jpg" id="5_s3ry8"]
 [ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Game/Brick127Normal.png" id="6_vjqu4"]
 [ext_resource type="Material" uid="uid://coj761m321bmn" path="res://Materials/Courtyard/Floor_Courtyard.tres" id="7_vjqu4"]
+[ext_resource type="PackedScene" uid="uid://csa74gjnc523v" path="res://Models/HangingLight.blend" id="8_llpu7"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vjqu4"]
 rough = true
@@ -170,3 +171,47 @@ size = Vector3(56, 32, 15)
 [node name="GroundGeometry_Custom" type="CSGBox3D" parent="Scenery_Control/Scenery" unique_id=760347787]
 material_override = ExtResource("7_vjqu4")
 size = Vector3(64, 1, 64)
+
+[node name="LightContainer_Front" type="Node3D" parent="Scenery_Control/Scenery" unique_id=1248380135]
+transform = Transform3D(-2, 0, -3.019916e-07, 0, 2, 0, 3.019916e-07, 0, -2, 0, 33, 27.5)
+
+[node name="HangingLight_R" parent="Scenery_Control/Scenery/LightContainer_Front" unique_id=905688514 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 0)
+
+[node name="HangingLight_C" parent="Scenery_Control/Scenery/LightContainer_Front" unique_id=1329081361 instance=ExtResource("8_llpu7")]
+
+[node name="HangingLight_L" parent="Scenery_Control/Scenery/LightContainer_Front" unique_id=108410354 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0, 0)
+
+[node name="LightContainer_Back" type="Node3D" parent="Scenery_Control/Scenery" unique_id=1414970378]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 30, -31.5)
+
+[node name="HangingLight_R" parent="Scenery_Control/Scenery/LightContainer_Back" unique_id=214070539 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 0)
+
+[node name="HangingLight_C" parent="Scenery_Control/Scenery/LightContainer_Back" unique_id=144715899 instance=ExtResource("8_llpu7")]
+
+[node name="HangingLight_L" parent="Scenery_Control/Scenery/LightContainer_Back" unique_id=1257925353 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0, 0)
+
+[node name="LightContainer_Left" type="Node3D" parent="Scenery_Control/Scenery" unique_id=183724398]
+transform = Transform3D(-8.742278e-08, 0, -2, 0, 2, 0, 2, 0, -8.742278e-08, 31.5, 30, 0)
+
+[node name="HangingLight_R" parent="Scenery_Control/Scenery/LightContainer_Left" unique_id=390294395 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 0)
+
+[node name="HangingLight_C" parent="Scenery_Control/Scenery/LightContainer_Left" unique_id=1974851580 instance=ExtResource("8_llpu7")]
+
+[node name="HangingLight_L" parent="Scenery_Control/Scenery/LightContainer_Left" unique_id=622778624 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0, 0)
+
+[node name="LightContainer_Right" type="Node3D" parent="Scenery_Control/Scenery" unique_id=1777022194]
+transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, -31.5, 30, 0)
+
+[node name="HangingLight_R" parent="Scenery_Control/Scenery/LightContainer_Right" unique_id=289285016 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 0)
+
+[node name="HangingLight_C" parent="Scenery_Control/Scenery/LightContainer_Right" unique_id=849614282 instance=ExtResource("8_llpu7")]
+
+[node name="HangingLight_L" parent="Scenery_Control/Scenery/LightContainer_Right" unique_id=249756126 instance=ExtResource("8_llpu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0, 0)

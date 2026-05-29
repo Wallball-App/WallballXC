@@ -1,18 +1,12 @@
 [gd_scene format=3 uid="uid://dwuyglhv8n6ot"]
 
 [ext_resource type="PackedScene" uid="uid://gcgqh7uk6mnc" path="res://Scenes/Maps/Game.tscn" id="1_j843y"]
+[ext_resource type="Texture2D" uid="uid://bw11qyb3xryrm" path="res://Models/Raft/Wall/RaftWall_brick.png" id="3_gtu55"]
 [ext_resource type="Shader" uid="uid://05bjle35agn4" path="res://Shaders/Water.gdshader" id="4_gn067"]
 [ext_resource type="PackedScene" uid="uid://clmbxmeumm81l" path="res://Models/Raft/Wood.glb" id="5_gtu55"]
-[ext_resource type="Texture2D" uid="uid://bw4lkmp380kbv" path="res://Materials/Game/Brick127.jpg" id="5_vl5dx"]
-[ext_resource type="Texture2D" uid="uid://bv0by26ldhlhi" path="res://Materials/Game/Brick127Normal.png" id="6_8km42"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llpu7"]
-albedo_texture = ExtResource("5_vl5dx")
-metallic_specular = 0.0
-normal_enabled = true
-normal_texture = ExtResource("6_8km42")
-ao_enabled = true
-uv1_scale = Vector3(2, 2, 2)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j843y"]
+albedo_texture = ExtResource("3_gtu55")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gn067"]
 noise_type = 2
@@ -60,10 +54,9 @@ metallic_specular = 0.0
 
 [node name="Scenery" type="Node3D" parent="." unique_id=970547148]
 
-[node name="WallGeometry_Custom" type="CSGBox3D" parent="Scenery" unique_id=1206122418]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 28)
-visible = false
-material_override = SubResource("StandardMaterial3D_llpu7")
+[node name="WallCustom_CSG" type="CSGBox3D" parent="Scenery" unique_id=547992948]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 16, 30)
+material_override = SubResource("StandardMaterial3D_j843y")
 size = Vector3(56, 32, 4)
 
 [node name="Water" type="MeshInstance3D" parent="Scenery" unique_id=15561701]

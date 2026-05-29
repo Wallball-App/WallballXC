@@ -24,6 +24,7 @@ public partial class GameManager : Node3D
 	public override void _Ready()
 	{
 		Ball = GetNode<RigidBody3D>("%Ball");
+		GD.Print("GameManager Ready");
 		FRAMES = 0;
 	}
 
