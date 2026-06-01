@@ -47,6 +47,8 @@ public partial class NPCPlayer : CharacterBody3D
 	public float WallBounce = 0.75f;
 	public bool IsHolding;
 	public bool IsRunning;
+	public bool WillRun;
+	private float RunFrame;
 	private Node3D Triangle;
 	private float WorldSize;
 	private StandardMaterial3D Red, Green, Yellow;
@@ -58,6 +60,8 @@ public partial class NPCPlayer : CharacterBody3D
 	private Skeleton3D NpcSkeleton;
 	private string BoneName = "mixamorig_Head";
 	private int BoneIndex;
+
+	private float ResetTime;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -151,6 +155,8 @@ public partial class NPCPlayer : CharacterBody3D
 		TargetFrame = 0;
 		
 		rng.Randomize();
+
+		ResetTime = rng.RandfRange(2.0f, 3.0f);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -162,6 +168,7 @@ public partial class NPCPlayer : CharacterBody3D
 		CheckForThrow();
 		HoldBall();
 		if(IsRunning) CheckWallCollide();
+		//CheckForRunning();
 		SetMaterial();
 		ApplyGravity(delta);
 		MoveAndSlide();
@@ -169,7 +176,10 @@ public partial class NPCPlayer : CharacterBody3D
 		Frames++;
 	}
 	private void MoveTowardTarget(double delta) {
-		if(GlobalPosition.DistanceTo(Target) <= 3.0f || Frames % (3/delta) == 0) {
+		if(/*GlobalPosition.DistanceTo(Target) <= 3.0f || */Frames >= TargetFrame + (int)(ResetTime/delta)) {
+
+			ResetTime = rng.RandfRange(1.0f, 3.0f);
+
 			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession((float)delta);
 			
 			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) {
@@ -180,7 +190,15 @@ public partial class NPCPlayer : CharacterBody3D
 			else {
 				/*if(rng.Randf() <= 0.5f) Target = CreateNewTarget(GameManager.HitWall, IsRunning);
 				else if(!IsRunning && !IsHolding && !GameManager.HitWall) Target = Vector3.Zero;*/
-				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+				if(rng.Randf() <= 0.9f)
+				{
+					Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+				} else
+				{
+					Target = GlobalPosition;
+					Velocity = Vector3.Zero;
+				}
+				
 				TargetFrame = Frames;
 			}
 			PickUpRight = (Dist <= 6.0f && 
@@ -217,9 +235,19 @@ public partial class NPCPlayer : CharacterBody3D
 			}
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
+		if(GameManager.CWall && rng.Randf() <= 0.3f) { //Override NPC target to wall if ball hits wall and 30% chance
+			if(!IsRunning) Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+			return;
+		}
+		if(GlobalPosition.DistanceTo(Target) <= 3.0f && !IsRunning && Target.DistanceTo(Ball.GlobalPosition) <= 0.5f) //Set Idle Animation
+		{
+			Target = GlobalPosition;
+			Velocity = Vector3.Zero;
+			Vector3 ballPos = new Vector3(Ball.GlobalPosition.X, GlobalPosition.Y, Ball.GlobalPosition.Z);
+			Basis lookat = Basis.LookingAt(ballPos, Vector3.Up);
+			Basis = Basis.Orthonormalized().Slerp(lookat.Orthonormalized(), 0.5f);
+		}
 		Triangle.GlobalPosition = GlobalPosition + new Vector3(0.0f, 5.0f, 0.0f);
-
-
 	}
 	private Vector3 CreateNewTarget(bool Wall, bool IsRunning) {
 		if(IsRunning) return SafePoint.GlobalPosition + new Vector3(0f, 0f, 2f);
@@ -227,6 +255,8 @@ public partial class NPCPlayer : CharacterBody3D
 			GameManager.possession == GameManager.PossessionEnum.NONE)) {
 			Vector3 pos = Ball.GlobalPosition;
 			pos.Y = GlobalPosition.Y;
+			Vector3 RandomOffset = new Vector3(rng.RandfRange(-5.0f, 5.0f), 0.0f, rng.RandfRange(-5.0f, 5.0f));
+			pos += RandomOffset;
 			WalkSpeed = BaseSpeed * Sprint;
 			return pos;
 		}
@@ -256,11 +286,7 @@ public partial class NPCPlayer : CharacterBody3D
 				}
 			}
 			else {
-				IsRunning = true;
-				BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
-							Vector3.Down, 1);
-				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
-				TargetFrame = Frames;
+				SetRunning();
 			}
 		}
 	}
@@ -389,5 +415,17 @@ public partial class NPCPlayer : CharacterBody3D
 			}
 		}
 		return null;
+	}
+	private void CheckForRunning()
+	{
+		if(Frames >= RunFrame && RunFrame != 0) SetRunning();
+	}
+	private void SetRunning()
+	{
+		IsRunning = true;
+		BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
+					Vector3.Down, 1);
+		Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+		TargetFrame = Frames;
 	}
 }

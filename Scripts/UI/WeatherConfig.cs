@@ -18,6 +18,7 @@ public partial class WeatherConfig : PanelContainer
 		CloudPresets.Selected = Cookies.User.Get<int>("CloudPreset");
 
 		if(TimeSlider.Value == 0) TimeSlider.Value = 16.0f;
+		TimeLabel.Text = FormatTime(TimeSlider.Value.ToString());
 		if(CloudPresets.Selected == -1) CloudPresets.Selected = 1;
 
 		TimeSlider.ValueChanged += TimeSlider_ValueChanged;
@@ -33,6 +34,7 @@ public partial class WeatherConfig : PanelContainer
 	private void TimeSlider_ValueChanged(double value)
 	{
 		Cookies.User.Set("Time", value);
+		TimeLabel.Text = FormatTime(value.ToString());
 	}
 	private void CloudPresets_ItemSelected(long index)
 	{
@@ -44,9 +46,17 @@ public partial class WeatherConfig : PanelContainer
 		if(CloudPresets.Selected == -1) CloudPresets.Selected = 1;
 
 		Cookies.User.Set("Timer", TimeSlider.Value);
+		TimeLabel.Text = FormatTime(TimeSlider.Value.ToString());
 		Cookies.User.Set("CloudPreset", CloudPresets.Selected);
 
 		GD.Print("Time Set To: " + TimeSlider.Value);
 		GD.Print("Cloud Preset Set To: " + CloudPresets.Selected);
+	}
+	private string FormatTime(string time)
+	{
+		string[] split = time.Split(".");
+		int hours = int.Parse(split[0]);
+		int minutes = (int)((float.Parse("0." + split[1]) * 60) % 60);
+		return $"{hours:00}:{minutes:00}";
 	}
 }

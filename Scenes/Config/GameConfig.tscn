@@ -613,7 +613,7 @@ step = 0.0
 tick_count = 25
 ticks_position = 3
 
-[node name="CurrentTime" type="Label" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/TimeHBox" unique_id=1075879666]
+[node name="TimeLabel" type="Label" parent="TabMenu/MenuContainer/View/Weather/WeatherContainer/TimeHBox" unique_id=1075879666]
 unique_name_in_owner = true
 layout_mode = 2
 text = "[time]"

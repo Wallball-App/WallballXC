@@ -232,7 +232,6 @@ texture = ExtResource("6_hy81j")
 expand_mode = 1
 
 [node name="Controls" type="Panel" parent="TabMenu/MenuContainer/View" unique_id=516654037]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -253,71 +252,71 @@ grow_vertical = 2
 texture = ExtResource("10_sedjm")
 expand_mode = 1
 
-[node name="MoveLabels" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls" unique_id=468393984]
+[node name="MoveLabels" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls/Controls" unique_id=468393984]
 layout_mode = 0
-offset_left = 601.0
+offset_left = 469.0
 offset_top = 12.0
-offset_right = 641.0
-offset_bottom = 52.0
+offset_right = 509.0
+offset_bottom = 204.0
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="W" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=107305046]
+[node name="W" type="Label" parent="TabMenu/MenuContainer/View/Controls/Controls/MoveLabels" unique_id=107305046]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "W"
 horizontal_alignment = 1
 
-[node name="A" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=1813718663]
+[node name="A" type="Label" parent="TabMenu/MenuContainer/View/Controls/Controls/MoveLabels" unique_id=1813718663]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "A"
 horizontal_alignment = 1
 
-[node name="S" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=192216024]
+[node name="S" type="Label" parent="TabMenu/MenuContainer/View/Controls/Controls/MoveLabels" unique_id=192216024]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "S"
 horizontal_alignment = 1
 
-[node name="D" type="Label" parent="TabMenu/MenuContainer/View/Controls/MoveLabels" unique_id=855611933]
+[node name="D" type="Label" parent="TabMenu/MenuContainer/View/Controls/Controls/MoveLabels" unique_id=855611933]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "D"
 horizontal_alignment = 1
 
-[node name="ExtraMoveLabels" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls" unique_id=630784221]
+[node name="ExtraMoveLabels" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls/Controls" unique_id=630784221]
 layout_mode = 0
-offset_left = 561.0
+offset_left = 429.0
 offset_top = 218.0
-offset_right = 682.0
+offset_right = 550.0
 offset_bottom = 302.0
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="LShift" type="Label" parent="TabMenu/MenuContainer/View/Controls/ExtraMoveLabels" unique_id=851757466]
+[node name="LShift" type="Label" parent="TabMenu/MenuContainer/View/Controls/Controls/ExtraMoveLabels" unique_id=851757466]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "LShift"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Space" type="Label" parent="TabMenu/MenuContainer/View/Controls/ExtraMoveLabels" unique_id=1880542399]
+[node name="Space" type="Label" parent="TabMenu/MenuContainer/View/Controls/Controls/ExtraMoveLabels" unique_id=1880542399]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Space"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MouseButtons" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls" unique_id=364382295]
+[node name="MouseButtons" type="VBoxContainer" parent="TabMenu/MenuContainer/View/Controls/Controls" unique_id=364382295]
 layout_mode = 0
-offset_left = 551.0
+offset_left = 419.0
 offset_top = 360.0
-offset_right = 687.0
+offset_right = 555.0
 offset_bottom = 444.0
 alignment = 1
 
-[node name="Throw" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/MouseButtons" unique_id=1217934515]
+[node name="Throw" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/Controls/MouseButtons" unique_id=1217934515]
 material = SubResource("ShaderMaterial_lvid2")
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -325,30 +324,37 @@ texture = ExtResource("12_2spwi")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Catch_Alt" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Controls/MouseButtons" unique_id=101320300]
+[node name="Catch_Alt" type="HBoxContainer" parent="TabMenu/MenuContainer/View/Controls/Controls/MouseButtons" unique_id=101320300]
 custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 alignment = 1
 
-[node name="RMB" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/MouseButtons/Catch_Alt" unique_id=1897992926]
+[node name="RMB" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/Controls/MouseButtons/Catch_Alt" unique_id=1897992926]
 material = SubResource("ShaderMaterial_n3f3d")
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("13_qnfwt")
 expand_mode = 1
 
-[node name="OR" type="Label" parent="TabMenu/MenuContainer/View/Controls/MouseButtons/Catch_Alt" unique_id=1549318196]
+[node name="OR" type="Label" parent="TabMenu/MenuContainer/View/Controls/Controls/MouseButtons/Catch_Alt" unique_id=1549318196]
 layout_mode = 2
 text = "OR"
 
-[node name="LMB" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/MouseButtons/Catch_Alt" unique_id=2068010577]
+[node name="LMB" type="TextureRect" parent="TabMenu/MenuContainer/View/Controls/Controls/MouseButtons/Catch_Alt" unique_id=2068010577]
 material = SubResource("ShaderMaterial_1i1l1")
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("12_2spwi")
 expand_mode = 1
 
+[node name="Labels" type="PanelContainer" parent="TabMenu/MenuContainer/View/Controls" unique_id=739994667]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="User" type="ScrollContainer" parent="TabMenu/MenuContainer/View" unique_id=1243015804]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
