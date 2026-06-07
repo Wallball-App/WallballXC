@@ -93,8 +93,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.6201534, 0.6201534)
-shader_parameter/cirrus_position2 = Vector2(0.6201534, 0.6201534)
+shader_parameter/cirrus_position1 = Vector2(0.27974966, 0.27974966)
+shader_parameter/cirrus_position2 = Vector2(0.27974966, 0.27974966)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -107,7 +107,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(13.120254, 13.120254)
+shader_parameter/cumulus_position = Vector2(6.3987017, 6.3987017)
 shader_parameter/cumulus_texture = ExtResource("3_2a0aq")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -315,9 +315,6 @@ stretch_time_scale = false
 start_offset = 0.0
 loop_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e7kvu"]
-animation = &"NpcAnimations/RunningStop_001"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qfjt1"]
 animation = &"NpcAnimations/Throwing"
 use_custom_timeline = true
@@ -339,41 +336,35 @@ xfade_time = 0.25
 advance_mode = 2
 advance_expression = "Frames >= Hold && Hold != -1"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5paon"]
-xfade_time = 0.25
-advance_mode = 0
-advance_expression = "global_position.angle_to(Target) <= (PI/3)"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ifvgg"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_idc1r"]
-xfade_time = 0.5
-advance_mode = 2
-advance_expression = "velocity.length() <= 0.5"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2a0aq"]
 xfade_time = 0.5
 advance_mode = 2
 advance_expression = "velocity.length() >= 0.5"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3t5vg"]
+xfade_time = 0.5
+priority = 2
+advance_mode = 2
+advance_expression = "velocity.length() <= 0.5"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_idc1r"]
+advance_mode = 2
+advance_expression = "Frames >= Hold && Hold != -1"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_md48u"]
 states/End/position = Vector2(851, 108)
 states/NpcAnimations_Idle/node = SubResource("AnimationNodeAnimation_3t5vg")
-states/NpcAnimations_Idle/position = Vector2(40, 230)
+states/NpcAnimations_Idle/position = Vector2(-28, 258)
 states/NpcAnimations_Running/node = SubResource("AnimationNodeAnimation_wm5c7")
 states/NpcAnimations_Running/position = Vector2(390, 151)
-states/NpcAnimations_RunningStop_001/node = SubResource("AnimationNodeAnimation_e7kvu")
-states/NpcAnimations_RunningStop_001/position = Vector2(740, 199)
 states/NpcAnimations_Throwing/node = SubResource("AnimationNodeAnimation_qfjt1")
 states/NpcAnimations_Throwing/position = Vector2(390, 250)
 states/Start/position = Vector2(141, 108)
-transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_e7kvu"), "NpcAnimations_Running", "NpcAnimations_RunningStop_001", SubResource("AnimationNodeStateMachineTransition_5paon"), "NpcAnimations_RunningStop_001", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_ifvgg"), "NpcAnimations_Running", "NpcAnimations_Idle", SubResource("AnimationNodeStateMachineTransition_idc1r"), "NpcAnimations_Idle", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_2a0aq")]
+transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_e7kvu"), "NpcAnimations_Idle", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_2a0aq"), "NpcAnimations_Running", "NpcAnimations_Idle", SubResource("AnimationNodeStateMachineTransition_3t5vg"), "NpcAnimations_Idle", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_idc1r")]
 graph_offset = Vector2(-138, 49)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wm5c7"]
-graph_offset = Vector2(-162, -3)
+graph_offset = Vector2(-178, -14)
 nodes/MainStateMachine/node = SubResource("AnimationNodeStateMachine_md48u")
 nodes/MainStateMachine/position = Vector2(-140, 160)
 node_connections = [&"output", 0, &"MainStateMachine"]

@@ -29,7 +29,7 @@ size = Vector3(64, 1, 64)
 [node name="Scenery" type="Node3D" parent="." unique_id=475163222]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="Scene3" parent="Scenery" unique_id=1436567200 instance=ExtResource("2_gvuw0")]
+[node name="Scene3" parent="Scenery" unique_id=1897181167 instance=ExtResource("2_gvuw0")]
 
 [node name="WallControl" type="StaticBody3D" parent="Scenery" unique_id=557364938]
 collision_layer = 6

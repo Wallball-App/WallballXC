@@ -1,7 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://cfr0o0rcqbqs6"]
 
 [sub_resource type="Gradient" id="Gradient_xv16h"]
-offsets = PackedFloat32Array(0, 0.65258217)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_oirs0"]
 
@@ -9,14 +8,14 @@ offsets = PackedFloat32Array(0, 0.65258217)
 noise = SubResource("FastNoiseLite_oirs0")
 color_ramp = SubResource("Gradient_xv16h")
 as_normal_map = true
-bump_strength = 1.5
+bump_strength = 1.0
 
 [resource]
 resource_name = "BackMaterial"
 cull_mode = 2
 albedo_color = Color(0.851769, 0.8517689, 0.85176885, 1)
-metallic = 1.0
+metallic = 0.5
 metallic_specular = 0.0
-roughness = 0.5
+roughness = 0.8
 normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_4pm0p")

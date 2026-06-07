@@ -46,7 +46,7 @@ public partial class WeatherConfig : PanelContainer
 		if(CloudPresets.Selected == -1) CloudPresets.Selected = 1;
 
 		Cookies.User.Set("Timer", TimeSlider.Value);
-		TimeLabel.Text = FormatTime(TimeSlider.Value.ToString());
+		TimeLabel.Text = FormatTime((TimeSlider.Value + 0.01f).ToString());
 		Cookies.User.Set("CloudPreset", CloudPresets.Selected);
 
 		GD.Print("Time Set To: " + TimeSlider.Value);
@@ -56,7 +56,15 @@ public partial class WeatherConfig : PanelContainer
 	{
 		string[] split = time.Split(".");
 		int hours = int.Parse(split[0]);
-		int minutes = (int)((float.Parse("0." + split[1]) * 60) % 60);
+		int minutes;
+		try
+		{
+			minutes = (int)((float.Parse("0." + split[1]) * 60) % 60);
+		} catch(IndexOutOfRangeException)
+		{
+			minutes = 0;
+		}
+		
 		return $"{hours:00}:{minutes:00}";
 	}
 }

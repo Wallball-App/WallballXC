@@ -178,11 +178,11 @@ public partial class NPCPlayer : CharacterBody3D
 	private void MoveTowardTarget(double delta) {
 		if(/*GlobalPosition.DistanceTo(Target) <= 3.0f || */Frames >= TargetFrame + (int)(ResetTime/delta)) {
 
-			ResetTime = rng.RandfRange(1.0f, 3.0f);
+			ResetTime = rng.RandfRange(1.0f, 3.0f); //SET RANDOM RESET
 
-			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession((float)delta);
+			if(GameManager.possession == GameManager.PossessionEnum.NONE) SetPossession((float)delta); //CHECK FOR POSSESSION
 			
-			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) {
+			if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) { //PREDICT TRAJECTORY OF BALL
 				if(!IsRunning) Target = PredictTrajectory();
 				Sprint = Dist/WorldSize + 1f;
 				WalkSpeed = BaseSpeed * Sprint;
@@ -190,16 +190,18 @@ public partial class NPCPlayer : CharacterBody3D
 			else {
 				/*if(rng.Randf() <= 0.5f) Target = CreateNewTarget(GameManager.HitWall, IsRunning);
 				else if(!IsRunning && !IsHolding && !GameManager.HitWall) Target = Vector3.Zero;*/
-				if(rng.Randf() <= 0.9f)
+				if(rng.Randf() <= 0.75f) //IDLE OR TARGET LOGIC
 				{
 					Target = CreateNewTarget(GameManager.HitWall, IsRunning);
-				} else
+				} 
+				else if(Target.DistanceTo(Ball.GlobalPosition) >= 5f && 
+						!GameManager.HitWall && GameManager.possession != GameManager.PossessionEnum.NONE) //Not Ball Target, Ball not Thrown, and Someone Currently Holding
 				{
 					Target = GlobalPosition;
 					Velocity = Vector3.Zero;
 				}
 				
-				TargetFrame = Frames;
+				TargetFrame = Frames; //Target-Change Frame Set
 			}
 			PickUpRight = (Dist <= 6.0f && 
 				Target.DistanceTo(Ball.GlobalPosition) <= 0.5f && Ball.GlobalPosition.Y <= 0.75f 
@@ -211,7 +213,7 @@ public partial class NPCPlayer : CharacterBody3D
 			{
 				Velocity -= (Velocity * 0.5f);
 			}*/
-			if(GameManager.HitWall) SetPossession((float)delta);
+			if(GameManager.HitWall) SetPossession((float)delta); //Check for possession
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
 			Vector3 velocity = Velocity;
 			if(!IsJumping) {
@@ -219,12 +221,12 @@ public partial class NPCPlayer : CharacterBody3D
 			}
 			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed;
 			//SteeringWeight = (5.0f/WalkSpeed) * (WorldSize / GlobalPosition.DistanceTo(Target));
-			Vector3 steering = desired - velocity;
-			steering = steering.LimitLength(WalkSpeed * Math.Clamp(Dist, 0.0f, 1.0f));
+			Vector3 steering = (desired - velocity) * (WalkSpeed/BaseSpeed) * 0.75f; //Steering = desired - current, with weight
+			steering = steering.LimitLength(WalkSpeed * Math.Clamp(Dist, 0.0f, 0.75f)); //Limit steering to prevent overshooting, with distance-based scaling
 			
 			Velocity += steering * (float)delta;
 
-			if(Velocity.Length() >= 0.5f) {
+			if(Velocity.Length() >= 0.5f) { //Slerp Rotation to watch Target
 				Basis lookat;
 				if(IsHolding) {
 					lookat = Basis.LookingAt(GlobalPosition - Wall.GlobalPosition, Vector3.Up);
@@ -235,11 +237,11 @@ public partial class NPCPlayer : CharacterBody3D
 			}
 			//if(!IsHolding) Rotation = new Vector3(0, Mathf.Atan2(d.Z, d.X), 0);
 		}
-		if(GameManager.CWall && rng.Randf() <= 0.3f) { //Override NPC target to wall if ball hits wall and 30% chance
+		if(GameManager.CWall && rng.Randf() <= 0.3f) { //Override NPC target to if ball hits wall and 30% chance
 			if(!IsRunning) Target = CreateNewTarget(GameManager.HitWall, IsRunning);
 			return;
 		}
-		if(GlobalPosition.DistanceTo(Target) <= 3.0f && !IsRunning && Target.DistanceTo(Ball.GlobalPosition) <= 0.5f) //Set Idle Animation
+		if(GlobalPosition.DistanceTo(Target) <= 3.0f && !IsRunning && Target.DistanceTo(Ball.GlobalPosition) >= 5f) //Set Idle Animation
 		{
 			Target = GlobalPosition;
 			Velocity = Vector3.Zero;
@@ -359,25 +361,50 @@ public partial class NPCPlayer : CharacterBody3D
 	}
 	private Vector3 PredictTrajectory() {
 		Vector3 lvel = Ball.LinearVelocity;
-		Vector3 f = Ball.GlobalPosition;
-		Vector3 t = Ball.GlobalPosition + (lvel * 1000f);
+		Vector3 pos = Ball.GlobalPosition;
+
+		//float angle = Mathf.Atan2(lvel.Z, lvel.X);
+		float dist = pos.DistanceTo(Wall.GlobalPosition);
+
+		float vz = lvel.Z; //Perpendicular velocity at collision
+		if(vz <= 0) return Ball.GlobalPosition + new Vector3(0.0f, -Ball.GlobalPosition.Y, 5.0f); //If ball is moving away from wall, return current position as target
 		
+		float vx = lvel.X; //X axis velocity
+		float time = dist/vz;
+
+		float vy = lvel.Y - (Gravity * time); //Vertical velocity at collision, accounting for gravity
+
+		Vector3 bouncedvector = new Vector3(vx, vy * WallBounce, -vz * WallBounce); //VELOCITY VECTOR AFTER BOUNCE
+
+		float collisionX = pos.X + (lvel.X * time); //X position at collision
+		float collisionY = pos.Y + (lvel.Y * time) - (0.5f * Gravity * (time * time)); //Y position at collision, accounting for gravity, kinematic equation
+		float collisionZ = WallMin.Z; //Z position at collision (wall position)
+
+		float timetoground = TimeKinematic(0.5f, collisionY, bouncedvector.Y); //Time for ball to hit ground after collision, using kinematic equation
+		float groundZ = PositionKinematic(timetoground, collisionZ, bouncedvector.Z); //Z position when ball hits ground after collision, using kinematic equation
+		float groundX = PositionKinematic(timetoground, collisionX, bouncedvector.X); //X position when ball hits ground after collision, using kinematic equation
+
+		Vector3 result = new Vector3(groundX, GlobalPosition.Y, groundZ);
+		if(!result.IsFinite()) return Ball.GlobalPosition + new Vector3(0.0f, -Ball.GlobalPosition.Y, 5.0f);
+				/*Vector3 t = Ball.GlobalPosition + (lvel * 1000f);
 		var spacestate = PhysicsServer3D.Singleton.SpaceGetDirectState(GetWorld3D().Space);
-		var q = PhysicsRayQueryParameters3D.Create(f, t);
+		var q = PhysicsRayQueryParameters3D.Create(pos, t);
 		var result = spacestate.IntersectRay(q);
 		Vector3 CollisionPoint;
 		if(result.Count > 0) {
 			CollisionPoint = (Vector3)result["position"];
 			Vector3 normal = (Vector3)result["normal"];
-			float dist = f.DistanceTo(CollisionPoint);
-			Vector3 negative_velocity = lvel.Bounce(normal);
+			float collisiondist = pos.DistanceTo(CollisionPoint);
+			Vector3 negative_velocity = (lvel.Normalized() * wallspeed).Bounce(normal);
 			Vector3 final = CollisionPoint + negative_velocity * 0.5f;
 			final.Y = GlobalPosition.Y;
 			return final;
 		} else {
 			return Ball.GlobalPosition + new Vector3(0.0f, -Ball.GlobalPosition.Y, 5.0f);
-		}
+		}*/
+		return result;
 	}
+	
 	private void ApplyGravity(double delta) {
 		if(!IsOnFloor() || IsJumping) {
 			Vector3 velocity = Velocity;
@@ -427,5 +454,15 @@ public partial class NPCPlayer : CharacterBody3D
 					Vector3.Down, 1);
 		Target = CreateNewTarget(GameManager.HitWall, IsRunning);
 		TargetFrame = Frames;
+	}
+	private float TimeKinematic(float desired, float x0, float v0) //Returns the time it would take for the ball to reach the desired position
+	{
+		float t = v0 - Mathf.Sqrt((v0*v0) + (2*Gravity*(x0 - desired)));
+		t /= -Gravity;
+		return t;
+	}
+	private float PositionKinematic(float time, float x0, float v0) //Returns the position of the ball at a given time, using kinematic equations
+	{
+		return x0 + v0 * time - 0.5f * Gravity * time * time;
 	}
 }

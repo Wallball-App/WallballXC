@@ -11,7 +11,7 @@ fractal_lacunarity = 16.0
 noise = SubResource("FastNoiseLite_2f7x1")
 color_ramp = SubResource("Gradient_i6ha4")
 as_normal_map = true
-bump_strength = 32.0
+bump_strength = 5.0
 
 [resource]
 resource_name = "Concrete"

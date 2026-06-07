@@ -1,5 +1,7 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://crl64s20p56bs"]
 
+[ext_resource type="Texture2D" uid="uid://0hwigt0ae5pb" path="res://Models/Scene/textures/WallNormal.png" id="1_qqsln"]
+
 [sub_resource type="Gradient" id="Gradient_ftecj"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ftecj"]
@@ -7,15 +9,21 @@ frequency = 0.05
 fractal_lacunarity = 2.64
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n2r6o"]
+width = 1024
+height = 1024
 noise = SubResource("FastNoiseLite_ftecj")
 color_ramp = SubResource("Gradient_ftecj")
 as_normal_map = true
-bump_strength = 32.0
+bump_strength = 2.0
 
 [resource]
 resource_name = "Wall"
 cull_mode = 2
 albedo_color = Color(0.47788018, 0.47788012, 0.47788012, 1)
+metallic = 0.25
 metallic_specular = 0.0
 normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_n2r6o")
+ao_enabled = true
+ao_light_affect = 1.0
+ao_texture = ExtResource("1_qqsln")

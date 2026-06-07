@@ -40,52 +40,37 @@ materials/extract_path=""
 _subresources={
 "materials": {
 "BackMaterial": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Models/Scene/Scene3-Materials/BackMaterial.tres",
-"use_external/path": "uid://cfr0o0rcqbqs6"
-},
-"BackMaterial.001": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Models/Scene/Scene3-Materials/BackMaterial.tres",
-"use_external/path": "uid://cfr0o0rcqbqs6"
-},
-"BackMaterial.002": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/fallback_path": "res://Models/Scene/Scene3-Materials/BackMaterial.tres",
 "use_external/path": "uid://cfr0o0rcqbqs6"
 },
 "Concrete": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/fallback_path": "res://Models/Scene/Scene3-Materials/Concrete.tres",
 "use_external/path": "uid://dc82aiod35m2"
 },
 "DarkConcrete": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/fallback_path": "res://Models/Scene/Scene3-Materials/DarkConcrete.tres",
 "use_external/path": "uid://chxxup3crfo7l"
 },
 "Light": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/fallback_path": "res://Models/Scene/Scene3-Materials/Light.tres",
 "use_external/path": "uid://xr80mp21vleh"
 },
 "Steel": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Models/Scene/Scene3-Materials/Steel.tres",
-"use_external/path": "uid://cwmkkfnv2jbkb"
-},
-"Steel.001": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/fallback_path": "res://Models/Scene/Scene3-Materials/Steel.tres",
 "use_external/path": "uid://cwmkkfnv2jbkb"
 },
 "String": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/fallback_path": "res://Models/Scene/Scene3-Materials/String.tres",
 "use_external/path": "uid://dgjvphrrvacfj"
 },
 "Wall": {
-"use_external/enabled": true,
+"use_external/enabled": false,
 "use_external/fallback_path": "res://Models/Scene/Scene3-Materials/Wall.tres",
 "use_external/path": "uid://crl64s20p56bs"
 }
