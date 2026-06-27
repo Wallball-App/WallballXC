@@ -59,9 +59,7 @@ public partial class Score : Node3D
 	}
 
 	private void ResetScoreBooleans() {
-		if(Scored_Catch || Scored_Wall) {
-			Scored_Wall = false;
-			Scored_Catch = false;
-		}
+		Scored_Wall = false;
+		Scored_Catch = false;
 	}
 }

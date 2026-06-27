@@ -22,8 +22,8 @@ public partial class PlayerInput : CharacterBody3D
 
 	public static Vector3 CamRotation;
 	private Node3D PlayerGeometry;
-	private Node Movement;
-	private Node Rotation;
+	private VirtualJoystick Movement;
+	private VirtualJoystick RotationJoystick;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -33,8 +33,11 @@ public partial class PlayerInput : CharacterBody3D
 		PlayerGeometry = GetNode<Node3D>("%PlayerGeometry");
 		GameUI = GetNode<CanvasLayer>("%GameUI");
 
-		Movement = GetNode<Node>("%Movement");
-		Rotation = GetNode<Node>("%Rotation");
+		Movement = GetNode<CanvasLayer>("%GameUI").FindChild("Movement", true, false) as VirtualJoystick;
+		RotationJoystick = GetNode<CanvasLayer>("%GameUI").FindChild("Rotation", true, false) as VirtualJoystick;
+
+		Movement.Visible = OS.HasFeature("mobile");
+		RotationJoystick.Visible = OS.HasFeature("mobile");
       
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 
@@ -50,35 +53,30 @@ public partial class PlayerInput : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector3 movement = Vector3.Zero;;
-		if(OS.HasFeature("pc"))
-		{
-			IsSprinting = Input.IsActionPressed("Sprint");
-			WalkSpeed = (IsSprinting) ? 25f : 15f;
-			
-			velocity = Velocity;
-			velocity = new Vector3(0.0f, velocity.Y, 0.0f);
+		IsSprinting = Input.IsActionPressed("Sprint");
+		WalkSpeed = (IsSprinting) ? 25f : 15f;
+		
+		velocity = Velocity;
+		velocity = new Vector3(0.0f, velocity.Y, 0.0f);
 
-			Vector2 keys = Input.GetVector("Left", "Right", "Forward", "Backward");
+		Vector2 keys = Input.GetVector("Left", "Right", "Forward", "Backward");
 
-			movement = cam.GlobalTransform.Basis * new Vector3(keys.X, 0, keys.Y);
-		}
-		else if(OS.HasFeature("mobile"))
-		{
-			Vector2 movepos = Movement.Get("value").As<Vector2>();
-			movepos *= 0.1f;
-			if(movepos != Vector2.Zero) movement = cam.GlobalTransform.Basis * new Vector3(movepos.X, 0, movepos.Y);
+		movement = cam.GlobalTransform.Basis * new Vector3(keys.X, 0, keys.Y);
+//FIX THIS PART
+		Vector2 movepos = Movement.GetCombinedPivotOffset();
+		movepos *= 0.1f;
+		if(movepos != Vector2.Zero) movement = cam.GlobalTransform.Basis * new Vector3(movepos.X, 0, movepos.Y);
 
-			Vector2 rot = Rotation.Get("value").As<Vector2>();
-			rot *= 5.0f;
-			
-			cam.RotateX(rot.Y * sensitivity);
-			RotateY(rot.X * sensitivity);
-			PlayerGeometry.RotateY(rot.X * sensitivity);
-			Vector3 camrot = cam.Rotation;
-			camrot.Z = 0;
-			camrot.X = (float) Math.Clamp(camrot.X, -Math.PI/2, Math.PI/2);
-			cam.Rotation = camrot;
-		}
+		Vector2 rot = RotationJoystick.Get("value").As<Vector2>();
+		rot *= 5.0f;
+		
+		cam.RotateX(rot.Y * sensitivity);
+		RotateY(rot.X * sensitivity);
+		PlayerGeometry.RotateY(rot.X * sensitivity);
+		Vector3 camrot = cam.Rotation;
+		camrot.Z = 0;
+		camrot.X = (float) Math.Clamp(camrot.X, -Math.PI/2, Math.PI/2);
+		cam.Rotation = camrot;
 
 
 		movement.Y = 0;
@@ -109,10 +107,10 @@ public partial class PlayerInput : CharacterBody3D
 	}
 	public override void _Input(InputEvent @e) {
 		if(@e is InputEventMouseMotion mm) {
-			if(OS.HasFeature("mobile")) return;
 			cam.RotateX(mm.Relative.Y * sensitivity);
+			
 			RotateY(-mm.Relative.X * sensitivity);
-			PlayerGeometry.RotateY(-mm.Relative.X * sensitivity);
+			//PlayerGeometry.RotateY(-mm.Relative.X * sensitivity);
 			Vector3 rot = cam.Rotation;
 			rot.Z = 0;
 			rot.X = (float) Math.Clamp(rot.X, -Math.PI/2, Math.PI/2);
@@ -138,9 +136,13 @@ public partial class PlayerInput : CharacterBody3D
 			{
 				case GameManager.CameraPerspectiveEnum.FIRST_PERSON:
 					GameManager.perspective = GameManager.CameraPerspectiveEnum.THIRD_PERSON;
+					RotateY((float)Math.PI);
+					cam.RotateY((float)Math.PI);
 					break;
 				case GameManager.CameraPerspectiveEnum.THIRD_PERSON:
 					GameManager.perspective = GameManager.CameraPerspectiveEnum.FIRST_PERSON;
+					RotateY((float)Math.PI);
+					cam.RotateY((float)Math.PI);
 					break;
 			}
 			GetViewport().SetInputAsHandled();

@@ -26,6 +26,17 @@ public partial class GameManager : Node3D
 		Ball = GetNode<RigidBody3D>("%Ball");
 		GD.Print("GameManager Ready");
 		FRAMES = 0;
+
+
+		thrower = ThrowerEnum.NONE;
+		possession = PossessionEnum.NONE;
+		previous_thrower = ThrowerEnum.NONE;
+		previous_pos = PossessionEnum.NONE;
+		Pitches = -1;
+		HitWall = false;
+		HitFloor = false;
+		CWall = false;
+		CFloor = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

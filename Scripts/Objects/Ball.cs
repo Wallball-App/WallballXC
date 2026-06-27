@@ -69,7 +69,7 @@ public partial class Ball : RigidBody3D
 	public void Throw(GameManager.ThrowerEnum t, 
 		Vector3 Direction, float Speed) {
 		GameManager.previous_pos = GameManager.possession;
-		GameManager.previous_thrower = GameManager.thrower;
+		//GameManager.previous_thrower = GameManager.thrower;
 		GameManager.possession = GameManager.PossessionEnum.NONE;
 		GameManager.thrower = t;
 		GameManager.Pitches = 0;

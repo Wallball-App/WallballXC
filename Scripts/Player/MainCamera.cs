@@ -47,9 +47,7 @@ public partial class MainCamera : SpringArm3D
 		{
 			Vector3 BonePos = PlayerSkeleton.ToGlobal(PlayerSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
 			SpringLength = 10.0f;
-			GlobalPosition = BonePos;
-			GlobalPosition -= GlobalTransform.Basis.Z;
-			GlobalPosition -= GlobalTransform.Basis.Z.Normalized() * (SpringLength/2.0f);
+			GlobalPosition = BonePos - (GlobalTransform.Basis.Z.Normalized() * SpringLength * 2.0f);
 		}
 		
 		//GD.Print(Camera.GlobalRotationDegrees.X);

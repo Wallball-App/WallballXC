@@ -33,7 +33,7 @@ public partial class NPCPlayer : CharacterBody3D
 	[Export] public float Max_Hold = 60;
 	[Export] public float Throw_Speed = 2;
 	[Export] public float Throw_Max = 4;
-	[Export] public float JumpStrength = 0;
+	[Export] public float JumpStrength = 5;
 	
 	public Vector3 CharacterVelocity;
 	public float Dist;
@@ -47,6 +47,7 @@ public partial class NPCPlayer : CharacterBody3D
 	public float WallBounce = 0.75f;
 	public bool IsHolding;
 	public bool IsRunning;
+	public bool IsChasingBall;
 	public bool WillRun;
 	private float RunFrame;
 	private Node3D Triangle;
@@ -188,8 +189,6 @@ public partial class NPCPlayer : CharacterBody3D
 				WalkSpeed = BaseSpeed * Sprint;
 			}
 			else {
-				/*if(rng.Randf() <= 0.5f) Target = CreateNewTarget(GameManager.HitWall, IsRunning);
-				else if(!IsRunning && !IsHolding && !GameManager.HitWall) Target = Vector3.Zero;*/
 				if(rng.Randf() <= 0.75f) //IDLE OR TARGET LOGIC
 				{
 					Target = CreateNewTarget(GameManager.HitWall, IsRunning);
@@ -213,25 +212,52 @@ public partial class NPCPlayer : CharacterBody3D
 			{
 				Velocity -= (Velocity * 0.5f);
 			}*/
+			//if(Target.DistanceTo(Ball.GlobalPosition) <= 5f) GD.Print("Target Distance: " + GlobalPosition.DistanceTo(Target) + ", Target.Y: " + Ball.GlobalPosition.Y);
 			if(GameManager.HitWall) SetPossession((float)delta); //Check for possession
 			//GlobalPosition = GlobalPosition.MoveToward(Target, WalkSpeed * (float) delta);
 			Vector3 velocity = Velocity;
-			if(!IsJumping) {
-				velocity.Y = 0;
+
+			Vector3 pos2d = new Vector3(GlobalPosition.X, 0.0f, GlobalPosition.Z);
+			Vector3 target2d = new Vector3(Target.X, 0.0f, Target.Z);
+
+			if(pos2d.DistanceTo(target2d) <= 10.0f && Target.Y > GlobalPosition.Y + 2.0f)
+			{
+				if(IsOnFloor()) IsJumping = true;
 			}
-			Vector3 desired = GlobalPosition.DirectionTo(Target) * WalkSpeed;
+			if(IsJumping && IsOnFloor()) {
+				velocity.Y = JumpStrength;
+			} else
+			{
+				if(IsOnFloor()) velocity.Y = 0;
+			}
+			Vector3 desired = GlobalPosition.DirectionTo(new Vector3(Target.X, GlobalPosition.Y, Target.Z)) * WalkSpeed;
 			//SteeringWeight = (5.0f/WalkSpeed) * (WorldSize / GlobalPosition.DistanceTo(Target));
 			Vector3 steering = (desired - velocity) * (WalkSpeed/BaseSpeed) * 0.75f; //Steering = desired - current, with weight
 			steering = steering.LimitLength(WalkSpeed * Math.Clamp(Dist, 0.0f, 0.75f)); //Limit steering to prevent overshooting, with distance-based scaling
 			
+			
+			if(IsOnWall()) steering = steering - (0.5f * steering);
+
+
 			Velocity += steering * (float)delta;
+			Velocity = new Vector3(Velocity.X, velocity.Y, Velocity.Z); //Y is based on modified Velocity, while X and Z are steering
 
 			if(Velocity.Length() >= 0.5f) { //Slerp Rotation to watch Target
 				Basis lookat;
 				if(IsHolding) {
-					lookat = Basis.LookingAt(GlobalPosition - Wall.GlobalPosition, Vector3.Up);
+					Vector3 wallDir = GlobalPosition - Wall.GlobalPosition;
+					if(wallDir.IsZeroApprox())
+					{
+						wallDir = new Vector3(0.0f, 0.0f, -1.0f);
+					}
+					lookat = Basis.LookingAt(wallDir, Vector3.Up);
 				} else {
-					lookat = Basis.LookingAt(-Velocity, Vector3.Up);
+					Vector3 v = new Vector3(-Velocity.X, 0.0f, -Velocity.Z).Normalized();
+					if(v.IsZeroApprox())
+					{
+						v = new Vector3(0.0f, 0.0f, 1.0f);
+					}
+					lookat = Basis.LookingAt(v, Vector3.Up);
 				}
 				Basis = Basis.Orthonormalized().Slerp(lookat.Orthonormalized(), WalkSpeed * (float)delta);
 			}
@@ -244,7 +270,7 @@ public partial class NPCPlayer : CharacterBody3D
 		if(GlobalPosition.DistanceTo(Target) <= 3.0f && !IsRunning && Target.DistanceTo(Ball.GlobalPosition) >= 5f) //Set Idle Animation
 		{
 			Target = GlobalPosition;
-			Velocity = Vector3.Zero;
+			Velocity = new Vector3(0.0f, Velocity.Y, 0.0f); //To Account for Gravity
 			Vector3 ballPos = new Vector3(Ball.GlobalPosition.X, GlobalPosition.Y, Ball.GlobalPosition.Z);
 			Basis lookat = Basis.LookingAt(ballPos, Vector3.Up);
 			Basis = Basis.Orthonormalized().Slerp(lookat.Orthonormalized(), 0.5f);
@@ -256,14 +282,16 @@ public partial class NPCPlayer : CharacterBody3D
 		else if(Wall || (NpcController.NPCS.Where(n => n.IsRunning).Count() > 0 &&
 			GameManager.possession == GameManager.PossessionEnum.NONE)) {
 			Vector3 pos = Ball.GlobalPosition;
-			pos.Y = GlobalPosition.Y;
+			//pos.Y = GlobalPosition.Y;
 			Vector3 RandomOffset = new Vector3(rng.RandfRange(-5.0f, 5.0f), 0.0f, rng.RandfRange(-5.0f, 5.0f));
 			pos += RandomOffset;
+			IsChasingBall = true;
 			WalkSpeed = BaseSpeed * Sprint;
 			return pos;
 		}
 		else {
 			WalkSpeed = BaseSpeed;
+			IsChasingBall = false;
 			return new Vector3(rng.RandfRange(min.X, max.X), GlobalPosition.Y,
 				rng.RandfRange(min.Z, WallMax.Z));
 		} 

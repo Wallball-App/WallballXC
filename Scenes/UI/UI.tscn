@@ -1372,3 +1372,35 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("13_thdbn")
+
+[node name="Joysticks" type="MarginContainer" parent="." unique_id=1222042146]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="Movement" type="VirtualJoystick" parent="Joysticks" unique_id=1704923589]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+action_left = &"Left"
+action_right = &"Right"
+action_up = &"Forward"
+action_down = &"Backward"
+
+[node name="Rotation" type="VirtualJoystick" parent="Joysticks" unique_id=997298433]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+joystick_mode = 1
+action_left = &"Left"
+action_right = &"Right"
+action_up = &"Forward"
+action_down = &"Backward"

@@ -37,7 +37,6 @@
 [ext_resource type="Animation" uid="uid://bda1is2q1khaa" path="res://Models/NpcAnimations/RunningStop_001.res" id="30_26cu0"]
 [ext_resource type="PackedScene" uid="uid://clbfky2xivuw6" path="res://Models/NpcAnimation.blend" id="31_qfjt1"]
 [ext_resource type="Script" uid="uid://bat2mm6uybvkj" path="res://Scripts/Score/Score.cs" id="31_soolo"]
-[ext_resource type="Script" uid="uid://e0hay8e7e0me" path="res://addons/virtual_joystick_plus/virtual_joystick_plus.gd" id="32_ybkb3"]
 [ext_resource type="Script" uid="uid://t731bfsl4o8i" path="res://Scripts/Player/Preview.cs" id="33_26cu0"]
 [ext_resource type="PackedScene" uid="uid://dvxgmbtgdc7tc" path="res://Models/LightDrone.blend" id="34_urdfj"]
 [ext_resource type="Script" uid="uid://dd21femtrhc46" path="res://Scripts/Objects/LightDrone.cs" id="35_md48u"]
@@ -93,8 +92,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.27974966, 0.27974966)
-shader_parameter/cirrus_position2 = Vector2(0.27974966, 0.27974966)
+shader_parameter/cirrus_position1 = Vector2(0.2022049, 0.2022049)
+shader_parameter/cirrus_position2 = Vector2(0.2022049, 0.2022049)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -107,7 +106,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(6.3987017, 6.3987017)
+shader_parameter/cumulus_position = Vector2(1.0108533, 1.0108533)
 shader_parameter/cumulus_texture = ExtResource("3_2a0aq")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -496,6 +495,7 @@ script = ExtResource("11_wm5c7")
 unique_name_in_owner = true
 transform = Transform3D(-0.99776316, 0, 0.066848494, 0, 1, 0, -0.066848494, 0, -0.99776316, 0, 0, 1)
 attributes = SubResource("CameraAttributesPhysical_7gq7q")
+fov = 37.849285
 
 [node name="GameManager" type="Node3D" parent="." unique_id=1430480616 node_paths=PackedStringArray("Wall", "Ground")]
 unique_name_in_owner = true
@@ -635,53 +635,6 @@ autostart = true
 
 [node name="Weather" type="Node3D" parent="." unique_id=919686878]
 script = ExtResource("28_5paon")
-
-[node name="Movement" type="Control" parent="." unique_id=620195016]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -300.0
-offset_right = 300.0
-grow_vertical = 0
-pivot_offset = Vector2(150, 150)
-script = ExtResource("32_ybkb3")
-only_mobile = true
-joystick_use_textures = false
-joystick_preset_texture = 0
-joystick_color = Color(0.41981313, 0.41981313, 0.4198131, 1)
-stick_use_textures = false
-stick_preset_texture = 0
-stick_color = Color(0.2231029, 0.2231029, 0.22310287, 1)
-metadata/_custom_type_script = "uid://e0hay8e7e0me"
-
-[node name="Rotation" type="Control" parent="." unique_id=651665638]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 3
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -300.0
-grow_horizontal = 0
-grow_vertical = 0
-pivot_offset = Vector2(150, 150)
-script = ExtResource("32_ybkb3")
-only_mobile = true
-joystick_use_textures = false
-joystick_preset_texture = 0
-joystick_color = Color(0.41981313, 0.41981313, 0.4198131, 1)
-stick_use_textures = false
-stick_preset_texture = 0
-stick_color = Color(0.2231029, 0.2231029, 0.22310287, 1)
-metadata/_custom_type_script = "uid://e0hay8e7e0me"
 
 [node name="Preview" type="Node3D" parent="." unique_id=2063891887]
 unique_name_in_owner = true

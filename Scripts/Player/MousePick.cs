@@ -13,6 +13,10 @@ public partial class MousePick : CollisionShape3D
 	private Camera3D cam;
 	private Node3D PlayerGeometry;
 	private Vector3 Offset = new Vector3(0.0f, 0.0f, 3.0f);
+	private Skeleton3D PlayerSkeleton;
+	private string BoneName = "mixamorig_Head";
+	private int BoneIndex;
+	private Vector3 BonePos;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -21,6 +25,9 @@ public partial class MousePick : CollisionShape3D
 		ctx = GetNode<GameManager>("%GameManager");
 		cam = GetNode<Camera3D>("%MainCamera");
 		PlayerGeometry = GetNode<Node3D>("%PlayerGeometry");
+
+		PlayerSkeleton = FindSkeleton(PlayerGeometry);
+		BoneIndex = PlayerSkeleton.FindBone(BoneName);
 		
 		Ball.GlobalTransform = new Transform3D(Basis.Identity, new Vector3(0.0f, 10f, 0.0f));
 		GameManager.possession = GameManager.PossessionEnum.PLAYER;
@@ -32,7 +39,16 @@ public partial class MousePick : CollisionShape3D
 		if(GameManager.possession == GameManager.PossessionEnum.PLAYER) {
 			/*Ball.GlobalTransform = new Transform3D(Basis.Identity, 
 						cam.GlobalPosition - cam.Rotation);*/
-			Ball.GlobalPosition = cam.GlobalPosition + Offset;
+			Vector3 pos = Vector3.Zero;
+			if(GameManager.perspective == GameManager.CameraPerspectiveEnum.FIRST_PERSON)
+			{
+				pos = cam.GlobalPosition + Offset;
+			} else if(GameManager.perspective == GameManager.CameraPerspectiveEnum.THIRD_PERSON)
+			{
+				pos = BonePos + new Vector3(0.0f, 0.0f, 0.5f);
+			} 
+			Ball.GlobalPosition = pos;
+			BonePos = PlayerSkeleton.ToGlobal(PlayerSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
 		}
 	}
 	public override void _Input(InputEvent @e) {
@@ -47,7 +63,15 @@ public partial class MousePick : CollisionShape3D
 					Ball.GlobalPosition = cam.GlobalPosition + Offset;*/
 					if(SafeText.Safe && GameManager.possession == GameManager.PossessionEnum.NONE)
 					{
-						BallControl.Catch(GameManager.PossessionEnum.PLAYER, cam.GlobalPosition + Offset);
+						Vector3 pos = Vector3.Zero;
+						if(GameManager.perspective == GameManager.CameraPerspectiveEnum.FIRST_PERSON)
+						{
+							pos = cam.GlobalPosition + Offset;
+						} else if(GameManager.perspective == GameManager.CameraPerspectiveEnum.THIRD_PERSON)
+						{
+							pos = BonePos + new Vector3(0.0f, 0.0f, 0.5f);
+						} 
+						BallControl.Catch(GameManager.PossessionEnum.PLAYER, pos);
 					}
 				}
 			}
@@ -65,5 +89,18 @@ public partial class MousePick : CollisionShape3D
 				}
 			}
 		}
+	}
+	private Skeleton3D FindSkeleton(Node root)
+	{
+		if(root is Skeleton3D) return root as Skeleton3D;
+		else
+		{
+			foreach(Node child in root.GetChildren())
+			{
+				Node result = FindSkeleton(child);
+				if(result is Skeleton3D skeleton) return skeleton;
+			}
+		}
+		return null;
 	}
 }
