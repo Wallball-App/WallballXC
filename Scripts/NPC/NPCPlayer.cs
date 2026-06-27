@@ -220,12 +220,13 @@ public partial class NPCPlayer : CharacterBody3D
 			Vector3 pos2d = new Vector3(GlobalPosition.X, 0.0f, GlobalPosition.Z);
 			Vector3 target2d = new Vector3(Target.X, 0.0f, Target.Z);
 
-			if(pos2d.DistanceTo(target2d) <= 10.0f && Target.Y > GlobalPosition.Y + 2.0f)
+			if(pos2d.DistanceTo(target2d) <= 10.0f && Target.Y > GlobalPosition.Y + 4.0f)
 			{
 				if(IsOnFloor()) IsJumping = true;
 			}
 			if(IsJumping && IsOnFloor()) {
 				velocity.Y = JumpStrength;
+				IsJumping = false;
 			} else
 			{
 				if(IsOnFloor()) velocity.Y = 0;
