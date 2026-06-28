@@ -37,13 +37,13 @@
 [ext_resource type="Animation" uid="uid://bda1is2q1khaa" path="res://Models/NpcAnimations/RunningStop_001.res" id="30_26cu0"]
 [ext_resource type="PackedScene" uid="uid://clbfky2xivuw6" path="res://Models/NpcAnimation.blend" id="31_qfjt1"]
 [ext_resource type="Script" uid="uid://bat2mm6uybvkj" path="res://Scripts/Score/Score.cs" id="31_soolo"]
-[ext_resource type="Animation" uid="uid://bvwfrfy6vbfeh" path="res://Models/NpcAnimations/DiveCatch_L_002.res" id="32_2a0aq"]
-[ext_resource type="Animation" uid="uid://cexaeoqevft42" path="res://Models/NpcAnimations/DiveCatch_R.res" id="33_8prw7"]
+[ext_resource type="Animation" uid="uid://ct66rc18ynhoq" path="res://Models/NpcAnimations/DiveCatch_L_002.res" id="32_2a0aq"]
+[ext_resource type="Animation" uid="uid://52yo5dabxs1j" path="res://Models/NpcAnimations/DiveCatch_R.res" id="33_8prw7"]
 [ext_resource type="Script" uid="uid://t731bfsl4o8i" path="res://Scripts/Player/Preview.cs" id="33_26cu0"]
-[ext_resource type="Animation" uid="uid://d2cxmcivxn4f6" path="res://Models/NpcAnimations/JumpCatch.res" id="34_7t5af"]
+[ext_resource type="Animation" uid="uid://csjsyqomnuaid" path="res://Models/NpcAnimations/JumpCatch.res" id="34_7t5af"]
 [ext_resource type="PackedScene" uid="uid://dvxgmbtgdc7tc" path="res://Models/LightDrone.blend" id="34_urdfj"]
 [ext_resource type="Script" uid="uid://dd21femtrhc46" path="res://Scripts/Objects/LightDrone.cs" id="35_md48u"]
-[ext_resource type="Animation" uid="uid://bdq05t5wkw2tl" path="res://Models/NpcAnimations/Pickup_Left.res" id="36_8prw7"]
+[ext_resource type="Animation" uid="uid://cppng6peq7jjq" path="res://Models/NpcAnimations/Pickup_Left.res" id="36_8prw7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3ktvn"]
 shader = ExtResource("1_3t5vg")
@@ -81,7 +81,7 @@ shader_parameter/starmap_flip_u = false
 shader_parameter/starmap_flip_v = false
 shader_parameter/starmap_alignment = Vector3(2.68288, -0.25891, 0.40101)
 shader_parameter/star_rotation_offset = 9.38899
-shader_parameter/star_rotation = -6.600680109114377
+shader_parameter/star_rotation = -8.700809475359542
 shader_parameter/star_tilt = -0.7853981633974483
 shader_parameter/star_field_color = Color(1, 1, 1, 1)
 shader_parameter/star_field_texture = ExtResource("6_8aa1y")
@@ -96,8 +96,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.019267827, 0.019267827)
-shader_parameter/cirrus_position2 = Vector2(0.019267827, 0.019267827)
+shader_parameter/cirrus_position1 = Vector2(0.13393281, 0.13393281)
+shader_parameter/cirrus_position2 = Vector2(0.13393281, 0.13393281)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -110,7 +110,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(5.097246, 5.097246)
+shader_parameter/cumulus_position = Vector2(20.719713, 20.719713)
 shader_parameter/cumulus_texture = ExtResource("3_2a0aq")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -123,7 +123,7 @@ shader_parameter/azimuthal_grid_rotation_offset = 0.03
 shader_parameter/show_equatorial_grid = false
 shader_parameter/equatorial_grid_color = Color(0, 0.75, 1, 1)
 shader_parameter/equatorial_grid_rotation_offset = 0.03
-shader_parameter/moon_matrix = Basis(0, -0.11220835, -0.99368465, -0.60235935, 0.79318386, -0.0895675, 0.7982249, 0.59855527, -0.06758975)
+shader_parameter/moon_matrix = Basis(0, 0.12377594, -0.99231017, -0.76352894, -0.6408076, -0.07993122, -0.6457735, 0.7576576, 0.09450652)
 
 [sub_resource type="Sky" id="Sky_sm46x"]
 sky_material = SubResource("ShaderMaterial_3ktvn")
@@ -345,10 +345,10 @@ blend_point_3/pos = Vector2(0, 0)
 blend_point_3/name = &"NpcAnimations_Catch"
 blend_point_4/node = SubResource("AnimationNodeAnimation_j7tkl")
 blend_point_4/pos = Vector2(1, 0)
-blend_point_4/name = &"NpcAnimations_DiveCatch_R 2"
+blend_point_4/name = &"NpcAnimations_PickUp_Right 2"
 blend_point_5/node = SubResource("AnimationNodeAnimation_3ktvn")
 blend_point_5/pos = Vector2(-1, 0)
-blend_point_5/name = &"NpcAnimations_DiveCatch_L_002 2"
+blend_point_5/name = &"NpcAnimations_Pickup_Left 2"
 blend_point_6/node = SubResource("AnimationNodeAnimation_sm46x")
 blend_point_6/pos = Vector2(1, -1)
 blend_point_6/name = &"NpcAnimations_PickUp_Right"
@@ -408,6 +408,22 @@ advance_expression = "velocity.length() <= 0.5"
 advance_mode = 2
 advance_expression = "Frames >= Hold && Hold != -1"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8prw7"]
+xfade_time = 0.5
+priority = 0
+advance_mode = 2
+advance_expression = "(Ball.global_position.distance_to(global_position) <= 3 || Target.y > global_position.y + 4) && GameManager.possession == GameManager.PossessionEnum.NONE"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7t5af"]
+xfade_time = 0.5
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8aa1y"]
+priority = 0
+advance_mode = 2
+advance_expression = "Frames >= Hold && Hold != -1"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_md48u"]
 states/End/position = Vector2(851, 108)
 states/NPC_Catch_Blend/node = SubResource("AnimationNodeBlendSpace2D_mwkmn")
@@ -419,11 +435,10 @@ states/NpcAnimations_Running/position = Vector2(390, 151)
 states/NpcAnimations_Throwing/node = SubResource("AnimationNodeAnimation_qfjt1")
 states/NpcAnimations_Throwing/position = Vector2(390, 250)
 states/Start/position = Vector2(141, 108)
-transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_e7kvu"), "NpcAnimations_Idle", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_2a0aq"), "NpcAnimations_Running", "NpcAnimations_Idle", SubResource("AnimationNodeStateMachineTransition_3t5vg"), "NpcAnimations_Idle", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_idc1r")]
+transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_e7kvu"), "NpcAnimations_Idle", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_2a0aq"), "NpcAnimations_Running", "NpcAnimations_Idle", SubResource("AnimationNodeStateMachineTransition_3t5vg"), "NpcAnimations_Idle", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_idc1r"), "NpcAnimations_Running", "NPC_Catch_Blend", SubResource("AnimationNodeStateMachineTransition_8prw7"), "NPC_Catch_Blend", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_7t5af"), "NPC_Catch_Blend", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_8aa1y")]
 graph_offset = Vector2(-138, 49)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wm5c7"]
-graph_offset = Vector2(-236, 1)
 nodes/MainStateMachine/node = SubResource("AnimationNodeStateMachine_md48u")
 nodes/MainStateMachine/position = Vector2(-140, 160)
 node_connections = [&"output", 0, &"MainStateMachine"]

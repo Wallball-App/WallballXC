@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class NPCPlayer : CharacterBody3D
 {
@@ -16,7 +17,7 @@ public partial class NPCPlayer : CharacterBody3D
 	private Node3D WallGeometry;
 	Ball BallControl;
 	private Aabb GroundAABB;
-	[Export] public float WalkSpeed = 8f;
+	[Export] public float WalkSpeed = 6f;
 	[Export] public float BaseSpeed = 12f;
 	[Export] public float Sprint = 2.0f;
 	
@@ -33,7 +34,7 @@ public partial class NPCPlayer : CharacterBody3D
 	[Export] public float Max_Hold = 60;
 	[Export] public float Throw_Speed = 2;
 	[Export] public float Throw_Max = 4;
-	[Export] public float JumpStrength = 5;
+	[Export] public float JumpStrength = 8;
 	
 	public Vector3 CharacterVelocity;
 	public float Dist;
@@ -63,6 +64,8 @@ public partial class NPCPlayer : CharacterBody3D
 	private int BoneIndex;
 
 	private float ResetTime;
+
+	public float delta;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -165,6 +168,7 @@ public partial class NPCPlayer : CharacterBody3D
 	{
 		if(!Visible) return;
 		if(NpcController.NPCS.Count == 0) return;
+		this.delta = (float)delta;
 		MoveTowardTarget(delta);
 		CheckForThrow();
 		HoldBall();
@@ -220,7 +224,7 @@ public partial class NPCPlayer : CharacterBody3D
 			Vector3 pos2d = new Vector3(GlobalPosition.X, 0.0f, GlobalPosition.Z);
 			Vector3 target2d = new Vector3(Target.X, 0.0f, Target.Z);
 
-			if(pos2d.DistanceTo(target2d) <= 10.0f && Target.Y > GlobalPosition.Y + 4.0f)
+			if(pos2d.DistanceTo(target2d) <= 5.0f && Target.Y > GlobalPosition.Y + 4.0f)
 			{
 				if(IsOnFloor()) IsJumping = true;
 			}
@@ -277,6 +281,10 @@ public partial class NPCPlayer : CharacterBody3D
 			Basis = Basis.Orthonormalized().Slerp(lookat.Orthonormalized(), 0.5f);
 		}
 		Triangle.GlobalPosition = GlobalPosition + new Vector3(0.0f, 5.0f, 0.0f);
+
+		Vector3 dir = GlobalPosition.DirectionTo(Target).Normalized();
+		Vector2 relativePositionVector = new Vector2(dir.X, dir.Y);
+		NPCAnimationTree.Set("parameters/MainStateMachine/NPC_Catch_Blend/blend_position", relativePositionVector);
 	}
 	private Vector3 CreateNewTarget(bool Wall, bool IsRunning) {
 		if(IsRunning) return SafePoint.GlobalPosition + new Vector3(0f, 0f, 2f);
@@ -305,6 +313,7 @@ public partial class NPCPlayer : CharacterBody3D
 				//GD.Print(rng.Randf());
 				if(NpcController.CurrentPossession == null) {
 					NpcController.CurrentPossession = this;
+
 					IsHolding = true;
 
 					Vector3 BonePos = NpcSkeleton.ToGlobal(NpcSkeleton.GetBoneGlobalPose(BoneIndex).Origin);

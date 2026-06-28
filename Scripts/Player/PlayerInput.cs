@@ -12,7 +12,9 @@ public partial class PlayerInput : CharacterBody3D
 	private float sensitivity = 0.0015f;
 	private float Jump = 12f;
 	private bool isJumping;
-	[Export] public float WalkSpeed = 10f;
+	[Export] public float BaseSpeed = 12f;
+	[Export] public float Sprint = 1.6f;
+	[Export] public float WalkSpeed = 6f;
 	public static bool IsSprinting;
 	private CanvasLayer GameUI;
 	private Vector3 DefaultPos;
@@ -54,7 +56,7 @@ public partial class PlayerInput : CharacterBody3D
 	{
 		Vector3 movement = Vector3.Zero;;
 		IsSprinting = Input.IsActionPressed("Sprint");
-		WalkSpeed = (IsSprinting) ? 25f : 15f;
+		WalkSpeed = (IsSprinting) ? BaseSpeed * Sprint : BaseSpeed;
 		
 		velocity = Velocity;
 		velocity = new Vector3(0.0f, velocity.Y, 0.0f);
