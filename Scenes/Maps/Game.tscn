@@ -96,8 +96,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.13393281, 0.13393281)
-shader_parameter/cirrus_position2 = Vector2(0.13393281, 0.13393281)
+shader_parameter/cirrus_position1 = Vector2(0.8032399, 0.8032399)
+shader_parameter/cirrus_position2 = Vector2(0.8032399, 0.8032399)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -110,7 +110,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(20.719713, 20.719713)
+shader_parameter/cumulus_position = Vector2(29.098833, 29.098833)
 shader_parameter/cumulus_texture = ExtResource("3_2a0aq")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -331,12 +331,14 @@ animation = &"NpcAnimations/PickUp_Right"
 animation = &"NpcAnimations/Pickup_Left"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_mwkmn"]
+sync_mode = 2
+cyclic_length = 2.0
 blend_point_0/node = SubResource("AnimationNodeAnimation_2a0aq")
 blend_point_0/pos = Vector2(-1, 1)
-blend_point_0/name = &"NpcAnimations_DiveCatch_L_002"
+blend_point_0/name = &"NpcAnimations_DiveCatch_R_002"
 blend_point_1/node = SubResource("AnimationNodeAnimation_8prw7")
 blend_point_1/pos = Vector2(1, 1)
-blend_point_1/name = &"NpcAnimations_DiveCatch_R"
+blend_point_1/name = &"NpcAnimations_DiveCatch_L 3"
 blend_point_2/node = SubResource("AnimationNodeAnimation_7t5af")
 blend_point_2/pos = Vector2(0, 1)
 blend_point_2/name = &"NpcAnimations_JumpCatch"
@@ -345,10 +347,10 @@ blend_point_3/pos = Vector2(0, 0)
 blend_point_3/name = &"NpcAnimations_Catch"
 blend_point_4/node = SubResource("AnimationNodeAnimation_j7tkl")
 blend_point_4/pos = Vector2(1, 0)
-blend_point_4/name = &"NpcAnimations_PickUp_Right 2"
+blend_point_4/name = &"NpcAnimations_DiveCatch_L 2"
 blend_point_5/node = SubResource("AnimationNodeAnimation_3ktvn")
 blend_point_5/pos = Vector2(-1, 0)
-blend_point_5/name = &"NpcAnimations_Pickup_Left 2"
+blend_point_5/name = &"NpcAnimations_DiveCatch_R"
 blend_point_6/node = SubResource("AnimationNodeAnimation_sm46x")
 blend_point_6/pos = Vector2(1, -1)
 blend_point_6/name = &"NpcAnimations_PickUp_Right"
@@ -371,6 +373,12 @@ timeline_length = 1.0
 stretch_time_scale = false
 start_offset = 0.0
 loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_anl24"]
+animation = &"NpcAnimations/RunningJump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v4h64"]
+animation = &"NpcAnimations/RunningStop_001"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qfjt1"]
 animation = &"NpcAnimations/Throwing"
@@ -405,6 +413,7 @@ advance_mode = 2
 advance_expression = "velocity.length() <= 0.5"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_idc1r"]
+xfade_time = 0.5
 advance_mode = 2
 advance_expression = "Frames >= Hold && Hold != -1"
 
@@ -412,33 +421,67 @@ advance_expression = "Frames >= Hold && Hold != -1"
 xfade_time = 0.5
 priority = 0
 advance_mode = 2
-advance_expression = "(Ball.global_position.distance_to(global_position) <= 3 || Target.y > global_position.y + 4) && GameManager.possession == GameManager.PossessionEnum.NONE"
+advance_expression = "(Ball.global_position.distance_to(global_position) <= velocity.length()*0.5) || (pos2d.distance_to(target2d) <= 5 && Target.y > global_position.y + 4) && Possession0 && HitWall0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8aa1y"]
+xfade_time = 0.25
+priority = 0
+advance_mode = 2
+advance_expression = "Frames >= Hold && Hold != -1"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gxt2r"]
+xfade_time = 0.5
+priority = 0
+advance_mode = 2
+advance_expression = "is_on_floor() == false"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3ktvn"]
+xfade_time = 0.5
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sm46x"]
+xfade_time = 0.5
+switch_mode = 2
+advance_mode = 2
+advance_expression = "velocity.length() <= 0.5v"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j7tkl"]
+xfade_time = 0.5
+advance_mode = 2
+advance_expression = "(Ball.global_position.distance_to(global_position) <= velocity.length()*0.5) || (pos2d.distance_to(target2d) <= 5 && Target.y > global_position.y + 4) && Possession0 && HitWall0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6v4id"]
+xfade_time = 0.25
+priority = 0
+switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7t5af"]
 xfade_time = 0.5
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8aa1y"]
-priority = 0
-advance_mode = 2
-advance_expression = "Frames >= Hold && Hold != -1"
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_md48u"]
 states/End/position = Vector2(851, 108)
 states/NPC_Catch_Blend/node = SubResource("AnimationNodeBlendSpace2D_mwkmn")
-states/NPC_Catch_Blend/position = Vector2(642, 160)
+states/NPC_Catch_Blend/position = Vector2(872, 309)
 states/NpcAnimations_Idle/node = SubResource("AnimationNodeAnimation_3t5vg")
 states/NpcAnimations_Idle/position = Vector2(-28, 258)
 states/NpcAnimations_Running/node = SubResource("AnimationNodeAnimation_wm5c7")
 states/NpcAnimations_Running/position = Vector2(390, 151)
+states/NpcAnimations_RunningJump/node = SubResource("AnimationNodeAnimation_anl24")
+states/NpcAnimations_RunningJump/position = Vector2(677, 119)
+states/NpcAnimations_RunningStop_001/node = SubResource("AnimationNodeAnimation_v4h64")
+states/NpcAnimations_RunningStop_001/position = Vector2(994, 237)
 states/NpcAnimations_Throwing/node = SubResource("AnimationNodeAnimation_qfjt1")
-states/NpcAnimations_Throwing/position = Vector2(390, 250)
+states/NpcAnimations_Throwing/position = Vector2(379, 422)
 states/Start/position = Vector2(141, 108)
-transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_e7kvu"), "NpcAnimations_Idle", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_2a0aq"), "NpcAnimations_Running", "NpcAnimations_Idle", SubResource("AnimationNodeStateMachineTransition_3t5vg"), "NpcAnimations_Idle", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_idc1r"), "NpcAnimations_Running", "NPC_Catch_Blend", SubResource("AnimationNodeStateMachineTransition_8prw7"), "NPC_Catch_Blend", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_7t5af"), "NPC_Catch_Blend", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_8aa1y")]
-graph_offset = Vector2(-138, 49)
+transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_26cu0"), "NpcAnimations_Throwing", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_urdfj"), "NpcAnimations_Running", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_e7kvu"), "NpcAnimations_Idle", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_2a0aq"), "NpcAnimations_Running", "NpcAnimations_Idle", SubResource("AnimationNodeStateMachineTransition_3t5vg"), "NpcAnimations_Idle", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_idc1r"), "NpcAnimations_Running", "NPC_Catch_Blend", SubResource("AnimationNodeStateMachineTransition_8prw7"), "NPC_Catch_Blend", "NpcAnimations_Throwing", SubResource("AnimationNodeStateMachineTransition_8aa1y"), "NpcAnimations_Running", "NpcAnimations_RunningJump", SubResource("AnimationNodeStateMachineTransition_gxt2r"), "NpcAnimations_RunningJump", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_3ktvn"), "NPC_Catch_Blend", "NpcAnimations_Idle", SubResource("AnimationNodeStateMachineTransition_sm46x"), "NpcAnimations_Idle", "NPC_Catch_Blend", SubResource("AnimationNodeStateMachineTransition_j7tkl"), "NPC_Catch_Blend", "NpcAnimations_RunningStop_001", SubResource("AnimationNodeStateMachineTransition_6v4id"), "NpcAnimations_RunningStop_001", "NpcAnimations_Running", SubResource("AnimationNodeStateMachineTransition_7t5af")]
+graph_offset = Vector2(-138, 99.375)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wm5c7"]
+graph_offset = Vector2(-374, -10)
 nodes/MainStateMachine/node = SubResource("AnimationNodeStateMachine_md48u")
 nodes/MainStateMachine/position = Vector2(-140, 160)
 node_connections = [&"output", 0, &"MainStateMachine"]
@@ -687,13 +730,7 @@ libraries/NpcAnimations = SubResource("AnimationLibrary_md48u")
 tree_root = SubResource("AnimationNodeBlendTree_wm5c7")
 advance_expression_base_node = NodePath("../..")
 anim_player = NodePath("../NpcAnimationPlayer")
-parameters/MainStateMachine/NPC_Catch_Blend/blend_position = Vector2(0, 0)
-
-[node name="NPCAnimationTree" type="AnimationTree" parent="NPCController/NPC/NPC_Obj/NPCAnimationTree" unique_id=1488301630]
-tree_root = SubResource("AnimationNodeBlendTree_wm5c7")
-advance_expression_base_node = NodePath("../..")
-anim_player = NodePath("../NpcAnimationPlayer")
-parameters/MainStateMachine/NPC_Catch_Blend/blend_position = Vector2(0, 0)
+parameters/MainStateMachine/NPC_Catch_Blend/blend_position = Vector2(0.7289003, -0.80053914)
 
 [node name="Triangle" parent="NPCController/NPC" unique_id=58492237 instance=ExtResource("29_urdfj")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.8, 4.25, -0.35000005)
