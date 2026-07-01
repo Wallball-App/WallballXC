@@ -96,8 +96,8 @@ shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_intensity = 10.0
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.8032399, 0.8032399)
-shader_parameter/cirrus_position2 = Vector2(0.8032399, 0.8032399)
+shader_parameter/cirrus_position1 = Vector2(0.06692546, 0.06692546)
+shader_parameter/cirrus_position2 = Vector2(0.06692546, 0.06692546)
 shader_parameter/cirrus_day_color = Color(0.824, 0.875, 1, 1)
 shader_parameter/cirrus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
 shader_parameter/cirrus_night_color = Color(0.09, 0.094, 0.129, 1)
@@ -110,7 +110,7 @@ shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_intensity = 0.6
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(29.098833, 29.098833)
+shader_parameter/cumulus_position = Vector2(15.363917, 15.363917)
 shader_parameter/cumulus_texture = ExtResource("3_2a0aq")
 shader_parameter/cumulus_day_color = Color(0.823529, 0.87451, 1, 1)
 shader_parameter/cumulus_horizon_light_color = Color(0.98, 0.43, 0.15, 1)
@@ -319,10 +319,10 @@ animation = &"NpcAnimations/JumpCatch"
 animation = &"NpcAnimations/Catch"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j7tkl"]
-animation = &"NpcAnimations/DiveCatch_R"
+animation = &"NpcAnimations/Catch"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3ktvn"]
-animation = &"NpcAnimations/DiveCatch_L_002"
+animation = &"NpcAnimations/Catch"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sm46x"]
 animation = &"NpcAnimations/PickUp_Right"
@@ -347,10 +347,10 @@ blend_point_3/pos = Vector2(0, 0)
 blend_point_3/name = &"NpcAnimations_Catch"
 blend_point_4/node = SubResource("AnimationNodeAnimation_j7tkl")
 blend_point_4/pos = Vector2(1, 0)
-blend_point_4/name = &"NpcAnimations_DiveCatch_L 2"
+blend_point_4/name = &"CarchR"
 blend_point_5/node = SubResource("AnimationNodeAnimation_3ktvn")
 blend_point_5/pos = Vector2(-1, 0)
-blend_point_5/name = &"NpcAnimations_DiveCatch_R"
+blend_point_5/name = &"CatchL"
 blend_point_6/node = SubResource("AnimationNodeAnimation_sm46x")
 blend_point_6/pos = Vector2(1, -1)
 blend_point_6/name = &"NpcAnimations_PickUp_Right"
@@ -421,7 +421,7 @@ advance_expression = "Frames >= Hold && Hold != -1"
 xfade_time = 0.5
 priority = 0
 advance_mode = 2
-advance_expression = "(Ball.global_position.distance_to(global_position) <= velocity.length()*0.5) || (pos2d.distance_to(target2d) <= 5 && Target.y > global_position.y + 4) && Possession0 && HitWall0"
+advance_condition = &"Catch"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8aa1y"]
 xfade_time = 0.25
@@ -481,7 +481,7 @@ transitions = ["Start", "NpcAnimations_Running", SubResource("AnimationNodeState
 graph_offset = Vector2(-138, 99.375)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_wm5c7"]
-graph_offset = Vector2(-374, -10)
+graph_offset = Vector2(-204, 2)
 nodes/MainStateMachine/node = SubResource("AnimationNodeStateMachine_md48u")
 nodes/MainStateMachine/position = Vector2(-140, 160)
 node_connections = [&"output", 0, &"MainStateMachine"]
@@ -730,7 +730,8 @@ libraries/NpcAnimations = SubResource("AnimationLibrary_md48u")
 tree_root = SubResource("AnimationNodeBlendTree_wm5c7")
 advance_expression_base_node = NodePath("../..")
 anim_player = NodePath("../NpcAnimationPlayer")
-parameters/MainStateMachine/NPC_Catch_Blend/blend_position = Vector2(0.7289003, -0.80053914)
+parameters/MainStateMachine/conditions/Catch = false
+parameters/MainStateMachine/NPC_Catch_Blend/blend_position = Vector2(0.8584825, 0.20754719)
 
 [node name="Triangle" parent="NPCController/NPC" unique_id=58492237 instance=ExtResource("29_urdfj")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.8, 4.25, -0.35000005)

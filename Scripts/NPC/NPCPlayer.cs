@@ -15,8 +15,8 @@ public partial class NPCPlayer : CharacterBody3D
 	private Node3D WallGeometry;
 	Ball BallControl;
 	private Aabb GroundAABB;
-	[Export] public float WalkSpeed = 6f;
-	[Export] public float BaseSpeed = 8f;
+	[Export] public float WalkSpeed = 10f;
+	[Export] public float BaseSpeed = 10f;
 	[Export] public float Sprint = 1.6f;
 	
 	private Vector3 min, max;
@@ -79,7 +79,9 @@ public partial class NPCPlayer : CharacterBody3D
 		HOLDING,
 		THROWING
 	}
-	public static NPCState state;
+	public NPCState state;
+
+	public bool CatchAnimation;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -169,14 +171,14 @@ public partial class NPCPlayer : CharacterBody3D
 		
 		Triangle.Visible = false;
 		Frames = 0;
-		Target = CreateNewTarget(false, IsRunning);
+		Target = CreateNewTarget(false, state);
 		TargetFrame = 0;
 		
 		rng.Randomize();
 
 		ResetTime = rng.RandfRange(2.0f, 3.0f);
 
-		state = NPCState.AT_TARGET;
+		state = NPCState.MOVE_TOWARD_TARGET;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -186,23 +188,34 @@ public partial class NPCPlayer : CharacterBody3D
 		if(NpcController.NPCS.Count == 0) return;
 		
 		this.delta = (float)delta;
-
-		MoveTowardTarget(delta);
-		CheckForThrow();
-		HoldBall();
-		if(IsRunning) CheckWallCollide();
-		//CheckForRunning();
+		switch(state)
+		{
+			case NPCState.RUNNING:
+				CheckWallCollide();
+				MoveTowardTarget(delta);
+				break;
+			case NPCState.THROWING:
+				ThrowBall();
+				break;
+			case NPCState.HOLDING:
+				HoldBall();
+				MoveTowardTarget(delta);
+				break;
+			case NPCState.AT_TARGET: 
+				SetTarget();
+				CheckForPossession(delta);
+				break;
+			case NPCState.MOVE_TOWARD_TARGET:
+				MoveTowardTarget(delta);
+				CheckForPossession(delta);
+				CheckForTargetReset();
+				break;
+		}
 		SetMaterial();
 		ApplyGravity(delta);
 		MoveAndSlide();
 		UpdatePublicVariables();
 		Frames++;
-
-		/*if(state == NPCState.AT_TARGET) CreateNewTarget(GameManager.HitWall, IsRunning);
-		else if(state == NPCState.MOVE_TOWARD_TARGET)
-		{
-			MoveTowardTarget(delta);
-		}*/
 	}
 	
 	

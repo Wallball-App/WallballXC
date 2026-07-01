@@ -3,8 +3,8 @@ using System;
 
 public partial class NPCPlayer
 {
-		private void SetMaterial() {
-		if(IsRunning) {
+	private void SetMaterial() {
+		if(state == NPCState.RUNNING) {
 			Triangle.Visible = true;
 			if(TEAM == 0) {
 				if(GameManager.possession == GameManager.PossessionEnum.TEAM
@@ -20,7 +20,7 @@ public partial class NPCPlayer
 					RecursiveSearch(Triangle, Red);
 				}
 			}
-		} else if(NpcController.CurrentPossession == this){
+		} else if(state == NPCState.HOLDING){
 			Triangle.Visible = true;
 			RecursiveSearch(Triangle, Green);
 		} else {
@@ -42,6 +42,10 @@ public partial class NPCPlayer
 		Thrower_Forward = GameManager.thrower;
 		Possession0 = (GameManager.possession == GameManager.PossessionEnum.NONE);
 		HitWall0 = GameManager.HitWall;
+
+		CatchAnimation = IsChasingBall && (pos2d.DistanceTo(target2d) <= 5) || 
+			(pos2d.DistanceTo(target2d) <= 5 && Ball.GlobalPosition.Y > GlobalPosition.Y + 4) && Possession0 && HitWall0;
+		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/Catch", CatchAnimation);
 	}
 	private void CheckForRunning()
 	{
@@ -49,10 +53,10 @@ public partial class NPCPlayer
 	}
 	private void SetRunning()
 	{
-		IsRunning = true;
+		state = NPCState.RUNNING;
 		BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
 					Vector3.Down, 1);
-		Target = CreateNewTarget(GameManager.HitWall, IsRunning);
+		Target = CreateNewTarget(GameManager.HitWall, state);
 		TargetFrame = Frames;
 	}
 }

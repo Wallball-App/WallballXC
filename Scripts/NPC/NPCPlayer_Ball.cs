@@ -4,55 +4,58 @@ using System.Linq;
 
 public partial class NPCPlayer
 {
-	private void SetPossession(float delta) {
+	private void CheckForPossession(double delta)
+	{
 		if(Frames < 120) return;
-		if(Ball.GlobalPosition.DistanceTo(GlobalPosition) <= 5f && !IsHolding) {
-			if(!IsRunning && 
-					rng.Randf() <= 0.7f && GameManager.possession == GameManager.PossessionEnum.NONE) {
-				//GD.Print(rng.Randf());
-				if(NpcController.CurrentPossession == null) {
-					NpcController.CurrentPossession = this;
-
-					IsHolding = true;
-
-					Vector3 BonePos = NpcSkeleton.ToGlobal(NpcSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
-					BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
-							BonePos + new Vector3(0.0f, 0.25f, 0.0f));
-
-					if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
-					else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count() > 0) Hold = Frames + (0.25f/delta);
-					else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
+		if(Ball.GlobalPosition.DistanceTo(GlobalPosition) <= 5f)
+		{
+			if(state != NPCState.RUNNING && GameManager.possession == GameManager.PossessionEnum.NONE)
+			{
+				if(rng.Randf() <= 0.7f)
+				{
+					SetPossession((float)delta);
+				}
+				else {
+					SetRunning();
 				}
 			}
-			else {
-				SetRunning();
-			}
 		}
 	}
-	private void CheckForThrow() {
-		if(Frames >= Hold && Hold != -1) {
-			Hold = -1;
-			IsHolding = false;
-			//AnimController.PlayThrow();
-			float DirectionX = rng.RandfRange(WallMin.X, WallMax.X);
-			float DirectionY = rng.RandfRange(GlobalPosition.Y + 5.0f, WallMax.Y - 5.0f);
-			float DirectionZ = WallMax.Z;
-			Vector3 Point = new Vector3(DirectionX, DirectionY, DirectionZ);
-			Vector3 Direction = (Point - GlobalPosition).Normalized();
-			float Speed = rng.RandfRange(Throw_Speed, Throw_Max);
-			BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
-				Direction, Speed);
-			if(NpcController.CurrentPossession == this) NpcController.CurrentPossession = null;
-		}
+	private void SetPossession(float delta) {
+		if(NpcController.CurrentPossession == null) NpcController.CurrentPossession = this;
+
+			state = NPCState.HOLDING;
+
+			Vector3 BonePos = NpcSkeleton.ToGlobal(NpcSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
+			BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
+					BonePos + new Vector3(0.0f, 0.25f, 0.0f));
+
+			if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.state == NPCState.RUNNING).Count() > 0) Hold = Frames + (0.25f/delta);
+			else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.state == NPCState.RUNNING).Count() > 0) Hold = Frames + (0.25f/delta);
+			else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
+	}
+	private void ThrowBall() {
+		//AnimController.PlayThrow();
+		float DirectionX = rng.RandfRange(WallMin.X, WallMax.X);
+		float DirectionY = rng.RandfRange(GlobalPosition.Y + 5.0f, WallMax.Y - 5.0f);
+		float DirectionZ = WallMax.Z;
+		Vector3 Point = new Vector3(DirectionX, DirectionY, DirectionZ);
+		Vector3 Direction = (Point - GlobalPosition).Normalized();
+		float Speed = rng.RandfRange(Throw_Speed, Throw_Max);
+		BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
+			Direction, Speed);
+		if(NpcController.CurrentPossession == this) NpcController.CurrentPossession = null;
+		SetTarget();
 	}
 	private void HoldBall() {
-		//IsHolding = (IsHolding && Frames < Hold);
-		if(IsHolding) {
-			Ball.GlobalPosition = GlobalPosition + new Vector3(0.0f, 2.0f, 1.0f);
-			if(GlobalPosition.Z > SafePoint.GlobalPosition.Z) {
-				Target = CreateNewTarget(GameManager.HitWall, IsRunning);
-				TargetFrame = Frames;
-			}
+		if(Frames >= Hold && Hold != -1) {
+			Hold = -1;
+			state = NPCState.THROWING;
+			return;
+		}
+		Ball.GlobalPosition = GlobalPosition + new Vector3(0.0f, 2.0f, 1.0f);
+		if(GlobalPosition.Z > SafePoint.GlobalPosition.Z) {
+			SetTarget();
 		}
 	}
 	private Vector3 PredictTrajectory() {
@@ -82,22 +85,7 @@ public partial class NPCPlayer
 
 		Vector3 result = new Vector3(groundX, GlobalPosition.Y, groundZ);
 		if(!result.IsFinite()) return Ball.GlobalPosition + new Vector3(0.0f, -Ball.GlobalPosition.Y, 5.0f);
-				/*Vector3 t = Ball.GlobalPosition + (lvel * 1000f);
-		var spacestate = PhysicsServer3D.Singleton.SpaceGetDirectState(GetWorld3D().Space);
-		var q = PhysicsRayQueryParameters3D.Create(pos, t);
-		var result = spacestate.IntersectRay(q);
-		Vector3 CollisionPoint;
-		if(result.Count > 0) {
-			CollisionPoint = (Vector3)result["position"];
-			Vector3 normal = (Vector3)result["normal"];
-			float collisiondist = pos.DistanceTo(CollisionPoint);
-			Vector3 negative_velocity = (lvel.Normalized() * wallspeed).Bounce(normal);
-			Vector3 final = CollisionPoint + negative_velocity * 0.5f;
-			final.Y = GlobalPosition.Y;
-			return final;
-		} else {
-			return Ball.GlobalPosition + new Vector3(0.0f, -Ball.GlobalPosition.Y, 5.0f);
-		}*/
+
 		return result;
 	}
 	private float TimeKinematic(float desired, float x0, float v0) //Returns the time it would take for the ball to reach the desired position
