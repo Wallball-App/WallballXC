@@ -9,7 +9,7 @@ public partial class NPCPlayer
 		if(Frames < 120) return;
 		if(Ball.GlobalPosition.DistanceTo(GlobalPosition) <= 5f)
 		{
-			if(state != NPCState.RUNNING && GameManager.possession == GameManager.PossessionEnum.NONE)
+			if(state != NPCState.RUNNING && GameManager.possession == GameManager.PossessionEnum.NONE && GameManager.HitWall)
 			{
 				if(rng.Randf() <= 0.7f)
 				{
@@ -45,6 +45,7 @@ public partial class NPCPlayer
 		BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
 			Direction, Speed);
 		if(NpcController.CurrentPossession == this) NpcController.CurrentPossession = null;
+		state = NPCState.AT_TARGET;
 		SetTarget();
 	}
 	private void HoldBall() {

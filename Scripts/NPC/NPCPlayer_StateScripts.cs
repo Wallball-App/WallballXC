@@ -43,7 +43,7 @@ public partial class NPCPlayer
 		Possession0 = (GameManager.possession == GameManager.PossessionEnum.NONE);
 		HitWall0 = GameManager.HitWall;
 
-		CatchAnimation = IsChasingBall && (pos2d.DistanceTo(target2d) <= 5) || 
+		CatchAnimation = IsChasingBall && (pos2d.DistanceTo(target2d) <= Velocity.Length()*0.5f) || 
 			(pos2d.DistanceTo(target2d) <= 5 && Ball.GlobalPosition.Y > GlobalPosition.Y + 4) && Possession0 && HitWall0;
 		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/Catch", CatchAnimation);
 	}

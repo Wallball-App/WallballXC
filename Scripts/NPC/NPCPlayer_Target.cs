@@ -18,6 +18,7 @@ public partial class NPCPlayer
 		if(state != NPCState.RUNNING && GlobalPosition.DistanceTo(Target) >= 32.0f) //Set Idle Animation
 		{
 			Target = GlobalPosition;
+			if(IsChasingBall) IsChasingBall = false;
 			Velocity = new Vector3(0.0f, Velocity.Y, 0.0f); //To Account for Gravity
 			Vector3 ballPos = new Vector3(Ball.GlobalPosition.X, GlobalPosition.Y, Ball.GlobalPosition.Z);
 			Basis lookat = Basis.LookingAt(ballPos, Vector3.Up);
@@ -28,6 +29,7 @@ public partial class NPCPlayer
 		}
 		if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) { //PREDICT TRAJECTORY OF BALL
 			if(state != NPCState.RUNNING) Target = PredictTrajectory();
+			IsChasingBall = true;
 			Sprint = Dist/WorldSize + 1f;
 			WalkSpeed = BaseSpeed * Sprint;
 
@@ -38,7 +40,7 @@ public partial class NPCPlayer
 		{
 			Target = CreateNewTarget(GameManager.HitWall, state);
 		}
-		state = NPCState.MOVE_TOWARD_TARGET;
+		if(state == NPCState.AT_TARGET) state = NPCState.MOVE_TOWARD_TARGET;
 		TargetFrame = Frames; //Target-Change Frame Set
 	}
 	private Vector3 CreateNewTarget(bool Wall, NPCState state) {
@@ -68,7 +70,7 @@ public partial class NPCPlayer
 		}
 		if(GlobalPosition.DistanceTo(Target) <= 5.0f)
 		{
-			state = NPCState.AT_TARGET;
+			if(state == NPCState.MOVE_TOWARD_TARGET) state = NPCState.AT_TARGET;
 		}
 	}
 	private void CheckWallCollide() {

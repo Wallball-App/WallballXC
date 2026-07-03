@@ -216,6 +216,7 @@ public partial class NPCPlayer : CharacterBody3D
 		MoveAndSlide();
 		UpdatePublicVariables();
 		Frames++;
+		GD.Print($"NPC State: {state}, Possession: {NpcController.CurrentPossession == this}, GameManager: {GameManager.possession == ((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT)}");
 	}
 	
 	

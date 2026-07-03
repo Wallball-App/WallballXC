@@ -61,6 +61,7 @@ public partial class NPCPlayer
 		Vector2 relativePositionVector = new Vector2(dir.X, dir.Y);
 		NPCAnimationTree.Set("parameters/MainStateMachine/NPC_Catch_Blend/blend_position", relativePositionVector);
 		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/IsJumping", IsJumping);
+		NPCAnimationTree.Set("parameters/TimeScale/scale", 1.0f);
 	}
 	private void ApplyGravity(double delta) {
 		if(!IsOnFloor() || IsJumping) {
