@@ -49,8 +49,11 @@ public partial class PlayerManager : Node3D
 		}
 	}
 	public bool CFBW() {
-		bool result = (wallc == -1 && floorc > -1) || (floorc < wallc && floorc != -1);
+		bool floor = (wallc == -1 && floorc > -1) || (floorc < wallc && floorc != -1);
+		bool caught = (GameManager.possession != GameManager.PossessionEnum.NONE && !GameManager.HitWall);
+		bool result = floor || caught;
 		if(GameManager.thrower != GameManager.ThrowerEnum.PLAYER) result = false;
+		//if(result == true) floorc = Frames;
 		return result;
 	}
 	public bool OnPlayerWallCollide() {
@@ -68,7 +71,8 @@ public partial class PlayerManager : Node3D
 		} else {
 			if(OnPlayerWallCollide() || Reset) {
 				IsSafe = true;
-				if(CFBW()) floorc = Frames;
+				floorc = -1;
+				wallc = -1;
 			}
 		}
 		//GD.Print(IsSafe + ", Wall: " + wallc + "Floor: " + floorc);

@@ -44,10 +44,7 @@ public partial class NPCPlayer : CharacterBody3D
 	public bool IsJumping;
 	private Node3D SafePoint;
 	public float WallBounce = 0.75f;
-	public bool IsHolding;
-	public bool IsRunning;
 	public bool IsChasingBall;
-	public bool WillRun;
 	private float RunFrame;
 	private Node3D Triangle;
 	private float WorldSize;
@@ -62,8 +59,11 @@ public partial class NPCPlayer : CharacterBody3D
 	private int BoneIndex;
 
 	private float ResetTime;
+	private float ThrowCooldown = 1.0f;
 
 	public float delta;
+	int throwFrame;
+	public bool CanHold;
 
 	public GameManager.PossessionEnum Possession_Forward;
 	public bool Possession0, HitWall0;
@@ -81,42 +81,19 @@ public partial class NPCPlayer : CharacterBody3D
 	}
 	public NPCState state;
 
-	public bool CatchAnimation;
+	public bool CatchAnimation, Throw;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		//Position = new Vector3(0.0f, 0.0f, 0.0f);
-		//Rotation = new Vector3(0, Mathf.DegToRad(0f), Mathf.DegToRad(-90f));
-
-
+		this.Visible = true;
 		Node Root = GetTree().Root;
-		//NPCS = new List<Node3D>();
-		
-		/*NPC1 = Root.FindChild("Running", true, false) as Node3D;
-		NPC2 = Root.FindChild("Throwing", true, false) as Node3D;
-		/*NPC3 = Root.FindChild("Running", true, false) as Node3D;
-		NPC4 = Root.FindChild("Running", true, false) as Node3D;
-		
-		//NPCS.Add(Root.FindChild("Running", true, false) as Node3D);
-		//NPCS.Add(Root.FindChild("Throwing", true, false) as Node3D);
-		*/
+
 		SafePoint = Root.FindChild("SafePoint", true, false) as Node3D;
 		
 		Wall = Root.FindChild("Wall", true, false) as StaticBody3D;
 		Ground = Root.FindChild("Ground", true, false) as StaticBody3D;
 		Ball = Root.FindChild("Ball", true, false) as RigidBody3D; 
-		/*NPC1 = FindChild("Running", true, false) as Node3D;
-		NPC2 = FindChild("Throwing", true, false) as Node3D;
-		NPC3 = FindChild("Running", true, false) as Node3D;
-		NPC4 = FindChild("Running", true, false) as Node3D;
-		
-		SafePoint = GetNode<Node3D>("%SafePoint");
-		
-		Wall = GetNode<StaticBody3D>("%Wall");
-		Ground = GetNode<StaticBody3D>("%Ground");*/
-		
-		//AnimController = FindChild("AnimationController", true, false) as AnimationController;
-		//AnimController.PlayRun();
+
 		Gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
 		NpcGeometry = Root.FindChild("NPC_Obj", true, false) as Node3D;
@@ -188,6 +165,8 @@ public partial class NPCPlayer : CharacterBody3D
 		if(NpcController.NPCS.Count == 0) return;
 		
 		this.delta = (float)delta;
+		
+		UpdateAnimationTreeConditions();
 		switch(state)
 		{
 			case NPCState.RUNNING:
@@ -216,7 +195,6 @@ public partial class NPCPlayer : CharacterBody3D
 		MoveAndSlide();
 		UpdatePublicVariables();
 		Frames++;
-		GD.Print($"NPC State: {state}, Possession: {NpcController.CurrentPossession == this}, GameManager: {GameManager.possession == ((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT)}");
 	}
 	
 	

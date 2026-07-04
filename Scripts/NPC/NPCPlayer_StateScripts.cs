@@ -42,10 +42,7 @@ public partial class NPCPlayer
 		Thrower_Forward = GameManager.thrower;
 		Possession0 = (GameManager.possession == GameManager.PossessionEnum.NONE);
 		HitWall0 = GameManager.HitWall;
-
-		CatchAnimation = IsChasingBall && (pos2d.DistanceTo(target2d) <= Velocity.Length()*0.5f) || 
-			(pos2d.DistanceTo(target2d) <= 5 && Ball.GlobalPosition.Y > GlobalPosition.Y + 4) && Possession0 && HitWall0;
-		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/Catch", CatchAnimation);
+		CanHold = (Frames > throwFrame + ThrowCooldown/(float)delta) && (GameManager.HitWall || (NpcController.RunningCount >= 1));
 	}
 	private void CheckForRunning()
 	{
@@ -58,5 +55,24 @@ public partial class NPCPlayer
 					Vector3.Down, 1);
 		Target = CreateNewTarget(GameManager.HitWall, state);
 		TargetFrame = Frames;
+	}
+	private void UpdateAnimationTreeConditions()
+	{
+		
+		Vector3 modifiedGP = GlobalPosition + new Vector3(0.0f, 2.25f, 0.0f);
+		Vector3 offset = GlobalTransform.Inverse() * Target;
+
+		Vector3 dir = modifiedGP.DirectionTo(offset);
+		Vector2 relativePositionVector = new Vector2(dir.X, dir.Y);
+		relativePositionVector = relativePositionVector.Clamp(-1.0f, 1.0f);
+
+		NPCAnimationTree.Set("parameters/MainStateMachine/NPC_Catch_Blend/blend_position", relativePositionVector);
+		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/IsJumping", IsJumping);
+
+		CatchAnimation = IsChasingBall && (pos2d.DistanceTo(target2d) <= Velocity.Length()*0.5f) || 
+			(pos2d.DistanceTo(target2d) <= 5f && Ball.GlobalPosition.Y > GlobalPosition.Y + 4) && Possession0;
+		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/Catch", CatchAnimation);
+
+		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/Throw", state == NPCState.THROWING);
 	}
 }

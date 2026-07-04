@@ -23,7 +23,7 @@ public partial class NPCPlayer
 		}
 		Vector3 desired = GlobalPosition.DirectionTo(new Vector3(Target.X, GlobalPosition.Y, Target.Z)) * WalkSpeed;
 		//SteeringWeight = (5.0f/WalkSpeed) * (WorldSize / GlobalPosition.DistanceTo(Target));
-		Vector3 steering = (desired - velocity) * (WalkSpeed/BaseSpeed) * 0.75f; //Steering = desired - current, with weight
+		Vector3 steering = (desired - velocity) * (WalkSpeed/BaseSpeed) * 3; //Steering = desired - current, with weight (3/time)
 		steering = steering.LimitLength(WalkSpeed * Math.Clamp(Dist, 0.0f, 0.75f)); //Limit steering to prevent overshooting, with distance-based scaling
 		
 		
@@ -36,8 +36,7 @@ public partial class NPCPlayer
 		if(Velocity.Length() >= 0.5f) { //Slerp Rotation to watch Target
 			Basis lookat;
 			if(state == NPCState.HOLDING) {
-				Vector3 wallDir = GlobalPosition - Wall.GlobalPosition;
-				wallDir.Y = 0.0f;
+				Vector3 wallDir = Wall.GlobalPosition.Normalized();
 				if(wallDir.IsZeroApprox())
 				{
 					wallDir = new Vector3(0.0f, 0.0f, -1.0f);
@@ -56,12 +55,12 @@ public partial class NPCPlayer
 		
 		Triangle.GlobalPosition = GlobalPosition + new Vector3(0.0f, 5.0f, 0.0f);
 
-		Vector3 modGP = GlobalPosition + new Vector3(0.0f, 2.25f, 0.0f);
-		Vector3 dir = modGP.DirectionTo(Target).Normalized();
-		Vector2 relativePositionVector = new Vector2(dir.X, dir.Y);
-		NPCAnimationTree.Set("parameters/MainStateMachine/NPC_Catch_Blend/blend_position", relativePositionVector);
-		NPCAnimationTree.Set("parameters/MainStateMachine/conditions/IsJumping", IsJumping);
-		NPCAnimationTree.Set("parameters/TimeScale/scale", 1.0f);
+		if(Frames > TargetFrame + ResetTime/(float)delta) SetTarget();
+
+		/*float calculated_scale = pos2d.DistanceTo(target2d)/Velocity.Length();
+		if(!float.IsFinite(calculated_scale)) calculated_scale = 1.0f;
+		float speedscale = (CatchAnimation) ?  calculated_scale : 1.0f;
+		NPCAnimationTree.Set("parameters/TimeScale/scale", speedscale);*/
 	}
 	private void ApplyGravity(double delta) {
 		if(!IsOnFloor() || IsJumping) {

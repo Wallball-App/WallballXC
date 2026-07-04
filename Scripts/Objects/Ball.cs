@@ -20,6 +20,7 @@ public partial class Ball : RigidBody3D
 			min = GroundShape.GlobalPosition - (s.Size / 2.0f);
 			max = GroundShape.GlobalPosition + (s.Size / 2.0f);
 		}
+		this.Visible = true;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

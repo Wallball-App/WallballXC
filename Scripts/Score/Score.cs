@@ -25,10 +25,10 @@ public partial class Score : Node3D
 		if(GameManager.CWall) {
 			if(GameManager.thrower == GameManager.ThrowerEnum.PLAYER || 
 						GameManager.thrower == GameManager.ThrowerEnum.TEAM) {
-				int Running = NpcController.NPCS.Where(n => n.TEAM == 1 && n.IsRunning).Count();
+				int Running = NpcController.NPCS.Where(n => n.TEAM == 1 && n.state == NPCPlayer.NPCState.RUNNING).Count();
 				TeamScore += Running;
 			} else if(GameManager.thrower == GameManager.ThrowerEnum.OPPONENT) {
-				int Running = NpcController.NPCS.Where(n => n.TEAM == 0 && n.IsRunning).Count();
+				int Running = NpcController.NPCS.Where(n => n.TEAM == 0 && n.state == NPCPlayer.NPCState.RUNNING).Count();
 				OpponentScore += Running;
 				if(!PlayerManager.IsSafe) {
 					OpponentScore++;

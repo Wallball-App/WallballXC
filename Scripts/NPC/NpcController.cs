@@ -2,6 +2,7 @@ using Godot;
 using GodotCookies;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class NpcController : Node3D
 {
@@ -12,6 +13,7 @@ public partial class NpcController : Node3D
 	public static List<NPCPlayer> NPCS = new List<NPCPlayer>();
 	public static NPCPlayer CurrentPossession = null;
 	private string TeamMaterialLoadPath, OpponentMaterialLoadPath;
+	public static int RunningCount;
 	
 	private Timer CutScene;
 	// Called when the node enters the scene tree for the first time.
@@ -29,6 +31,8 @@ public partial class NpcController : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		RunningCount = NPCS.Where(n => n.state == NPCPlayer.NPCState.RUNNING).Count();
+		if(!PlayerManager.IsSafe) RunningCount += 1;
 	}
 	private void RecursiveSearch(Node node, string Path) {
 		if(node is MeshInstance3D m) {
@@ -55,8 +59,7 @@ public partial class NpcController : Node3D
 			body.Velocity = Vector3.Zero;
 		}
 		if(node is NPCPlayer npc) {
-			npc.IsHolding = false;
-			npc.IsRunning = false;
+			npc.state = NPCPlayer.NPCState.MOVE_TOWARD_TARGET;
 			npc.IsJumping = false;
 			npc.Hold = -1;
 			npc.Frames = 0;

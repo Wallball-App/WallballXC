@@ -12,11 +12,19 @@ public partial class NPCPlayer
 		{
 			Target = CreateNewTarget(GameManager.HitWall, state);
 			TargetFrame = Frames; //Target-Change Frame Set
+			if(state == NPCState.AT_TARGET) state = NPCState.MOVE_TOWARD_TARGET;
 			return;
 		}
 		
 		if(state != NPCState.RUNNING && GlobalPosition.DistanceTo(Target) >= 32.0f) //Set Idle Animation
 		{
+			if(rng.Randf() <= 0.2f) //Prevent Freezing 
+			{
+				Target = CreateNewTarget(GameManager.HitWall, state);
+				TargetFrame = Frames; //Target-Change Frame Set
+				if(state == NPCState.AT_TARGET) state = NPCState.MOVE_TOWARD_TARGET;
+				return;
+			}
 			Target = GlobalPosition;
 			if(IsChasingBall) IsChasingBall = false;
 			Velocity = new Vector3(0.0f, Velocity.Y, 0.0f); //To Account for Gravity
@@ -25,6 +33,7 @@ public partial class NPCPlayer
 			Basis = Basis.Orthonormalized().Slerp(lookat.Orthonormalized(), 0.5f);
 
 			TargetFrame = Frames; //Target-Change Frame Set
+			if(state == NPCState.AT_TARGET) state = NPCState.MOVE_TOWARD_TARGET;
 			return;
 		}
 		if(GameManager.possession == GameManager.PossessionEnum.NONE && !GameManager.HitWall) { //PREDICT TRAJECTORY OF BALL
@@ -34,11 +43,15 @@ public partial class NPCPlayer
 			WalkSpeed = BaseSpeed * Sprint;
 
 			TargetFrame = Frames; //Target-Change Frame Set
+			if(state == NPCState.AT_TARGET) state = NPCState.MOVE_TOWARD_TARGET;
 			return;
 		}
 		if(rng.Randf() <= 0.75f) //IDLE OR TARGET LOGIC
 		{
 			Target = CreateNewTarget(GameManager.HitWall, state);
+			TargetFrame = Frames;
+			if(state == NPCState.AT_TARGET) state = NPCState.MOVE_TOWARD_TARGET;
+			return;
 		}
 		if(state == NPCState.AT_TARGET) state = NPCState.MOVE_TOWARD_TARGET;
 		TargetFrame = Frames; //Target-Change Frame Set

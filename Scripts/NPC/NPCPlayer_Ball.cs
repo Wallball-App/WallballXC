@@ -9,7 +9,7 @@ public partial class NPCPlayer
 		if(Frames < 120) return;
 		if(Ball.GlobalPosition.DistanceTo(GlobalPosition) <= 5f)
 		{
-			if(state != NPCState.RUNNING && GameManager.possession == GameManager.PossessionEnum.NONE && GameManager.HitWall)
+			if(state != NPCState.RUNNING && GameManager.possession == GameManager.PossessionEnum.NONE && CanHold)
 			{
 				if(rng.Randf() <= 0.7f)
 				{
@@ -24,18 +24,19 @@ public partial class NPCPlayer
 	private void SetPossession(float delta) {
 		if(NpcController.CurrentPossession == null) NpcController.CurrentPossession = this;
 
-			state = NPCState.HOLDING;
+		state = NPCState.HOLDING;
 
-			Vector3 BonePos = NpcSkeleton.ToGlobal(NpcSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
-			BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
-					BonePos + new Vector3(0.0f, 0.25f, 0.0f));
+		Vector3 BonePos = NpcSkeleton.ToGlobal(NpcSkeleton.GetBoneGlobalPose(BoneIndex).Origin);
+		BallControl.Catch((TEAM == 0) ? GameManager.PossessionEnum.TEAM : GameManager.PossessionEnum.OPPONENT, 
+				BonePos + new Vector3(0.0f, 0.25f, 0.0f));
 
-			if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.state == NPCState.RUNNING).Count() > 0) Hold = Frames + (0.25f/delta);
-			else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.state == NPCState.RUNNING).Count() > 0) Hold = Frames + (0.25f/delta);
-			else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
+		if(TEAM == 0 && NpcController.NPCS.Where(n => n.TEAM == 1 && n.state == NPCState.RUNNING).Count() > 0) Hold = Frames + (0.25f/delta);
+		else if(TEAM == 1 && NpcController.NPCS.Where(n => n.TEAM == 0 && n.state == NPCState.RUNNING).Count() > 0) Hold = Frames + (0.25f/delta);
+		else Hold = Frames + (rng.Randf() * Max_Hold) / (delta * 60f) + (0.4f / delta);
 	}
 	private void ThrowBall() {
 		//AnimController.PlayThrow();
+		Hold = -1;
 		float DirectionX = rng.RandfRange(WallMin.X, WallMax.X);
 		float DirectionY = rng.RandfRange(GlobalPosition.Y + 5.0f, WallMax.Y - 5.0f);
 		float DirectionZ = WallMax.Z;
@@ -44,13 +45,13 @@ public partial class NPCPlayer
 		float Speed = rng.RandfRange(Throw_Speed, Throw_Max);
 		BallControl.Throw((TEAM == 0) ? GameManager.ThrowerEnum.TEAM : GameManager.ThrowerEnum.OPPONENT, 
 			Direction, Speed);
+		throwFrame = Frames;
 		if(NpcController.CurrentPossession == this) NpcController.CurrentPossession = null;
 		state = NPCState.AT_TARGET;
 		SetTarget();
 	}
 	private void HoldBall() {
 		if(Frames >= Hold && Hold != -1) {
-			Hold = -1;
 			state = NPCState.THROWING;
 			return;
 		}

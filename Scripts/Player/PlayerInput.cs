@@ -48,6 +48,7 @@ public partial class PlayerInput : CharacterBody3D
 		Preview = GetNode<Node3D>("%Preview");
 		PlayerAnimationTree = GetNode<AnimationTree>("PlayerGeometry/PlayerAnimTree");
 		PlayerAnimationTree.Active = true;
+		this.Visible = true;
 		CutScenePosition();
 	}
 
